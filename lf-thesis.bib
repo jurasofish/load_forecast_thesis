@@ -1,0 +1,130 @@
+% Encoding: UTF-8
+
+@Article{Zheng2017,
+  author    = {Huiting Zheng and Jiabin Yuan and Long Chen},
+  title     = {Short-Term Load Forecasting Using {EMD}-{LSTM} Neural Networks with a Xgboost Algorithm for Feature Importance Evaluation},
+  journal   = {Energies},
+  year      = {2017},
+  volume    = {10},
+  number    = {8},
+  month     = {aug},
+  pages     = {1168},
+  doi       = {10.3390/en10081168},
+  abstract  = {Accurate load forecasting is an important issue for the reliable and efficient operation of a power system. This study presents a hybrid algorithm that combines similar days (SD) selection, empirical mode decomposition (EMD), and long short-term memory (LSTM) neural networks to construct a prediction model (i.e., SD-EMD-LSTM) for short-term load forecasting. The extreme gradient boosting-based weighted k-means algorithm is used to evaluate the similarity between the forecasting and historical days. The EMD method is employed to decompose the SD load to several intrinsic mode functions (IMFs) and residual. Separated LSTM neural networks were also employed to forecast each IMF and residual. Lastly, the forecasting values from each LSTM model were reconstructed. Numerical testing demonstrates that the SD-EMD-LSTM method can accurately forecast the electric load.},
+  file      = {:papers/Short-Term Load Forecasting Using EMD-LSTM.pdf:PDF},
+  publisher = {{MDPI} {AG}},
+  review    = {This method uses a S2S LSTM RNN for load forecasting.
+K-means clustering with xgboost is used to select a similar day for input to the network.
+Intrinsic mode decomposition is used to split the forecast into seperate nerual networks which are then recombined at the end.
+Authors claim it works far better than plain LSTM ( such as implemented by Marino)},
+}
+
+@Article{Marino2016,
+  author      = {Daniel L. Marino and Kasun Amarasinghe and Milos Manic},
+  title       = {Building Energy Load Forecasting using Deep Neural Networks},
+  date        = {2016-10-29},
+  eprint      = {1610.09460v1},
+  eprintclass = {cs.NE},
+  eprinttype  = {arXiv},
+  abstract    = {Ensuring sustainability demands more efficient energy management with minimized energy wastage. Therefore, the power grid of the future should provide an unprecedented level of flexibility in energy management. To that end, intelligent decision making requires accurate predictions of future energy demand/load, both at aggregate and individual site level. Thus, energy load forecasting have received increased attention in the recent past, however has proven to be a difficult problem. This paper presents a novel energy load forecasting methodology based on Deep Neural Networks, specifically Long Short Term Memory (LSTM) algorithms. The presented work investigates two variants of the LSTM: 1) standard LSTM and 2) LSTM-based Sequence to Sequence (S2S) architecture. Both methods were implemented on a benchmark data set of electricity consumption data from one residential customer. Both architectures where trained and tested on one hour and one-minute time-step resolution datasets. Experimental results showed that the standard LSTM failed at one-minute resolution data while performing well in one-hour resolution data. It was shown that S2S architecture performed well on both datasets. Further, it was shown that the presented methods produced comparable results with the other deep learning methods for energy forecasting in literature.},
+  file        = {:papers/Building Energy Load Forecasting using Deep Neural.pdf:PDF},
+  keywords    = {cs.NE},
+}
+
+@Article{Bianchi2017,
+  author      = {Filippo Maria Bianchi and Enrico Maiorino and Michael C. Kampffmeyer and Antonello Rizzi and Robert Jenssen},
+  title       = {An overview and comparative analysis of Recurrent Neural Networks for Short Term Load Forecasting},
+  date        = {2017-05-11},
+  eprint      = {1705.04378v1},
+  eprintclass = {cs.NE},
+  eprinttype  = {arXiv},
+  abstract    = {The key component in forecasting demand and consumption of resources in a supply network is an accurate prediction of real-valued time series. Indeed, both service interruptions and resource waste can be reduced with the implementation of an effective forecasting system. Significant research has thus been devoted to the design and development of methodologies for short term load forecasting over the past decades. A class of mathematical models, called Recurrent Neural Networks, are nowadays gaining renewed interest among researchers and they are replacing many practical implementation of the forecasting systems, previously based on static methods. Despite the undeniable expressive power of these architectures, their recurrent nature complicates their understanding and poses challenges in the training procedures. Recently, new important families of recurrent architectures have emerged and their applicability in the context of load forecasting has not been investigated completely yet. In this paper we perform a comparative study on the problem of Short-Term Load Forecast, by using different classes of state-of-the-art Recurrent Neural Networks. We test the reviewed models first on controlled synthetic tasks and then on different real datasets, covering important practical cases of study. We provide a general overview of the most important architectures and we define guidelines for configuring the recurrent networks to predict real-valued time series.},
+  file        = {:papers/An overview and comparative analysis of Recurrent Neural Networks for Short Term Load Forecasting.pdf:PDF},
+  keywords    = {cs.NE},
+  review      = {An overview of the use of Elman RNN, LSTM, GRU, NARX, and Echo state RNNs for load forecasting.
+Found some reasonable variance between all architectures.
+Does not consider S2S. 
+
+Also gives a very nice overview of RNNs in general. },
+}
+
+@Article{Flunkert2017,
+  author      = {Valentin Flunkert and David Salinas and Jan Gasthaus},
+  title       = {DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks},
+  date        = {2017-04-13},
+  eprint      = {1704.04110v2},
+  eprintclass = {cs.AI},
+  eprinttype  = {arXiv},
+  abstract    = {A key enabler for optimizing business processes is accurately estimating the probability distribution of a time series future given its past. Such probabilistic forecasts are crucial for example for reducing excess inventory in supply chains. In this paper we propose DeepAR, a novel methodology for producing accurate probabilistic forecasts, based on training an auto-regressive recurrent network model on a large number of related time series. We show through extensive empirical evaluation on several real-world forecasting data sets that our methodology is more accurate than state-of-the-art models, while requiring minimal feature engineering.},
+  file        = {:papers/DeepAR Forecasting Recurrent Networks.pdf:PDF},
+  keywords    = {cs.AI, cs.LG, stat.ML},
+}
+
+@Article{Scott2014,
+  author      = {Paul Scott and Sylvie Thiébaux},
+  title       = {Dynamic Optimal Power Flow in Microgrids using the Alternating Direction Method of Multipliers},
+  date        = {2014-10-29},
+  eprint      = {1410.7868v1},
+  eprintclass = {math.OC},
+  eprinttype  = {arXiv},
+  abstract    = {Smart devices, storage and other distributed technologies have the potential to greatly improve the utilisation of network infrastructure and renewable generation. Decentralised control of these technologies overcomes many scalability and privacy concerns, but in general still requires the underlying problem to be convex in order to guarantee convergence to a global optimum. Considering that AC power flows are non-convex in nature, and the operation of household devices often requires discrete decisions, there has been uncertainty surrounding the use of distributed methods in a realistic setting. This paper extends prior work on the alternating direction method of multipliers (ADMM) for solving the dynamic optimal power flow (D-OPF) problem. We utilise more realistic line and load models, and introduce a two-stage approach to managing discrete decisions and uncertainty. Our experiments on a suburb-sized microgrid show that this approach provides near optimal results, in a time that is fast enough for receding horizon control. This work brings distributed control of smart-grid technologies closer to reality.},
+  keywords    = {math.OC, cs.SY},
+}
+
+@Article{Evan2016,
+  author  = {Evan Franklin},
+  title   = {Agents of change Making batteries go the extra mile},
+  journal = {ReNew, no. 136, pp. 56-58,},
+  year    = {2016},
+  file    = {:papers/agents-of-change-bruny.pdf:PDF},
+}
+
+@Report{Jacobs2017,
+  author = {Jacobs},
+  title  = {Projections of uptake of small-scale systems (Australian Energy Market Operator)},
+  year   = {2017},
+  date   = {2017-06-09},
+  file   = {:papers/Projections of Uptake of Small-scale Systems.pdf:PDF},
+}
+
+@Report{AEMO2016,
+  author = {AEMO},
+  title  = {2016 NATIONAL ELECTRICITY FORECASTING REPORT},
+  year   = {2016},
+  file   = {:papers/2016 National Electricity Forecasting Report NEFR.pdf:PDF},
+}
+
+@Article{Kong2018,
+  author    = {Weicong Kong and Zhao Yang Dong and David J. Hill and Fengji Luo and Yan Xu},
+  title     = {Short-Term Residential Load Forecasting Based on Resident Behaviour Learning},
+  journal   = {{IEEE} Transactions on Power Systems},
+  year      = {2018},
+  volume    = {33},
+  number    = {1},
+  month     = {jan},
+  pages     = {1087--1088},
+  doi       = {10.1109/tpwrs.2017.2688178},
+  file      = {:papers/kong2017.pdf:PDF},
+  publisher = {Institute of Electrical and Electronics Engineers ({IEEE})},
+}
+
+@Thesis{Lier2015,
+  author = {Ciarán Lier},
+  title  = {Applying Machine Learning Techniques to Short Term Load Forecasting},
+  year   = {2015},
+}
+
+@Article{Basil1975,
+  author    = {Victor R. Basil and Albert J. Turner},
+  title     = {Iterative enhancement: A practical technique for software development},
+  journal   = {{IEEE} Transactions on Software Engineering},
+  year      = {1975},
+  volume    = {{SE}-1},
+  number    = {4},
+  month     = {dec},
+  pages     = {390--396},
+  doi       = {10.1109/tse.1975.6312870},
+  publisher = {Institute of Electrical and Electronics Engineers ({IEEE})},
+}
+
+@Comment{jabref-meta: databaseType:biblatex;}
