@@ -1,0 +1,35 @@
+
+% =========================================================================
+%                        Preamble
+% No need to change anything unless you want to add a package.
+% =========================================================================
+
+% ESSENTIAL PACKAGES
+% -------------------
+\usepackage{graphicx}  % essential for inserting any figures
+\usepackage[a4paper, left=35mm, right=25mm, top=50mm, bottom=30mm]{geometry}
+\usepackage[absolute]{textpos} % required for the "textbox" command used in the title page. (Include option 'showboxes' if you want to see exact location)
+   \setlength{\TPHorizModule}{1mm}
+   \setlength{\TPVertModule}{1mm}% sets the units to be used for textpos
+
+
+% SUGGESTED OPTIONAL PACKAGES
+% ---------------------------
+\usepackage{soul, todonotes}   % good for comments in drafts
+\usepackage[authoryear]{natbib}  % recommended, especially for Harvard ref. styles
+\usepackage{subfigure, longtable}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+   % soul & todonotes allow highlighting, comments etc (good for drafts)
+   % subfigure allows subfigures (e.g. Fig 1(a) & (b))
+   % longtable is handy if you include a nomenclature
+   % natbib allows Harvard referencing (with appropriate bibliographystyle)
+   % hyperref produces hyperlinks (sometimes clashes with other packages)
+
+   % To include whole pdf pages (with example of use)
+%\usepackage{pdfpages}
+%\includepdf[pages={1-2}, angle=90, pagecommand={\thispagestyle{plain}}]{BoreBasePlateV2.pdf}
+
+\renewcommand{\bibname}{References}   % Change "Bibliography" to "References"
+
+% If you are using "Overleaf" include this so Overleaf knows what the main file is, otherwise delete this line, it is not used by LaTeX
+\title{BE(Hons) 2017 thesis template}

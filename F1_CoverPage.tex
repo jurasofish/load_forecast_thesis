@@ -1,0 +1,46 @@
+%      1.   Title page
+%---------------------------
+% May need to adjust dimensions: currently 120x55 @ (45,53) from top left of page (in mm)
+\begin{textblock}{120}(45,53) % {width}(x,y) top-left rel to page top-left
+\noindent\begin{minipage}[t][55mm][c]{\textwidth} 
+\centering \Large  % change to '\large' if it doesn't fit
+\vspace*{\fill}
+{\bf UTas BE(Hons) Thesis Template:\\ with a title that takes up two lines or more}
+\vfill
+A.U. Thor, 123456 
+\vfill
+\large October 2017
+\vspace*{\fill}
+\end{minipage}
+\end{textblock}
+
+% Optional: University of Tasmania Logo
+\begin{textblock}{120}(45,155)
+\centering
+\begin{figure}[h]
+\centering\includegraphics[width=0.75\linewidth]{UTAS-Logo-colour.eps}
+\end{figure}
+\vspace{2cm}
+\Large
+School of Engineering and ICT
+
+
+\end{textblock}
+
+
+% Footer of title page - edit only if you are doing BSc-BE(Hons)
+% --------------------------------------------------------------
+\begin{textblock}{150}(30,250)
+\centering
+\emph{This thesis is submitted in partial fulfilment of the requirements for the degree of
+%Bachelor of Science and   %% uncomment this line if doing BSc-BE(Hons)
+Bachelor of Engineering with Honours,
+University of Tasmania.}
+\end{textblock}
+
+
+
+% suppress page numbering until declaration page
+\pagenumbering{gobble}
+\null\cleardoublepage
+\pagenumbering{roman}

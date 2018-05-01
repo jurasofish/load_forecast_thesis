@@ -1,0 +1,56 @@
+\documentclass[12pt, twoside]{book} % change to 'oneside' if not printing both sides
+
+%\title{BE(Hons) 2017 thesis template}  % Edit if desired - used by "Overleaf", not currenty used by LaTeX
+
+% The file "Preamble.tex" input here is required to set up the document - keep but edit if required
+\input{Preamble}
+
+\begin{document}
+
+% =========================================================================
+%                        Front matter 
+%   Modify cover page, declaration, abstract, acknowledgements, Nomenclature
+%   etc. as required. For draft purposes you can comment out some lines.
+% =========================================================================
+\frontmatter                % Don't delete this line
+
+\input{Front_All}           %  This has everything in one file
+                            %  Otherwise select from the list below
+%\input{F1_CoverPage}
+%\input{F2_Declaration}
+%\input{F3_Abstract}
+%\input{F4_Acknowledgements}
+%\tableofcontents
+%\listoffigures   % optional
+%\listoftables    % optional
+%\input{F6_Nomenclature}
+
+% =========================================================================
+%                        The main thesis body 
+% Consider putting chapters etc. in separate files using \input{filename}
+% =========================================================================
+\mainmatter         % Don't delete this line
+\part{Title of first part (optional) if thesis has `parts'} % "Parts" are optional - not normally required. Delete this if not required.
+\input{Chapter1}
+\input{Chapter2_etc}
+
+% =========================================================================
+%                        References/Bibliography
+% Note that you must use a style that is compatible with the natbib package
+% (e.g. plainnat or newapa) or remove "\usepackage{natbib}" from preamble.
+% =========================================================================
+\bibliographystyle{plainnat}   % choose a style here
+\cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{\bibname}  % This adds it to the table of contents with the right page numbering
+\bibliography{ThesisTemplate}             % Your 'bib' file
+
+% =========================================================================
+%                        Appendices 
+% =========================================================================
+\input{Appendices}
+
+% =========================================================================
+%                        Back matter (if required, otherwise delete) 
+% =========================================================================
+%\backmatter
+
+\end{document}
