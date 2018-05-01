@@ -1,0 +1,11 @@
+
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.lot
+*.lof
+*.gz
+*.toc
+BE_Hons__template.pdf
