@@ -13,7 +13,34 @@ Rough Outline
 
 
 \section{Background}
-Load forecasting, NAC. Plan copy-paste. About one page.
+\par
+The modern distribution network has changed more over the last ten years than it has in the previous hundred.
+In the past, generation and load were largely separate; power was generated at large stations, and power was consumed by customers after traversing the transmission and distribution networks. 
+These days, power is still consumed in the distribution network, but is also generated and manipulated by distributed energy resources (DER). 
+\par
+DERs are controllable devices in the power network that generate, store, and consume load. 
+This includes solar generation (PV), battery storage, and electric vehicles (EV). 
+\par
+The Tasmanian distribution network is forecast to experience significant increases in these technologies by 2025: \\
+\begin{itemize}
+	\item 600\% increase in battery storage capacity (from 100MWh to 600MWh) \cite{Jacobs2017}
+	\item 170\% increase in PV installation capacity (from 130MW to 220MW) \cite{Jacobs2017}
+	\item 39\% of new car sales with be EVs - the highest in the country \cite{AEMO2016}
+\end{itemize}
+
+This changing network presents an opportunity to maximize the use of existing assets by delaying the need for network augmentations, while also providing customers with a more reliable supply of power.
+However, to achieve this requires sophisticated methods to optimize the power flow to and from the distributed resources \cite{Scott2014}.
+\par
+One requirement for optimization is an accurate forecast of day-ahead load at the feeder level.
+Traditional load forecasting methods do not provide an adequate level of accuracy over a time period this short.
+As a result, the optimization of the distributed resources is not as effective as it could be.
+\par
+To solve this, a neural network-based load forecasting system is proposed.
+This system will be applied to Bruny Island, in southern Tasmania, as a case study.
+Bruny Island currently has a high penetration of PV and battery technology which is optimized by the Network-aware Coordination (NAC) algorithm \cite{Evan2016}.
+Additionally, it is constrained by its feeder during peak holiday periods, requiring the use of a diesel generator.
+This makes it a perfect case study to highlight the potential benefits that distributed resources can have in the network.
+This project and case study is supported by TasNetworks.
 
 \section{State of the art in load forecasting}
 \todo[inline]{I'm not using any of the methods mentioned here - issue?}
