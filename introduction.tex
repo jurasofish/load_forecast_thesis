@@ -52,8 +52,33 @@ This project and case study is supported by TasNetworks.
 \todo[inline]{Do I need all of these sections, or should I talk about RNN and Transformer exclusively?}
 Lit review.
 
-\subsection{Classical autoregssive models}
-ARIMA, SARIMAX
+\subsection{Autoregressive integrated moving average}
+Autoregressive integrated moving average (ARIMA) models, introduced by \citet{Box1970}, are used widely for time series forecasting \citep{Weron2006}.
+The ARIMA model is an extension of the autoregressive moving average (ARMA) model, which is comprised of an autoregressive (AR) term and a moving average (MA) term.
+\par
+Consider a time series $X$ with elements $X_{t}, X_{t-1}, ..., X_{0}$. An AR model is given by
+\begin{equation}
+X_{t} = \alpha_{1}X_{t-1} + \alpha_{2}X_{t-2} + \ldots + \alpha_{p}X_{t-p} + \epsilon_{t} = \epsilon_{t} + \sum_{i=1}^{p}\alpha_{i}X_{t-i}
+\end{equation}
+where $p$ is the order of the AR model, $\alpha$ are the parameters of the model, and $\epsilon_{t}$ is the error associated with $X_{t}$. 
+And, a MA model is given by 
+\begin{equation}
+X_{t} = \theta_{1}X_{t-1} + \theta_{2}X_{t-2} + \ldots + \theta_{q}X_{t-q} + \epsilon_{t} = \epsilon_{t} + \sum_{i=1}^{q}\theta_{i}X_{t-i}
+\end{equation}
+where $q$ is the order of the MA model, $\theta$ are the parameters of the model, and $\epsilon_{t}$ is the error associated with $X_{t}$
+\\
+The AR and MA models are combined to form an ARMA model, given by 
+\begin{equation}
+X_{t} = \epsilon_{t} + \sum_{i=1}^{q}\theta_{i}X_{t-i} + \sum_{i=1}^{p}\alpha_{i}X_{t-i}
+\end{equation}
+\\
+An ARMA model requires the time series being forecast to come from a weakly stationary process.
+That is, the mean and autocovariance of the the process do not change with time.
+\\
+The ARIMA model is an extension to the ARMA model that can be applied when non-stationarity is exhibited by the underlying process.
+ARIMA applies differencing to the time series prior to applying the ARMA model to the new time series $\hat{X}$.
+This differencing is applied such that $\hat{X}_{t} = X_{t} - X_{t-1}$ and is repeated $d$ times.
+
 
 \subsection{State vector machines}
 SVM
