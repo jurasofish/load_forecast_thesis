@@ -78,6 +78,9 @@ That is, the mean and autocovariance of the the process do not change with time.
 The ARIMA model is an extension to the ARMA model that can be applied when non-stationarity is exhibited by the underlying process.
 ARIMA applies differencing to the time series prior to applying the ARMA model to the new time series $\hat{X}$.
 This differencing is applied such that $\hat{X}_{t} = X_{t} - X_{t-1}$ and is repeated $d$ times.
+\par
+A further extension of the ARIMA model is the seasonal ARIMA (SARIMA) model, which takes into account seasonal patterns.
+\todo[inline]{rewrite with liberal use of backshift operator to allow articulation of SARIMA \\ https://www.otexts.org/fpp/8/9}
 
 
 \subsection{State vector machines}
