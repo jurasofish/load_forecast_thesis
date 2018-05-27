@@ -105,7 +105,12 @@ Where $(p,d,q)$ are the parameters of the non-seasonal ARIMA component, $(P,Q,D)
 The SARIMA model can be further extended to a SARIMA with exogenous variables (SARIMAX) model. 
 
 \subsection{Support vector regression}
-Support vector regression (SVR) was introduced by \citet{Drucker1996} and has been applied widely to short-term load forecasting \citep{Chen2004} \citep{Ceperic2013}.
+Support vector regression (SVR) was introduced by \citet{Drucker1996} and has been applied widely to short-term load forecasting.
+\par
+\citet{Chen2004} applied a SVR model to predict the maximum daily load over a 31 day period, taking first place at the EUNITE Competition 2001.
+\citet{Ceperic2013} applied an ensemble of 24 SVR models to predict each hour of a 24-hour forecast.
+This was found to out-perform \citet{RochaReis2005}, \citet{AMJADY2009}, and \citet{Deihimi2012}
+\par
 In essence, SVR maps an input feature vector into a higher dimensional space and then applies linear regression.
 \par
 Consider a time series $X$ of input feature vectors with elements $X_{t}, X_{t-1}, ..., X_{0}$ and corresponding target $Y$ with scalar features $Y_{t}, Y_{t-1}, ..., Y_{0}$. SVR solves the following optimization problem
