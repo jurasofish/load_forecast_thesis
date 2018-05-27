@@ -37,21 +37,26 @@ Authors claim it works far better than plain LSTM ( such as implemented by Marin
   title       = {An overview and comparative analysis of Recurrent Neural Networks for Short Term Load Forecasting},
   date        = {2017-05-11},
   eprint      = {1705.04378v1},
-  eprintclass = {cs.NE},
   eprinttype  = {arXiv},
   abstract    = {The key component in forecasting demand and consumption of resources in a supply network is an accurate prediction of real-valued time series. Indeed, both service interruptions and resource waste can be reduced with the implementation of an effective forecasting system. Significant research has thus been devoted to the design and development of methodologies for short term load forecasting over the past decades. A class of mathematical models, called Recurrent Neural Networks, are nowadays gaining renewed interest among researchers and they are replacing many practical implementation of the forecasting systems, previously based on static methods. Despite the undeniable expressive power of these architectures, their recurrent nature complicates their understanding and poses challenges in the training procedures. Recently, new important families of recurrent architectures have emerged and their applicability in the context of load forecasting has not been investigated completely yet. In this paper we perform a comparative study on the problem of Short-Term Load Forecast, by using different classes of state-of-the-art Recurrent Neural Networks. We test the reviewed models first on controlled synthetic tasks and then on different real datasets, covering important practical cases of study. We provide a general overview of the most important architectures and we define guidelines for configuring the recurrent networks to predict real-valued time series.},
   file        = {:papers/An overview and comparative analysis of Recurrent Neural Networks for Short Term Load Forecasting.pdf:PDF},
-  keywords    = {cs.NE},
-  review      = {An overview of the use of Elman RNN, LSTM, GRU, NARX, and Echo state RNNs for load forecasting.
+  url           = {http://arxiv.org/abs/1705.04378},
+  archiveprefix = {arXiv},
+  bibsource     = {dblp computer science bibliography, https://dblp.org},
+  biburl        = {https://dblp.org/rec/bib/journals/corr/BianchiMKRJ17},
+  file          = {:papers/An overview and comparative analysis of Recurrent Neural Networks for Short Term Load Forecasting.pdf:PDF},
+  review        = {An overview of the use of Elman RNN, LSTM, GRU, NARX, and Echo state RNNs for load forecasting.
 Found some reasonable variance between all architectures.
 Does not consider S2S. 
 
 Also gives a very nice overview of RNNs in general. },
+  timestamp     = {Wed, 07 Jun 2017 14:43:10 +0200},
 }
 
 @Article{Flunkert2017,
   author      = {Valentin Flunkert and David Salinas and Jan Gasthaus},
   title       = {DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks},
+  journal     = {CoRR},
   date        = {2017-04-13},
   eprint      = {1704.04110v2},
   eprintclass = {cs.AI},
@@ -64,12 +69,14 @@ Also gives a very nice overview of RNNs in general. },
 @Article{Scott2014,
   author      = {Paul Scott and Sylvie Thiébaux},
   title       = {Dynamic Optimal Power Flow in Microgrids using the Alternating Direction Method of Multipliers},
+  journal     = {CoRR},
   year        = {2014},
   date        = {2014-10-29},
   eprint      = {1410.7868v1},
   eprintclass = {math.OC},
   eprinttype  = {arXiv},
   abstract    = {Smart devices, storage and other distributed technologies have the potential to greatly improve the utilisation of network infrastructure and renewable generation. Decentralised control of these technologies overcomes many scalability and privacy concerns, but in general still requires the underlying problem to be convex in order to guarantee convergence to a global optimum. Considering that AC power flows are non-convex in nature, and the operation of household devices often requires discrete decisions, there has been uncertainty surrounding the use of distributed methods in a realistic setting. This paper extends prior work on the alternating direction method of multipliers (ADMM) for solving the dynamic optimal power flow (D-OPF) problem. We utilise more realistic line and load models, and introduce a two-stage approach to managing discrete decisions and uncertainty. Our experiments on a suburb-sized microgrid show that this approach provides near optimal results, in a time that is fast enough for receding horizon control. This work brings distributed control of smart-grid technologies closer to reality.},
+  file        = {:papers/Dynamic Optimal Power Flow in Microgrids using the Alternating Direction Method of Multipliers.pdf:PDF},
   keywords    = {math.OC, cs.SY},
 }
 
@@ -82,11 +89,13 @@ Also gives a very nice overview of RNNs in general. },
 }
 
 @Report{Jacobs2017,
-  author = {Jacobs},
-  title  = {Projections of uptake of small-scale systems (Australian Energy Market Operator)},
-  year   = {2017},
-  date   = {2017-06-09},
-  file   = {:papers/Projections of Uptake of Small-scale Systems.pdf:PDF},
+  author      = {Jacobs},
+  title       = {Projections of uptake of small-scale systems (Australian Energy Market Operator)},
+  type        = {resreport},
+  institution = {AEMO},
+  year        = {2017},
+  date        = {2017-06-09},
+  file        = {:papers/Projections of Uptake of Small-scale Systems.pdf:PDF},
 }
 
 @Report{AEMO2016,
@@ -113,9 +122,12 @@ Also gives a very nice overview of RNNs in general. },
 }
 
 @Thesis{Lier2015,
-  author = {Ciarán Lier},
-  title  = {Applying Machine Learning Techniques to Short Term Load Forecasting},
-  year   = {2015},
+  author      = {Ciarán Lier},
+  title       = {Applying Machine Learning Techniques to Short Term Load Forecasting},
+  type        = {mathesis},
+  institution = {University of Groningen},
+  year        = {2015},
+  file        = {:papers/Thesis_Ciaran_Lier.pdf:PDF},
 }
 
 @Article{Basil1975,
@@ -128,6 +140,7 @@ Also gives a very nice overview of RNNs in general. },
   month     = {dec},
   pages     = {390--396},
   doi       = {10.1109/tse.1975.6312870},
+  file      = {:papers/Iterative enhancement A practical technique for software development.pdf:PDF},
   publisher = {Institute of Electrical and Electronics Engineers ({IEEE})},
 }
 
@@ -136,6 +149,7 @@ Also gives a very nice overview of RNNs in general. },
   title     = {Time Series Analysis},
   year      = {1970},
   publisher = {John Wiley {\&} Sons, Inc.},
+  file      = {:papers/Time Series Analysis_ Forecasting and Control-Wiley (2015).pdf:PDF},
   month     = {jun},
 }
 
@@ -145,6 +159,7 @@ Also gives a very nice overview of RNNs in general. },
   year      = {2006},
   publisher = {John Wiley {\&} Sons Ltd},
   doi       = {10.1002/9781118673362},
+  file      = {:papers/Rafal Weron-Modeling and Forecasting Electricity Loads and Prices_ A Statistical Approach (The Wiley Finance Series) (2006).pdf:PDF},
   month     = {dec},
 }
 
