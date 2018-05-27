@@ -45,7 +45,16 @@ This project and case study is supported by TasNetworks.
 \section{State of the art in load forecasting}
 
 \subsection{Autoregressive integrated moving average}
-Autoregressive integrated moving average (ARIMA) models, introduced by \citet{Box1970}, are used widely for time series forecasting \citep{Weron2006}.
+\todo[inline]{Change X to Y for output}
+Autoregressive integrated moving average (ARIMA) models, introduced by \citet{Box1970}, are used widely for time series forecasting \citep{Weron2006}. 
+Generally, ARIMA models are used at the core of the forecasting system, and other methods are used in a supporting role. 
+\par
+\citet{Bennett2014} used an ARIMAX model to forecast the properties of the next day's load (next day peak demand, next day morning peak, and next day total energy usage). These properties are then provided to a neural network which selects the appropriate cluster for the day, whose load profile mean is then modified to better match the predicted properties.
+\\
+\citet{Karthika2017} used an ARIMA model to perform a preliminary load forecast, which is then augmented by a support vector machine to account for non-linear exogenous variables such as temperature and day of week.
+\par
+ARIMA-based models are complex and require a great deal of experience to effectively select appropriate parameters \citep{Desouky2000}.
+\par
 The ARIMA model is an extension of the autoregressive moving average (ARMA) model, which is comprised of an autoregressive (AR) term and a moving average (MA) term.
 \\
 Consider a time series $X$, being drawn from some underlying process, with elements $X_{t}, X_{t-1}, ..., X_{0}$. 
