@@ -104,7 +104,25 @@ Where $(p,d,q)$ are the parameters of the non-seasonal ARIMA component, $(P,Q,D)
 The SARIMA model can be further extended to a SARIMA with exogenous variables (SARIMAX) model. 
 
 \subsection{Support vector regression}
-SVM
+Support vector regression (SVR) was introduced by \citet{Drucker1996} and has been applied widely to short-term load forecasting \citep{Chen2004} \citep{Ceperic2013}.
+In essence, SVR maps an input feature vector into a higher dimensional space and then applies linear regression.
+\par
+Consider a time series $X$ of input feature vectors with elements $X_{t}, X_{t-1}, ..., X_{0}$ and corresponding target $Y$ with scalar features $Y_{t}, Y_{t-1}, ..., Y_{0}$. SVR solves the following optimization problem
+\begin{align}
+& \min\limits_{\omega,b,\zeta,\zeta^{*}} & \frac{1}{2}\omega^T\omega + C\sum_{i=0}^{t}(\zeta_i+\zeta_i^*) \\
+& \text{constrained by} & Y_i - (\omega^T\phi(X_i) + b) \leq \epsilon + \zeta_i^*,	\nonumber \\
+                       && (\omega^T\phi(X_i)+b)-Y_i\leq\epsilon+\zeta_i,	\nonumber \\
+                       && \zeta_i \geq 0, \zeta_i^* \geq 0 \nonumber
+\end{align}
+where $\phi(X_i)$ is the mapping of the input feature to a higher dimensional space, $\epsilon$ is the diameter of the $\epsilon$-insensitive tube $|y - (\omega^T\phi(X) + b)| \leq \epsilon$, $\zeta_i$ and $\zeta_i^*$ are slack variables, $C$ is the error penalization cost hyper-parameter, $b$ is the bias parameter, and $\omega$ is the weight parameter.
+\par
+Intuitively, this optimization problem solves for $\omega$ and  $b$ such that the distance of training samples outside of the $\epsilon$-insensitive tube is minimized. The distance above and below the tube is given by the slack variables $\zeta_i$ and $\zeta_i^*$. Samples which are within the tube do not contribute to the minimization problem. The $\frac{1}{2}\omega^T\omega$ is a regularization term that penalizes the model for producing large magnitude weights, which are associated with over-fitting \citep{Drucker1996}.
+\par
+Solving the Lagrangian dual of the above optimization problem leads to the following
+\begin{equation}
+Y_n = \sum_{i=0}^{t}(\alpha_i - \alpha_i^*)K(X_i, X_n) + b
+\end{equation}
+where $\alpha_i$ and $\alpha_i^*$ are Lagrange multipliers, and $K(X_i, X_n) = \phi(X_i)^T\phi(X_n)$ is a kernel function. Using a kernel function avoids computing $\phi(X_n)$, which may be intractably large, and instead computes the transformation in a lower dimensional space.
 
 \subsection{Gradient boosting}
 Extreme (Red Bull EXTREME) Gradient Boosting
