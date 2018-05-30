@@ -142,6 +142,56 @@ where $\alpha_i$ and $\alpha_i^*$ are Lagrange multipliers, and $K(X_i, X_n) = \
 \subsection{Clustering and similar day}
 
 \subsection{Artificial Neural Network}
+\todo[inline]{clarify feedforward/recurrence and unrolling of RNN when defining ANN}
+An artificial neural network (ANN) is a method for computation based loosely on biological brains \citep{negnevitsky2005artificial}.
+An ANN is simply a function approximator; given a function $f^*(\vx)$, an ANN defines an approximation function $f(\vx; \vtheta)$ where $\vtheta$ is a (usually learned) set of parameters that lead to the best approximation of $f^*$ \citep{Goodfellow-et-al-2016}. 
+\par
+ANNs have achieved state of the art performance in handwriting recognition \citep{2017arXiv171009829S}, machine translation \citep{Vaswani2017}, speech recognition \citep{Chiu2017}, and speech synthesis \citep{DBLP:journals/corr/OordDZSVGKSK16}.
+ANNs have been demonstrated to out-perform ARIMA models for electricity time series price forecasting \citep{Mandal2010}.
+For short-term time series traffic forecasting, ANNs have been shown to outperform both ARIMA and SVM (SVR) models \cite{Zhao2017}.
+\par
+\citet{Chen2010} employed a wavelet neural network and similar day selection to perform a load forecast with a 24-hour horizon and 1-hour resolution.
+The load being forecast was on the order of $10^4$ MW and the forecast was performed only once per day, at 9am.
+The authors calculated the wind chill temperature, based on ambient temperature and wind speed, and transformed it to have a linear relationship with load before using it as an input to the system.
+\par
+\citet{Kong2017} and \citet{Kong2018} applied a long short term memory recurrent neural network for short term load forecasting on both individual household and 3MW aggregate load levels and found that it out-performed simpler multilayer perceptron models and clustering-only methods.
+\par
+Generally, ANNs are formed by combining many fundamental sub-functions in a graph-like manner. 
+An example is the multilayer perceptron.
+Consider a single perceptron, shown in figure \ref{fig:single-perceptron}.
+This single perceptron simply takes the weighted sum of all inputs and applies an activation function, usually differentiable and highly non-linear, to produce an output $a$.
+A multilayer perceptron is formed by structuring individual perceptrons in layers and cascading them so that the outputs of the perceptrons in one layer are the inputs to the perceptrons in the next layer, as shown in figure \ref{fig:mlayer-perceptron} where the squares and circles are individual perceptrons and the lines indicate connections from the output of one perception to the input of the next.
+The weights W are mapped to elements in the parameter vector $\vtheta$.
+The hidden layer can be repeated any number of times, allowing the neural network to be written in the form $f(\vx) = f^n(f^{\ldots}(f^1(\vx)))$.
+The exception to this is recurrent neural networks, where the outputs of sub-functions in the network form cycles.
+\todo{reproduce figure myself.}
+\begin{figure}[htbp]
+	\centering
+	\subfigure[A multilayer perceptron, copied from \citet{Zainal-Mokhtar2013} ]{
+		\includegraphics[width=.35\textwidth]{images/A-schematic-diagram-of-a-Multi-Layer-Perceptron-MLP-neural-network.png}
+		\label{fig:mlayer-perceptron}}
+	\quad\quad
+	\subfigure[A single perceptron, copied from \citet{Deshpande2017}.]{
+		\includegraphics[width=.35\textwidth]{images/Single-Perceptron-825x459.png}
+		\label{fig:single-perceptron}}
+	\caption{A multilayer perceptron (a) is comprised of layers of individual perceptrons (b). TODO: reproduce myself}
+	\label{fig:simple-ann}
+\end{figure}
+% directed acyclic graph, where nodes in the graph represent operations on data, and edges represent the flow of data through the graph. 
+%This thesis will restrict itself to discussion of feedforward neural networks. 
+%A feedforward neural network is an ANN where 
+%Any recurrence will be unrolled to form a feedforward network. A feedforward 
+
+\par
+The set of parameters $\vtheta$ is usually learned, or trained, by stochastic gradient descent \citep{Bottou2011}.
+Consider an ANN producing an output $\hat{\vy} = f(\vx; \vtheta)$ and a cost function $J(\vy, \hat{\vy}) = J(\vy, \vx, \vtheta)$, with  $J$ being a differentiable function of its inputs and $\vtheta$ being randomly initialized.
+The cost function produces a scalar describing the error between $\vy$ (the correct output) and $\hat{\vy}$ (the approximated output).
+A common example of this is sum squared error, where $J(\vy, \hat{\vy}) = \sum_{n=o}^{i}(|\vy_n - \hat{\vy}_n|^2)$.
+The gradient of $J$ with respect to the parameters is given by $\nabla_{\vtheta}J(\vy, \vx, \vtheta)$ and indicates the direction in which to move $\vtheta$ in order to increase $J$.
+By iteratively applying $\vtheta = \vtheta - \epsilon \nabla_{\vtheta}J(\vy, \vx, \vtheta)$ (where $\epsilon$ is a scalar constant referred to as the learning rate), the value of $\vtheta$ will be modified such that $J(\vy, \vx, \vtheta)$ is minimized - thus maximizing the approximation accuracy of $f$.
+$\vx$ and $\vy$ must be a randomly selected pair from the training set in order for this training process to represent the whole training set.
+Whether this minimization lands on a global or local minimum is dependant on the function $J$.
+\par
 
 
 \section{Problem statement}
