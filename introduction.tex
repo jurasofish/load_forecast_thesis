@@ -35,6 +35,34 @@ However, these methods are nearly always mixed, matched, and combined to form a 
 As a result, there are a combinatorial number of approaches to forming a load forecasting system.
 This section will attempt to cover only the most prolific techniques, and the examples cited will generally also employ techniques which have not been discussed. 
 % The reader should not allow this to distract them from focussing on the technique being discussed.
+
+\subsection{Patterns in load profiles}
+In a residential setting, such as a residential feeder, power is consumed as a result of customer actions - taking a shower causes the hot water system to consume power to reheat water, turning on a kettle or toaster causes power to be consumed, use of air conditioning results in power consumption, etc.
+It is intuitive and reasonable to expect that there would be patterns underlying these actions or behaviours; customers probably take showers more often in the morning, and when it is cold customers are probably more likely to turn on their heaters.
+If the feeder in question happens to be in a popular holiday destination, then it might also be the case that overall more power is consumed during holiday periods as a result of more customers being in the area.
+Any load forecasting system must be able to intrinsically model these underlying patterns if it is to effectively predict load.
+\par
+Before looking at load forecasting systems, we will first delve into the typically available data and investigate what patterns exist.
+
+\begin{itemize}
+	\item discuss available data
+	\item discuss relationship between temperature and load (investigate wind chill temperature?)
+	\item discuss relationship between car movement and load
+	\item discuss relationship between holidays and load
+	\item discuss correlations and their lag between relevant data
+	\item discuss correlation with previous year
+	\item finally, summarize the relationships observed in the data and draw conclusions around what the forecasting system must be able to achieve.
+\end{itemize}
+
+\subsubsection{Calendar Factors}
+The most significant factor contributing to a load profile is the calendar day \citep{Hippert2001}.
+Generally weekdays and weekends have differing load profiles, and even days during the weeks can be observed to have significantly different profiles.
+It can be seen that seasonality normally plays a large role in load variation over a full year, but the extent depends on the location of the feeder.
+Different feeders will experience changes in load due to warm and cool weather differently depending on customer behaviour.
+finally, holiday periods cause large deviations from standard profiles and can be difficult to predict due to the relatively few examples available.
+
+\subsubsection{weather}
+
 \subsection{Autoregressive integrated moving average}
 \todo[inline]{todo Change X to Y for output}
 \todo[inline]{todo make consistent with Nomenclature chapter}
