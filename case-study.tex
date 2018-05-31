@@ -24,20 +24,33 @@ Specifically, the system will have the following properties:
 \section{Data analysis}
 In section \ref{pattens-profiles} the general properties of load profiles and how they are influenced by exogenous factors was discussed. Now, these general properties will be investigated in depth for the particular feeder in the case study.
 \par
-let's begin by having a simple look at the load profile over a randomly selected week.
-Figure \ref{fig:simpleweek} shows a single week of apparent power draw on Bruny Island.
-This was randomly selected, but is representative of a typical summer week.
+let's begin by having a simple look at some load profiles from the island.
+Figure \ref{fig:load-profiles} shows apparent power draw on Bruny Island over a winter week, a summer week, and over an entire year.
+The two weeks were selected to avoid special days such as holidays and are representative of typical weeks.
 Some observations are immediately obvious
 \begin{itemize}
-	\item The midday load is only marginally larger higher than the overnight load.
-	\item Morning peaks are larger than afternoon peaks
-	\item Thursday midday is much larger than any other day, in this particular week.
-	\item There is some missing data on Tuesday just as the morning peak subsides.
+	\item The midday load is only marginally larger than the overnight load in summer, but in winter it is significantly larger.
+	\item Morning peaks are larger than afternoon peaks in summer, but in winter they are approximately equal.
+	\item Thursday midday of the summer week appears abnormally high - perhaps this is a special day.
+	\item There is some bad data on Tuesday of the summer week, as well as some missing data throughout the year.
+	\item Over the whole year there appears to be a trend of increased max daily load over winter, which coincides with colder weather.
+	\item There are some periods of abnormally large load over the year: March 27, June 11, and December 28.
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\linewidth]{images/simple-week}
-	\caption{Apparent power delivered to Bruny Island over the week beginning Monday January 15, 2018}
-	\label{fig:simpleweek}
+	\subfigure[Apparent power delivered to Bruny Island over a single summer week]{
+		\includegraphics[width=.7\textwidth]{images/simple-week-summer}
+		\label{fig:simple-week-summer}}
+	\vfil
+	\subfigure[Apparent power delivered to Bruny Island over a single winter week]{
+		\includegraphics[width=.7\textwidth]{images/simple-week-winter}
+		\label{fig:simple-week-winter}}
+	\vfil
+	\subfigure[Max load and temperature oer 2017]{
+		\includegraphics[width=.7\textwidth]{images/max-load-max-temp}
+		\label{fig:max-load-max-temp}}
+	\caption{Bruny Island load profiles}
+	\label{fig:load-profiles}
 \end{figure}
+
