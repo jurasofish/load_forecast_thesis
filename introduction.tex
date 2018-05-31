@@ -61,6 +61,22 @@ Typically temperature and humidity are considered the most influential, as they 
 More recently, cloud cover and solar irradiance have become increasingly important as they affect rooftop photovoltaic (PV) generation \citet{AEMO2017}.
 In regards to PV, it may be further necessary to model its uptake - solar capacity is increasing in Australia \citep{Jacobs2017} and so training data may need to be manipulated to reflect this.
 
+\subsection{Similar day and clustering}
+As discussed in section \ref{pattens-profiles}, a load profile is dependent primarily on the calendar day and the weather.
+This fact can be used to form a rudimentary load forecasting system by simply finding a load profile from the past that has the most similar calendar day and weather properties to the period being forecast. 
+Similarly, a clustering approach can be taken if it is assumed that load profiles will repeat themselves as a result of repeating weather and calendar day patterns.
+\par
+\citet{Rahman1993} used an expert-system based method to select a set of similar days from the past. 
+These days were then modified by use of a lookup table based on differences in temperature and other exogenous factors between the similar and forecast period.
+Finally, all similar days were regressed to form a forecast.
+\par
+\citet{Senjyu1998} used a weighted sum-squared-error between the maximum temperature, minimum temperature, and day type of the period being forecast and previous days to select the most similar five days from the past.
+A fuzzy logic system was then used to generate weights to augment the similar days based on differences in weather and differences in load profile between the similar day and the day prior to the forecast day.
+This was found to out-perform a more rudimentary systems which only used average load of the similar days.
+The load being forecast was approximately 600MW.
+\par
+\todo[inline]{add some more. Next day load curve forecasting using recurrent neural network structure}
+
 
 \subsection{Autoregressive integrated moving average}
 \todo[inline]{todo Change X to Y for output}
@@ -152,8 +168,6 @@ Y_n = \sum_{i=0}^{t}(\alpha_i - \alpha_i^*)K(X_i, X_n) + b
 where $\alpha_i$ and $\alpha_i^*$ are Lagrange multipliers, and $K(X_i, X_n) = \phi(X_i)^T\phi(X_n)$ is a kernel function. Using a kernel function avoids computing $\phi(X_n)$, which may be intractably large, and instead computes the transformation in a lower dimensional space.
 
 \subsection{Gradient boosting}
-
-\subsection{Clustering and similar day}
 
 \subsection{Artificial Neural Network}
 \todo[inline]{clarify feedforward/recurrence and unrolling of RNN when defining ANN}
