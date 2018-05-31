@@ -43,15 +43,22 @@ If the feeder in question happens to be in a popular holiday destination, then i
 Any load forecasting system must be able to intrinsically model these underlying patterns if it is to effectively predict load.
 \par
 Before looking at load forecasting systems, we will first delve into the typically available data and investigate what patterns exist.
+It needs to be kept in mind though that all conclusions presented here are general; they will likely vary between countries, cultures, and feeders.
 
-\subsubsection{Calendar Factors}
-The most significant factor contributing to a load profile is the calendar day \citep{Hippert2001}.
+\subsubsection{Calendar day}
+The most significant factor contributing to a load profile is the calendar day \citep{Weron2006}.
 Generally weekdays and weekends have differing load profiles, and even days during the weeks can be observed to have significantly different profiles.
 It can be seen that seasonality normally plays a large role in load variation over a full year, but the extent depends on the location of the feeder.
 Different feeders will experience changes in load due to warm and cool weather differently depending on customer behaviour.
-finally, holiday periods cause large deviations from standard profiles and can be difficult to predict due to the relatively few examples available.
+Finally, holiday periods cause large deviations from standard profiles and can be difficult to predict due to the relatively few examples available.
+Holidays sometimes also affect days adjacent to them, as people may also take these days off work.
 
-\subsubsection{weather}
+\subsubsection{Weather}
+Second to calendar day, the most significant factor behind the load profile is the weather \citep{Hippert2001}.
+Typically temperature and humidity are considered the most influential, as they drive customers to use heating and cooling which both consume large amounts of power.
+More recently, cloud cover and solar irradiance have become increasingly important as they affect rooftop photovoltaic (PV) generation \citet{AEMO2017}.
+In regards to PV, it may be further necessary to model its uptake - solar capacity is increasing in Australia \citep{Jacobs2017} and so training data may need to be manipulated to reflect this.
+
 
 \subsection{Autoregressive integrated moving average}
 \todo[inline]{todo Change X to Y for output}
