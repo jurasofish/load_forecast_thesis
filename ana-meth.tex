@@ -1,11 +1,95 @@
 \chapter{Analysis and methodology}
+\section{Dataset}
+A thorough understanding of how load is influenced by external factors, such as holidays and weather, is essential before a load forecasting system can be developed. This will be discussed here.
+\par
+\hl{this section will establish some of the requirements of the system - eg it must be able to estimate load based on a weather forecast and the previous day's load. These requirements will be investigated throughout the rest of this chapter through the use of toy problems.}
+
 \begin{itemize}
-	\item Go into more detail on the \textbf{relevant} theory behind \textbf{relevant} SOTA approaches mentioned previously.
-	\item present the neural network approaches as mere examples of sequence transduction.
-	\item Move toward the theory behind neural network sequence transduction.
-	\item discuss the very active field of neural machine translation.
-	\item steer discussion toward the transformer architecture - the SOTA in NMT.
-	\item discuss clustering, as assistance to the forecasting system.
-	\item somehow, it needs to go from "this is some theory about stuff that does stuff" to "this is the system that will be used"
-	
+	\item discuss available data
+	\item discuss relationship between temperature and load (investigate wind chill temperature?)
+	\item discuss relationship between car movement and load
+	\item discuss relationship between holidays and load
+	\item discuss correlations and their lag between relevant data
+	\item discuss correlation with previous year
+	\item finally, summarize the relationships observed in the data and draw conclusions around what the forecasting system must be able to achieve.
 \end{itemize}
+
+\section{Neural machine translation and time series forecasting}
+Neural machine translation is the process of using a neural network to translate a source sentence/phrase from one language, say English, to another language such as Dutch \citep{Cho2014}.
+It has been observed that neural network architectures that perform well at NMT also perform well when applied to time series forecasting \hl{(personal observation. is citation required?)}.
+This relationship is perhaps intuitive, or perhaps simply coincidental.
+\par
+A sentence is input to a NMT model by inputting a set of fixed arbitrary dimension vectors, for example a ten word sentence would be represented by ten vectors each with, say, 250 elements, and likewise for the output.
+If we wanted to instead supply the model with 48 points from a multivariate time series with three elements at each point, we would replace the set of ten word vectors with a set of 48 vectors, each with three elements.
+NMT models are designed to handle variable length sentences, so the change in the number of input vectors is no issue.
+In this way, an NMT architecture can be used for time series prediction with minimal modification, opening up the highly competitive (\hl{personal observation}) world of NMT to be taken advantage of.
+\par
+This section will investigate the performance of several of the best performing NMT architectures when applied to time series forecasting.
+
+\subsection{Investigated models}
+The following NMT models will be investigated and their results in time series forecasting compared
+\begin{itemize}
+	\item sequence to sequence (S2S) \citep{Cho2014a} long short term memory (LSTM) \citep{hochreiter1997long}
+	\item S2S LSTM with attention \citep{luong2015effective}
+	\item S2S gated recurrent unit (GRU) \citep{Cho2014a} and S2S GRU with attention
+	\item Transformer \citep{Vaswani2017}
+\end{itemize}
+
+Additionally, I will compare them to the following traditional methods
+\begin{itemize}
+	\item ARIMA and related methods
+	\item support vector regression
+	\item I'll probably add a few more as I further work on the state of the art section.
+\end{itemize}
+
+\subsection{Evaluation tasks}
+The following time series forecasting tasks will be used to evaluate the aforementioned models
+\begin{itemize}
+	\item forecasting a pure sine wave given it's past values
+	\item forecasting a sine wave with normally distributed noise given it's past values
+	\item forecasting a signal comprised of several sine waves with normally distributed noise given past values
+	\item actually, I might just use the bruny island load data - why not? No need for toy problems then.
+\end{itemize}
+
+
+\section{Transformer}
+\hl{from my preliminary work I'm confident that the transformer architecture will be the best, or at least equal best but likely with less expensive training. This is consistent with \protect\cite{Song2017} and \protect\cite{Vaswani2017}}\\
+\par
+The transformer is a neural network architecture that is currently the state of the art in NMT \citep{Vaswani2017}.
+This architecture will be discussed in detail. 
+
+\subsection{Overview}
+overview of the transformer architecture.
+\begin{itemize}
+	\item encoder and decoder
+	\item input embedding
+	\item positional encoding
+	\item multi-head attention
+	\item residual connections
+	\item feed forward
+	\item layer normalization
+	\item 
+\end{itemize}
+
+\subsection{Input embedding}
+convolutional embedding as per \citep{Song2017} (a paper using the transformer architecture to perform classification based on time series).
+
+\subsection{Positional encoding}
+Every input vector, $\vb_i$, has a vector added to it, $\vp_i$, depending on its position, $i$, in the input.
+$\vp_i$ is trainable - it is drawn from $\vtheta$.
+
+\subsection{multi-head attention}
+I need to research this further before writing about it.
+
+\subsection{residual connections}
+
+\subsection{Feedforward}
+
+\subsection{Normalization}
+
+\subsection{etc.}
+
+\subsection{Training}
+Discuss how the decoder is used in training and inference modes.
+Causality, iterative inference.
+	
