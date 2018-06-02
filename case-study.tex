@@ -20,6 +20,26 @@ Specifically, the system will have the following properties:
 	\label{fig:bruny-basic}
 \end{figure}
 
+\section{Bruny Island}
+Bruny Island is located in south-east Tasmania, shown in figure \ref{fig:bruny-basic}.
+The island has a population of around 620 people, and is a popular holiday destination.
+Over holiday periods, the number of people on the island swells considerably (\hl{reference the next section}).
+\par
+Power is supplied to the island via two submarine cables.
+One cable supplies a small area in the North of the island, while the other supplies the remainder of the island to the South.
+The two areas are connected by a recloser which is left in an open state during normal operation.
+That is, the two areas on the island are not connected.
+Additionally, there is a diesel generator in the southern section of the island which can be switched on by power system operators to reduce the load flowing through the submarine cable.
+This is generally required during periods of peak demand, such as holidays.
+This case study will look exclusively at the southern section of the island.
+Figure (\hl{xx}) shows the layout of the power network on the island.
+(\hl{Reclosers R1, R2, and R3 are located at Kettering, before Alonnah, and before Adventure Bay, respectively.})
+
+There are no roads to Bruny Island - only a single ferry route.
+It is also possible for people to arrive on the island by personal boat, but the number of people doing this is assumed to be negligible.
+This single entry/exit point makes it possible to monitor the movement of traffic arriving on and departing the island.
+
+
 
 \section{Data analysis}
 \begin{itemize}
@@ -40,19 +60,33 @@ Specifically, the system will have the following properties:
 
 In section \ref{patterns-profiles} the general properties of load profiles and how they are influenced by exogenous factors was discussed. Now, these general properties will be investigated in depth for the particular feeder in the case study.
 \subsection{Available data}
+The following data is available:
+\todo[inline]{replace with a table}
+\begin{itemize}
+	\item kVA supplied through recloser R1 in 60 minute resolution between January 1, 2007 and March 9, 2012
+	\item kVA supplied through recloser R1 in 5 minute resolution between March 9, 2012 and March 24, 2018
+	\item kVA supplied to the feeder that R1 is connected to in 60 minute resolution between May 28, 2012 and March 24, 2018
+	\item Ambient Temperature, solar irradiance, humidity, and wind speed at Lenah Valley between September 17, 2009 and March 24, 2018
+	\item Vehicle movement data in 10 minute resolution between June 4, 2015 and March 24, 2018
+\end{itemize}	
+Vehicle movement data is provided as a set of observations every 10 minutes recording the number of vehicles arriving on the island, and the number of vehicles departing the island.
+By integrating this, a relative number of vehicles on the island can be established.
+
+There is a significant amount of bad or missing data throughout these datasets.
+This has been handled by limiting the use of data where there are too many missing or bad values, as discussed later in this chapter.	
 
 
 \subsection{Analysis}
 let's begin by having a simple look at some load profiles from the island.
 Figure \ref{fig:load-profiles} shows apparent power draw on Bruny Island over a winter week, a summer week, and over an entire year.
-The two weeks were selected to avoid special days such as holidays and are representative of typical weeks.
+These two weeks were selected to avoid special days such as holidays and are representative of typical weeks.
 Some observations are immediately obvious
 \begin{itemize}
 	\item The midday load is only marginally larger than the overnight load in summer, but in winter it is significantly larger.
 	\item Morning peaks are larger than afternoon peaks in summer, but in winter they are approximately equal.
 	\item Thursday midday of the summer week appears abnormally high - perhaps this is a special day.
 	\item There is some bad data on Tuesday of the summer week, as well as some missing data throughout the year.
-	\item Over the whole year there appears to be a trend of increased max daily load over winter, which coincides with colder weather.
+	\item Over the whole year there appears to be a trend of increased max daily load over winter, which coincides with colder weather. This can be seen in the two individual weeks also.
 	\item There are some periods of abnormally large load over the year: March 27, June 11, and December 28.
 \end{itemize}
 
@@ -80,8 +114,11 @@ What is immediately obviously is that the differences between days of the week a
 It can be seen that the Friday profile morphs into the Saturday profile during the afternoon, perhaps as people arrive on the island for the weekend, and the Sunday profile morphs into a weekday profile over the afternoon, perhaps as people depart the island.
 \par
 Figures \ref{fig:average-arriving} and \ref{fig:average-departing} further support that the changes in load profiles are a result of people arriving on or leaving the island.
-It can be seen that many cars tend to arrive on the island on Friday afternoon, leading to the change in load profile between Friday and Saturday.
-Likewise, many cars leave the island on Sunday afternoon, shifting the load profile from Sunday to a weekday.
+It can be seen that many vehicles tend to arrive on the island on Friday afternoon, leading to the change in load profile between Friday and Saturday.
+Likewise, many vehicles leave the island on Sunday afternoon, shifting the load profile from Sunday to a weekday.
+
+%This observation, that the load profiles on weekends and weekdays are only partially different, could indicate that information may be lost by considering only a single day.
+
 \begin{figure}[htbp]
 	\centering
 	\subfigure[]{
@@ -98,6 +135,18 @@ Likewise, many cars leave the island on Sunday afternoon, shifting the load prof
 	\caption{Bruny Island average load profiles. (a) Average load profiles for each day of the week. Average number of cars arriving on (b) and leaving (c) the island each day.}
 	\label{fig:average-load-profiles}
 \end{figure}
+
+Naturally, the next step is to attempt to look for clusters in the load profiles.
+Looking at figure \ref{fig:all-monday-profiles}, there are no immediately obvious clusters.
+However, it should be noted how the load profiles overnight have much lower variance than during the day - this will be important when evaluating the performance of the forecasting system if different models are used to forecast different hours of the day.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/all-monday-profiles}
+	\caption{Load profiles of every Monday of 2017 overlaid. Notably, no clusters are immediately apparent in this plot.}
+	\label{fig:all-monday-profiles}
+\end{figure}
+
 
 \section{Forecasting system architecture}
 \begin{itemize}
