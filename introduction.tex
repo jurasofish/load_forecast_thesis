@@ -1,6 +1,6 @@
 \chapter{Introduction}
 \section{Background}
-\par
+\label{background}
 The modern distribution network has changed more over the last ten years than it has in the previous hundred.
 In the past, generation and load were largely separate; power was generated at large stations, and power was consumed by customers after traversing the transmission and distribution networks. 
 These days, power is still consumed in the distribution network, but is also generated and manipulated by distributed energy resources (DER). 
@@ -19,7 +19,7 @@ This changing network presents an opportunity to maximize the use of existing as
 However, to achieve this requires sophisticated methods to optimize the power flow to and from the distributed resources \cite{Scott2014}.
 \par
 One requirement for optimization is an accurate forecast of day-ahead load at the feeder level.
-Traditional load forecasting methods do not provide an adequate level of accuracy over a time period this short.
+Load forecasting methods commonly employed in industry are neither intended to forecast with high accuracy over a time period this short nor at such a low level in the distribution network \citep{CIGRE2016}.
 As a result, the optimization of the distributed resources is not as effective as it could be.
 \par
 To solve this, a neural network-based load forecasting system is proposed.
@@ -48,6 +48,13 @@ Generally, a load forecast uses exogenous information, such as weather and date 
 The literature presents no single load forecasting system that is superior under all conditions.
 A system that is well suited to forecasting load with a majority industrial customers may be poorly suited to forecasting load with a majority residential customers.
 Perhaps it is more accurate to say that there is no single load forecasting problem - every feeder or network exhibits different patterns as a result of the different customers attached to it and thus must be treated as a separate problem.
+
+
+\subsection{Load forecasting in industry}
+In section \ref{background} it was stated that load forecasting methods commonly employed in industry neither intended to forecast with high accuracy over a 24 hour period nor at such a low level in the distribution network.
+This is supported by a survey conducted by CIGRE in 2016 \citep{CIGRE2016} (\hl{todo get access to the full version of this instead of just the article summary}) showing that, of 29 utilities, 79\% use load forecasting for long term planning and 32\% for short term operational planning.
+
+Interestingly, this survey also found that the majority of load forecasting software is developed in-house, and the methodology used is usually revised at least every four years. \hl{this section will be further updated after getting full access to the survey}.
 
 
 \subsection{Patterns in load profiles}
