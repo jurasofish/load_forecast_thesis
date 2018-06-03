@@ -6,6 +6,9 @@ As input, it must take a sequence of vectors, with each vector representing a si
 As output, it must similarly produce a sequence of multivariate vectors.
 In the case that the model is forecasting only a single time series, the output vectors will have only a single element each.
 This structure is presented in Figure \ref{fig:forecast-model}.
+Of course, it may be the case that a time series forecasting model is comprised of several models cascaded together.
+Perhaps the sequence of input vectors are concatenated by one model, then passed to the actual forecasting model which produces a single output vector, then the output vector is split by a third model before being produced at the output.
+Hence, a time series forecasting model can be quite abstract and may take any form.
 
 \begin{figure}
 	\centering
@@ -14,13 +17,16 @@ This structure is presented in Figure \ref{fig:forecast-model}.
 	\label{fig:forecast-model}
 \end{figure}
 
-This structure is identical to that used for neural machine translation (NMT), where a source sentence/phrase is translated from one language, say English, to another language such as Dutch \citep{Cho2014}.
+This structure - with input and output vectors - is identical to that used for neural machine translation (NMT), where a source sentence/phrase is translated from one language, say English, to another language such as Dutch \citep{Cho2014}.
 In NMT, a word is represented by a vector, and a sentence is represented by a sequence of vectors.
 
 \par
 This section will investigate the performance of several of the best performing NMT architectures when applied to time series forecasting.
+\hl{I'm still deciding whether I want to put the evaluation before I discuss in detail how the architectures work.
+	Benefit of putting evaluation first is that it prevents the reader from being daunted by too much detail upfront.
+	Might seem a little backwards though.}
 
-\subsection{Investigated models}
+\section{Investigated models}
 The following NMT models will be investigated and their results in time series forecasting compared
 \begin{itemize}
 	\item sequence to sequence (S2S) \citep{Cho2014a} long short term memory (LSTM) \citep{hochreiter1997long}
@@ -37,7 +43,7 @@ Additionally, I will compare them to the following traditional methods
 	\item I'll probably add a few more as I further work on the state of the art section.
 \end{itemize}
 
-\subsection{Evaluation tasks}
+\section{Evaluation tasks}
 The following time series forecasting tasks will be used to evaluate the models
 \begin{itemize}
 	\item forecasting a pure sine wave given its past values
@@ -46,7 +52,11 @@ The following time series forecasting tasks will be used to evaluate the models
 	\item forecasting the Bruny Island load data - no priority given to special days.
 \end{itemize}
 
-\subsection{Evaluation Results}
+\section{Evaluation Results}
+\hl{At this stage, only performance on the actual load forecasting task has been evaluated}
+
+\section{Recurrent neural network}
+Introduce RNN, then within this same section expand it to include sequence to sequence architecture, and then again expand it to include attention mechanisms.
 
 \section{Transformer}
 \hl{My preliminary investigations show that the transformer architecture is the best, or at least equal best but likely with less expensive training. This is consistent with \protect\cite{Song2017} and \protect\cite{Vaswani2017}}\\
