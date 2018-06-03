@@ -44,7 +44,7 @@ It is a specific case of time series forecasting.
 Load forecasting can be broadly categorised into short-term (STLF), medium-term (MTLF), and long-term load forecasting (LTLF).
 The exact horizon for each category differs between publications, but it is widely accepted that anything with a forecast horizon of less than 24 hours is short-term load forecasting.
 This thesis will deal exclusively with STLF.
-Generally, a load forecast uses exogenous information, such as weather and date information, as input in order to produce a forecast.
+Generally a load forecast uses exogenous information as input, such as weather and date information, in order to produce a forecast.
 
 The literature presents no single load forecasting system that is superior under all conditions.
 A system that is well suited to forecasting load with a majority industrial customers may be poorly suited to forecasting load with a majority residential customers.
@@ -61,7 +61,7 @@ Interestingly, this survey also found that the majority of load forecasting soft
 \subsection{Patterns in load profiles}
 \label{patterns-profiles}
 In a residential setting, such as a residential feeder, power is consumed as a result of customer actions - taking a shower causes the hot water system to consume power to reheat water, turning on a kettle or toaster causes power to be consumed, use of air conditioning results in power consumption, etc.
-It is intuitive and reasonable to expect that there would be patterns underlying these actions or behaviours; customers probably take showers more often in the morning, and when it is cold customers are probably more likely to turn on their heaters.
+It is intuitive to expect that there would be patterns underlying these actions or behaviours; customers probably take showers more often in the morning, and when it is cold customers are probably more likely to turn on their heaters.
 If the feeder in question happens to be in a popular holiday destination, then it might also be the case that overall more power is consumed during holiday periods as a result of more customers being in the area.
 Any load forecasting system must be able to intrinsically model these underlying patterns if it is to effectively predict load.
 \par
@@ -106,11 +106,12 @@ The load being forecast was approximately 600MW.
 Autoregressive integrated moving average (ARIMA) models, introduced by \citet{Box1970}, are used widely for time series forecasting \citep{Weron2006}. 
 Generally, ARIMA models are used at the core of the forecasting system, and other methods are used in a supporting role. 
 \par
-\citet{Bennett2014} used an ARIMAX model to forecast the properties of the next day's load (next day peak demand, next day morning peak, and next day total energy usage). These properties are then provided to a neural network which selects the appropriate cluster for the day, whose load profile mean is then modified to better match the predicted properties.
+\citet{Bennett2014} used an ARIMAX model to forecast the properties of the next day's load (next day peak demand, next day morning peak, and next day total energy usage). These properties were then provided to a neural network which selected the appropriate cluster for the day, whose load profile mean was then modified to better match the predicted properties.
 \\
-\citet{Karthika2017} used an ARIMA model to perform a preliminary load forecast, which is then augmented by a support vector machine to account for non-linear exogenous variables such as temperature and day of week.
+\citet{Karthika2017} used an ARIMA model to perform a preliminary load forecast, which was then augmented by a support vector machine to account for non-linear exogenous variables such as temperature and day of week.
 \par
 ARIMA-based models are complex and require a great deal of experience to effectively select appropriate parameters \citep{Desouky2000}.
+\hl{todo expand on this lonely sentence}
 \par
 The ARIMA model is an extension of the autoregressive moving average (ARMA) model, which is comprised of an autoregressive (AR) term and a moving average (MA) term.
 \\
@@ -167,8 +168,9 @@ The SARIMA model can be further extended to a SARIMA with exogenous variables (S
 Support vector regression (SVR) was introduced by \citet{Drucker1996} and has been applied widely to short-term load forecasting.
 \par
 \citet{Chen2004} applied a SVR model to predict the maximum daily load over a 31 day period, taking first place at the EUNITE Competition 2001.
+\par
 \citet{Ceperic2013} applied an ensemble of 24 SVR models to predict each hour of a 24-hour forecast.
-This was found to out-perform \citet{RochaReis2005}, \citet{AMJADY2009}, and \citet{Deihimi2012}
+This was found to out-perform \citet{RochaReis2005}, \citet{AMJADY2009}, and \citet{Deihimi2012} \hl{(todo expand on what these three papers actually are)}.
 \par
 In essence, SVR maps an input feature vector into a higher dimensional space and then applies linear regression.
 \par
@@ -206,7 +208,7 @@ The authors calculated the wind chill temperature, based on ambient temperature 
 \par
 \citet{Kong2017} and \citet{Kong2018} applied a long short term memory recurrent neural network for short term load forecasting of individual household load and found that it out-performed simpler multilayer perceptron models and clustering-only methods.
 \par
-See also \citep{Mansouri2014}.
+\hl{ add also} \citep{Mansouri2014}.
 \par
 Generally, ANNs are formed by combining many fundamental sub-functions in a graph-like manner. 
 An example is the multilayer perceptron.
