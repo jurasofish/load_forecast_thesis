@@ -22,8 +22,7 @@ Specifically, the system will have the following properties:
 
 \section{Bruny Island}
 Bruny Island is located in south-east Tasmania, shown in figure \ref{fig:bruny-basic}.
-The island has a population of around 620 people, and is a popular holiday destination.
-Over holiday periods, the number of people on the island swells considerably (\hl{reference the next section}).
+The island has a population of around 620 people and is a popular destination in holiday periods, at which times the population swells considerably (\hl{reference the next section}).
 \par
 Power is supplied to the island via two submarine cables.
 One cable supplies a small area in the North of the island, while the other supplies the remainder of the island to the South.
@@ -37,12 +36,13 @@ Figure (\hl{xx}) shows the layout of the power network on the island.
 
 There are no roads to Bruny Island - only a single ferry route.
 It is also possible for people to arrive on the island by personal boat, but the number of people doing this is assumed to be negligible.
-This single entry/exit point makes it possible to monitor the movement of traffic arriving on and departing the island.
+This single entry/exit point makes it possible to monitor the movement of traffic arriving on and departing the island, which will be investigated.
 
 
 
 \section{Data analysis}
 \label{bruny-data-analysis}
+\hl{This section really rambles - it will be cut down a lot.}
 \begin{itemize}
 	\item \hl{this dot point list is for planning}
 	\item discuss available data - load, weather, cars, other feeders and reclosers
@@ -78,7 +78,7 @@ This has been handled by limiting the use of data where there are too many missi
 
 
 \subsection{Analysis}
-let's begin by having a simple look at some load profiles from the island.
+Let's begin by having a simple look at some load profiles from the island.
 Figure \ref{fig:load-profiles} shows apparent power draw on Bruny Island over a winter week, a summer week, and over an entire year.
 These two weeks were selected to avoid special days such as holidays and are representative of typical weeks.
 Some observations are immediately obvious
@@ -163,18 +163,17 @@ However, it should be noted how the load profiles overnight have much lower vari
 Below are results from the current forecasting system.
 The system takes the following data as input with 60 minute resolution:
 \begin{itemize}
-	\item Previous 24 hours of Load
-	\item Previous 24 through future 24 hours (total 48 hours) of temperature, humidity, holiday boolean flag, holiday id (from 1-10 depending on which holiday), day of week, and hour of day.
+	\item Previous 24 hours of load
+	\item Previous 24 through future 24 hours (total 48 hours) of temperature, humidity, holiday boolean flag, holiday ID (from 1 to $n$ depending on which holiday), day of week, and hour of day.
 \end{itemize}
 
 The system then produces the future 12 hours of load in 60 minute resolution.
 The system is trained on data from October 1 2009 through October 1 2014, and is tested on data from October 2 2014 through April 30 2018.
-All plots shows here are from the test dataset.
+All plots shown here are from the test dataset.
 
 
 The below plots were specifically chosen to have an error that is close to the average, and to have the largest actual load. The intention is to give the best idea of how the system is currently performing on relatively difficult days.
-
-It is expected that these results will be considerably improved with the implementation of a similar day method.
+It is expected that results will be considerably improved with the implementation of a similar day method.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.95\linewidth]{images/prelim-plots/newplot}

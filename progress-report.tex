@@ -3,7 +3,7 @@ Feel free to contact me \\
 0448 226 495 \\
 michael.jurasovic@tasnetworks.com.au
 
-\section{Project aims}
+\section*{Project aims}
 The aim of this project is to build upon existing research and develop a load forecasting system which can predict future load based on weather, holiday periods, car movement, and other factors. 
 Bruny Island and the NAC will be used as a case study. 
 The forecasting system is expected to be equally applicable to any power system network.
@@ -20,8 +20,9 @@ Specifically, the system will have the following properties:
 A neural network based model is being considered to achieve these aims.
 
 
-\section{Summary of work completed}
+\section*{Summary of work completed}
 All work completed has been integrated into a single software package that will allow all methods and variations of methods to be compared. This has constituted the majority of the work.
+A copy of the software has been distributed with this thesis.
 
 Analysis has been performed on the available data (load, weather, traffic) to investigate patterns, the beginning of which has been written up in section \ref{bruny-data-analysis} of the draft thesis.
 Weekly and yearly repetition has been observed in both the load and car movement data - indicating that a naive similar day selection approach could be effective.
@@ -33,8 +34,8 @@ This may be revisited using load profile features rather than the full load prof
 Clustering of load profiles was performed based on the morning and afternoon peak magnitudes and prominences, and the total energy usage.
 This did not produce significant insights into the data - it merely highlighted the already understood differences between holidays and normal days.
 
-The inspiration for using a sequence to sequence (S2S) recurrent neural network (RNN) was the paper by \cite{Marino2016} whose approach was elegant and effective, and was further supported by \cite{Bianchi2017} and \cite{Kong2017}.
-This approach has been implemented and found to be consistent with the papers, and has now been expanded with the following:
+A sequence to sequence (S2S) recurrent neural network (RNN) was implemented and found to produce results consistent with \citep{Marino2016}, \citep{Bianchi2017} and \citep{Kong2017}.
+This architecture has now been expanded with the following:
 \begin{itemize}
 	\item Bidirectional recurrence \citep{Schuster1997}.
 	\item Gated recurrent unit cell \citep{Cho2014}.
@@ -43,7 +44,7 @@ This approach has been implemented and found to be consistent with the papers, a
 	\item Discretization of output vectors to allow for cross entropy loss and indication of uncertainty in the output.
 \end{itemize}
 
-The state of the art neural machine translation architecture was implemented for load forecasting \citep{Vaswani2017} and found to perform better than the S2S RNN. The only related published work is by  \cite{Song2017} who used the transformer architecture for classification of time series in a medical context.
+The transformer architecture \citep{Vaswani2017} was implemented and found to perform better than the S2S RNN. The only related published work is by  \cite{Song2017} who used the transformer architecture for classification of time series in a medical context.
 
 Various "low hanging fruit" approaches have been implemented to make the forecasting system more accurate, none of which have resulted in improvements:
 \begin{itemize}
@@ -53,28 +54,24 @@ Various "low hanging fruit" approaches have been implemented to make the forecas
 	\item Weighting of the neural network loss function to prioritize large load forecasts.
 	\item Using data of different periods including 5, 20, and 30 minutes.
 \end{itemize}
-It is my opinion that this lack of improvement from simple tweaks speaks to the versatility and robustness of the selected neural network architecture.
-I expect to discuss this in more depth in the final thesis.
 
-\section{Guide to draft thesis}
+\section*{Guide to draft thesis}
 The thesis is structured into three chapters:
 \begin{enumerate}
 	\item \textbf{Introduction} - this chapter introduces and defines the problem being addressed, provides background on load forecasting in general, and goes over a number of recently published approaches. 
 	At this stage of the draft thesis, this section contains a lot of detail that will be moved to chapter \ref{ana-meth}.
-	This section will be revised in such a way that it is approachable for a technical reader with no background in load forecasting.
+	This section will be revised in such a way that it is approachable for a technical reader with no background in load forecasting or time series forecasting.
 	\item \textbf{Analysis and Methodology} - this chapter expands on the introduction and evaluates empirically the performance of various architectures.
-	At this stage, the architectures that will be finally used it still being decided.
+	At this stage, the architectures that will be finally used are still being decided.
 	This will likely be finalised once their performance with similar day features is evaluated.
-	\item \textbf{Case Study} - this chapter will present a case study of the load forecasting system to Bruny Island.
-	At this stage, it only has the beginning of the data analysis for Bruny Island completed.
-	The data analysis section currently rambles quite a lot - it will be heavily revised.
+	\item \textbf{Case Study} - this chapter currently presents some preliminary results in \ref{bruny-results}, and will ultimately present a case study of the load forecasting system applied to Bruny Island.
+	The data analysis section (\ref{bruny-data-analysis}) currently rambles quite a lot and is only partially complete - it will be heavily revised.
 \end{enumerate}
 
-The thesis is currently using Harvard style referencing because I find this easier to work with when I am editing.
-This will be changed to IEEE style for the final thesis.
+The thesis is currently using Harvard style referencing because I find this easier to work with when I am editing and will be changed to IEEE style for the final thesis.
 
-\section{Plan for completion}
-A software package that is able to perform and evaluate load forecasting using all techniques investigated has been developed and has been working reliably.
+\section*{Plan for completion}
+A software package that is able to perform and evaluate load forecasting using all techniques investigated has been developed and is working reliably.
 
 The next step in this project is to implement similar day selection and use the similar days as additional inputs to the forecasting model.
 Analysis of the available data has shown that there is significant correlation between load profiles with one week and one year delays.
@@ -82,24 +79,24 @@ This observation will be used to implement an initial basic similar day selectio
 This is a well established technique and is expected to produce significant improvements.
 Once this has been implemented it will be further refined if deemed necessary.
 
-The software package will then be extended to produce more informative graphs to simulate what predictions it would make if it were running in the past.
+The software package will then be extended to simulate the predictions it would make if it were running in the past and present this in an accessible and intuitive format.
 This visualisation will be key in determining if the system is adequate to be implemented in production, as well as evaluating the performance in general.
 
 After this stage the software will be extended to work with the current NAC forecasting software. 
 Access has been given to the source code behind this and initial review indicates that the system is quite clean and simple, and so will be unlikely to present an issue.
 
 The final stage will be to comprehensively evaluate the performance of the system against other forecasting methods.
-These other forecasting methods will be implemented in the developed software package in order for this to work.
+These other forecasting methods will be implemented in the developed software package in order to perform the comparison.
 
 If there is time, I would like to try to extend this work and investigate the use of a differentiable function that is able to select similar days from the past.
 This would require quite a bit of additional research, but I suspect it could be implemented by applying existing attention mechanisms used in computer vision, especially those used in neural image captioning.
 
-An updated gantt chart is attached.
+An updated gantt chart is attached over page.
 
 
-\section{Comments on progress}
+\section*{Comments on progress}
 This project is behind schedule.
-This is mainly a result of the lack of improvement from "low hanging fruit" attempts at increasing accuracy - it was expected that these would produce enough improvement for the project to move forward to testing and thorough evaluation.
+This is mainly a result of the lack of improvement from "low hanging fruit" attempts at increasing accuracy - it was expected that these would produce sufficient improvements for the project to move forward to testing and thorough evaluation.
 As a result, the project will need to miss out on one round of on-line evaluation in the NAC.
 This is not expected to be a severe handicap for the project, as three on-line evaluations were scheduled which was quite optimistic.
 

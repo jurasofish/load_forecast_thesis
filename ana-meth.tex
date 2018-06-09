@@ -3,13 +3,13 @@
 
 \section{Time series forecasting - general model structure}
 A model for time series forecasting must be structured in the following way.
-As input, it must take a sequence of vectors, with each vector representing a single point in time, and each element of the vector representing an element of the time series.
-As output, it must similarly produce a sequence of multivariate vectors.
+As input, it must take a sequence of vectors, with each vector representing a single point in time, and each element of the vector representing an element of the multivariate time series.
+For example, a multivariate time series of load and temperature would be represented by a sequence of vectors, each with two elements.
+As output, the system must similarly produce a sequence of multivariate vectors.
 In the case that the model is forecasting only a single time series, the output vectors will have only a single element each.
 This structure is presented in Figure \ref{fig:forecast-model}.
 Of course, it may be the case that a time series forecasting model is comprised of several models cascaded together.
 Perhaps the sequence of input vectors are concatenated by one model, then passed to the actual forecasting model which produces a single output vector, then the output vector is split by a third model before being produced at the output.
-Hence, a time series forecasting model can be quite abstract and may take any form.
 
 \begin{figure}
 	\centering
@@ -18,7 +18,7 @@ Hence, a time series forecasting model can be quite abstract and may take any fo
 	\label{fig:forecast-model}
 \end{figure}
 
-This structure - with input and output vectors - is identical to that used for neural machine translation (NMT), where a source sentence/phrase is translated from one language, say English, to another language such as Dutch \citep{Cho2014}.
+This structure - with sequences of input and output vectors - is identical to that used for neural machine translation (NMT), where a source sentence/phrase is translated from one language, say English, to another language such as Dutch \citep{Cho2014}.
 In NMT, a word is represented by a vector, and a sentence is represented by a sequence of vectors.
 
 \par
@@ -54,7 +54,34 @@ The following time series forecasting tasks will be used to evaluate the models
 \end{itemize}
 
 \section{Evaluation Results}
-\hl{At this stage, only performance on the actual load forecasting task has been evaluated}
+\hl{At this stage, only performance on the actual load forecasting task has been evaluated} \\
+with the following notation: \\
+$L$ number of hidden layers \\
+$h_d$ dimension of the state vector \\
+$A$ number of attention units \\
+$h_a$ dimension of attention state vector
+
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{lcl}
+		\hline
+		\textbf{Architecture} & \textbf{Loss} & \\
+		\hline
+		Transformer with 256 hidden units, 4 heads, 4 layers   &  -5.85  &  \\
+		S2S GRU with  $L = 2, h_d = 5, A=2, h_a=5$ &  -5.72  &  \\
+		S2S GRU with  $L = 2, h_d = 5, A=2, h_a=0$  &  -5.75  &  \\
+		S2S GRU with  $L = 2, h_d = 5, A=0, h_a=0$  &  -5.65  &  \\
+		S2S LSTM with  $L = 2, h_d = 5, A=0, h_a=0$  &  -5.66  &  \\
+		\hline
+	\end{tabular}
+	\caption{Comparison of architectures evaluated so far.}
+	\label{tab:architecture_comparison}
+\end{table}
+
+Preliminary forecasting results are displayed in section \ref{bruny-results}.
+It must be noted that not all architectures have been tuned as well as they could.
+
 
 \section{Recurrent neural network}
 Introduce RNN, then within this same section expand it to include sequence to sequence architecture, and then again expand it to include attention mechanisms.
