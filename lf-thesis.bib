@@ -668,15 +668,11 @@ Also gives a very nice overview of RNNs in general. },
 }
 
 @Article{Ba2016,
-  author      = {Jimmy Lei Ba and Jamie Ryan Kiros and Geoffrey E. Hinton},
-  title       = {Layer Normalization},
-  date        = {2016-07-21},
-  eprint      = {1607.06450v1},
-  eprintclass = {stat.ML},
-  eprinttype  = {arXiv},
-  abstract    = {Training state-of-the-art, deep neural networks is computationally expensive. One way to reduce the training time is to normalize the activities of the neurons. A recently introduced technique called batch normalization uses the distribution of the summed input to a neuron over a mini-batch of training cases to compute a mean and variance which are then used to normalize the summed input to that neuron on each training case. This significantly reduces the training time in feed-forward neural networks. However, the effect of batch normalization is dependent on the mini-batch size and it is not obvious how to apply it to recurrent neural networks. In this paper, we transpose batch normalization into layer normalization by computing the mean and variance used for normalization from all of the summed inputs to the neurons in a layer on a single training case. Like batch normalization, we also give each neuron its own adaptive bias and gain which are applied after the normalization but before the non-linearity. Unlike batch normalization, layer normalization performs exactly the same computation at training and test times. It is also straightforward to apply to recurrent neural networks by computing the normalization statistics separately at each time step. Layer normalization is very effective at stabilizing the hidden state dynamics in recurrent networks. Empirically, we show that layer normalization can substantially reduce the training time compared with previously published techniques.},
-  file        = {:papers/Layer Normalization.pdf:PDF},
-  keywords    = {stat.ML, cs.LG},
+  author  = {Ba, Jimmy Lei and Kiros, Jamie Ryan and Hinton, Geoffrey E},
+  title   = {Layer normalization},
+  journal = {arXiv preprint arXiv:1607.06450},
+  year    = {2016},
+  file    = {:papers/Layer Normalization.pdf:PDF},
 }
 
 @InProceedings{He2015,
@@ -693,16 +689,12 @@ Also gives a very nice overview of RNNs in general. },
   keywords  = {COCO segmentation;ImageNet localization;ILSVRC & COCO 2015 competitions;deep residual nets;COCO object detection dataset;visual recognition tasks;CIFAR-10;ILSVRC 2015 classification task;ImageNet test set;VGG nets;residual nets;ImageNet dataset;residual function learning;deeper neural network training;image recognition;deep residual learning;Training;Degradation;Complexity theory;Image recognition;Neural networks;Visualization;Image segmentation},
 }
 
-@Article{Kingma2014,
-  author      = {Diederik P. Kingma and Jimmy Ba},
-  title       = {Adam: A Method for Stochastic Optimization},
-  date        = {2014-12-22},
-  eprint      = {1412.6980v9},
-  eprintclass = {cs.LG},
-  eprinttype  = {arXiv},
-  abstract    = {We introduce Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. The method is straightforward to implement, is computationally efficient, has little memory requirements, is invariant to diagonal rescaling of the gradients, and is well suited for problems that are large in terms of data and/or parameters. The method is also appropriate for non-stationary objectives and problems with very noisy and/or sparse gradients. The hyper-parameters have intuitive interpretations and typically require little tuning. Some connections to related algorithms, on which Adam was inspired, are discussed. We also analyze the theoretical convergence properties of the algorithm and provide a regret bound on the convergence rate that is comparable to the best known results under the online convex optimization framework. Empirical results demonstrate that Adam works well in practice and compares favorably to other stochastic optimization methods. Finally, we discuss AdaMax, a variant of Adam based on the infinity norm.},
-  file        = {:papers/ADAM A METHOD FOR STOCHASTIC OPTIMIZATION.pdf:PDF},
-  keywords    = {cs.LG},
+@Article{kingma2014adam,
+  author  = {Kingma, Diederik P and Ba, Jimmy},
+  title   = {Adam: A method for stochastic optimization},
+  journal = {arXiv preprint arXiv:1412.6980},
+  year    = {2014},
+  file    = {:papers/ADAM A METHOD FOR STOCHASTIC OPTIMIZATION.pdf:PDF},
 }
 
 @Article{census2016,
