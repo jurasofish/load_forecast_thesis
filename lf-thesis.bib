@@ -11,12 +11,12 @@
   pages     = {1168},
   doi       = {10.3390/en10081168},
   abstract  = {Accurate load forecasting is an important issue for the reliable and efficient operation of a power system. This study presents a hybrid algorithm that combines similar days (SD) selection, empirical mode decomposition (EMD), and long short-term memory (LSTM) neural networks to construct a prediction model (i.e., SD-EMD-LSTM) for short-term load forecasting. The extreme gradient boosting-based weighted k-means algorithm is used to evaluate the similarity between the forecasting and historical days. The EMD method is employed to decompose the SD load to several intrinsic mode functions (IMFs) and residual. Separated LSTM neural networks were also employed to forecast each IMF and residual. Lastly, the forecasting values from each LSTM model were reconstructed. Numerical testing demonstrates that the SD-EMD-LSTM method can accurately forecast the electric load.},
-  file      = {:papers/Short-Term Load Forecasting Using EMD-LSTM.pdf:PDF},
-  publisher = {{MDPI} {AG}},
-  review    = {This method uses a S2S LSTM RNN for load forecasting.
+  comment   = {This method uses a S2S LSTM RNN for load forecasting.
 K-means clustering with xgboost is used to select a similar day for input to the network.
 Intrinsic mode decomposition is used to split the forecast into seperate nerual networks which are then recombined at the end.
 Authors claim it works far better than plain LSTM ( such as implemented by Marino)},
+  file      = {:papers/Short-Term Load Forecasting Using EMD-LSTM.pdf:PDF},
+  publisher = {{MDPI} {AG}},
 }
 
 @Article{Marino2016,
@@ -40,17 +40,17 @@ Authors claim it works far better than plain LSTM ( such as implemented by Marin
   year          = {2017},
   volume        = {abs/1705.04378},
   eprint        = {1705.04378},
-  abstract    = {The key component in forecasting demand and consumption of resources in a supply network is an accurate prediction of real-valued time series. Indeed, both service interruptions and resource waste can be reduced with the implementation of an effective forecasting system. Significant research has thus been devoted to the design and development of methodologies for short term load forecasting over the past decades. A class of mathematical models, called Recurrent Neural Networks, are nowadays gaining renewed interest among researchers and they are replacing many practical implementation of the forecasting systems, previously based on static methods. Despite the undeniable expressive power of these architectures, their recurrent nature complicates their understanding and poses challenges in the training procedures. Recently, new important families of recurrent architectures have emerged and their applicability in the context of load forecasting has not been investigated completely yet. In this paper we perform a comparative study on the problem of Short-Term Load Forecast, by using different classes of state-of-the-art Recurrent Neural Networks. We test the reviewed models first on controlled synthetic tasks and then on different real datasets, covering important practical cases of study. We provide a general overview of the most important architectures and we define guidelines for configuring the recurrent networks to predict real-valued time series.},
   url           = {http://arxiv.org/abs/1705.04378},
+  abstract      = {The key component in forecasting demand and consumption of resources in a supply network is an accurate prediction of real-valued time series. Indeed, both service interruptions and resource waste can be reduced with the implementation of an effective forecasting system. Significant research has thus been devoted to the design and development of methodologies for short term load forecasting over the past decades. A class of mathematical models, called Recurrent Neural Networks, are nowadays gaining renewed interest among researchers and they are replacing many practical implementation of the forecasting systems, previously based on static methods. Despite the undeniable expressive power of these architectures, their recurrent nature complicates their understanding and poses challenges in the training procedures. Recently, new important families of recurrent architectures have emerged and their applicability in the context of load forecasting has not been investigated completely yet. In this paper we perform a comparative study on the problem of Short-Term Load Forecast, by using different classes of state-of-the-art Recurrent Neural Networks. We test the reviewed models first on controlled synthetic tasks and then on different real datasets, covering important practical cases of study. We provide a general overview of the most important architectures and we define guidelines for configuring the recurrent networks to predict real-valued time series.},
   archiveprefix = {arXiv},
   bibsource     = {dblp computer science bibliography, https://dblp.org},
   biburl        = {https://dblp.org/rec/bib/journals/corr/BianchiMKRJ17},
-  file          = {:papers/An overview and comparative analysis of Recurrent Neural Networks for Short Term Load Forecasting.pdf:PDF},
-  review        = {An overview of the use of Elman RNN, LSTM, GRU, NARX, and Echo state RNNs for load forecasting.
+  comment       = {An overview of the use of Elman RNN, LSTM, GRU, NARX, and Echo state RNNs for load forecasting.
 Found some reasonable variance between all architectures.
 Does not consider S2S. 
 
 Also gives a very nice overview of RNNs in general. },
+  file          = {:papers/An overview and comparative analysis of Recurrent Neural Networks for Short Term Load Forecasting.pdf:PDF},
   timestamp     = {Wed, 07 Jun 2017 14:43:10 +0200},
 }
 
@@ -91,21 +91,22 @@ Also gives a very nice overview of RNNs in general. },
 }
 
 @Report{Jacobs2017,
-  author      = {Jacobs},
-  title       = {Projections of uptake of small-scale systems (Australian Energy Market Operator)},
+  author      = {Walter Gerardi and Damien O’Connor},
+  title       = {Projections of uptake of small-scale systems},
   type        = {resreport},
   institution = {AEMO},
   year        = {2017},
   date        = {2017-06-09},
+  url         = {https://www.aemo.com.au/Electricity/National-Electricity-Market-NEM/Planning-and-forecasting/Electricity-Forecasting-Insights/2017-Electricity-Forecasting-Insights/Key-component-consumption-forecasts/PV-and-storage},
   file        = {:papers/Projections of Uptake of Small-scale Systems.pdf:PDF},
 }
 
 @Report{AEMO2016,
-  author      = {AEMO},
   title       = {2016 NATIONAL ELECTRICITY FORECASTING REPORT},
   type        = {resreport},
-  institution = {AEMO},
+  institution = {Australian Energy Market Operator},
   year        = {2016},
+  url         = {https://www.aemo.com.au/Electricity/National-Electricity-Market-NEM/Planning-and-forecasting/National-Electricity-Forecasting-Report},
   file        = {:papers/2016 National Electricity Forecasting Report NEFR.pdf:PDF},
 }
 
@@ -698,11 +699,12 @@ Also gives a very nice overview of RNNs in general. },
   file    = {:papers/ADAM A METHOD FOR STOCHASTIC OPTIMIZATION.pdf:PDF},
 }
 
-@Article{census2016,
-  author  = {Australian Bureau of Statistics},
+@Online{census2016,
+  author  = {{Australian Bureau of Statistics}},
   title   = {Statistical Areas Level 1 6106906 and 6106909},
-  journal = {Census},
   year    = {2016},
+  url     = {http://www.abs.gov.au/websitedbs/D3310114.nsf/Home/2016%20search%20by%20geography},
+  journal = {Census},
 }
 
 @Comment{jabref-meta: databaseType:biblatex;}
