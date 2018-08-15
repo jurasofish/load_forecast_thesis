@@ -520,17 +520,16 @@ Also gives a very nice overview of RNNs in general. },
   file    = {:papers/Effective Approaches to Attention-based Neural Machine Translation.pdf:PDF},
 }
 
-@Article{Song2017,
-  author      = {Huan Song and Deepta Rajan and Jayaraman J. Thiagarajan and Andreas Spanias},
-  title       = {Attend and Diagnose: Clinical Time Series Analysis using Attention Models},
-  year        = {2017},
-  date        = {2017-11-10},
-  eprint      = {1711.03905v2},
-  eprintclass = {stat.ML},
-  eprinttype  = {arXiv},
-  abstract    = {With widespread adoption of electronic health records, there is an increased emphasis for predictive models that can effectively deal with clinical time-series data. Powered by Recurrent Neural Network (RNN) architectures with Long Short-Term Memory (LSTM) units, deep neural networks have achieved state-of-the-art results in several clinical prediction tasks. Despite the success of RNNs, its sequential nature prohibits parallelized computing, thus making it inefficient particularly when processing long sequences. Recently, architectures which are based solely on attention mechanisms have shown remarkable success in transduction tasks in NLP, while being computationally superior. In this paper, for the first time, we utilize attention models for clinical time-series modeling, thereby dispensing recurrence entirely. We develop the \textit{SAnD} (Simply Attend and Diagnose) architecture, which employs a masked, self-attention mechanism, and uses positional encoding and dense interpolation strategies for incorporating temporal order. Furthermore, we develop a multi-task variant of \textit{SAnD} to jointly infer models with multiple diagnosis tasks. Using the recent MIMIC-III benchmark datasets, we demonstrate that the proposed approach achieves state-of-the-art performance in all tasks, outperforming LSTM models and classical baselines with hand-engineered features.},
-  file        = {:papers/Attend and Diagnose Clinical Time Series Analysis using Attention Models.pdf:PDF},
-  keywords    = {stat.ML, cs.LG},
+@paper{Song2017,
+	author = {Huan Song and Deepta Rajan and Jayaraman Thiagarajan and Andreas Spanias},
+	title = {Attend and Diagnose: Clinical Time Series Analysis Using Attention Models},
+	conference = {AAAI Conference on Artificial Intelligence},
+	year = {2018},
+	keywords = {Attention model; Recurrent Neural Network; Time Series Analysis; Deep Learning; Clinical; Healthcare},
+	abstract = {With widespread adoption of electronic health records, there is an increased emphasis for predictive models that can effectively deal with clinical time-series data. Powered by Recurrent Neural Network (RNN) architectures with Long Short-Term Memory (LSTM) units, deep neural networks have achieved state-of-the-art results in several clinical prediction tasks. Despite the success of RNN, its sequential nature prohibits parallelized computing, thus making it inefficient particularly when processing long sequences. Recently, architectures which are based solely on attention mechanisms have shown remarkable success in transduction tasks in NLP, while being computationally superior. In this paper, for the first time, we utilize attention models for clinical time-series modeling, thereby dispensing recurrence entirely. We develop the SAnD (Simply Attend and Diagnose) architecture, which employs a masked, self-attention mechanism, and uses positional encoding and dense interpolation strategies for incorporating temporal order. Furthermore, we develop a multi-task variant of SAnD to jointly infer models with multiple diagnosis tasks. Using the recent MIMIC-III benchmark datasets, we demonstrate that the proposed approach achieves state-of-the-art performance in all tasks, outperforming LSTM models and classical baselines with hand-engineered features.},
+	
+	url = {https://www.aaai.org/ocs/index.php/AAAI/AAAI18/paper/view/16325},
+	file        = {:papers/Attend and Diagnose Clinical Time Series Analysis using Attention Models.pdf:PDF},
 }
 
 @Article{Hippert2001,
