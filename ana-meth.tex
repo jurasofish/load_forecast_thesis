@@ -94,7 +94,31 @@ blah
 blah
 
 \section{Similar profile selection}
-blah
+Load profiles are influenced by exogenous data such as weather, day of the week, and holiday type \cite{Weron2006}.
+A simple and intuitive method of load forecasting is to find periods in the past with similar exogenous data to the period being forecast and then use the load profiles from these past periods to form a forecast \cite{Senjyu1998}.
+However, these similar period methods can be insufficient to capture complex patterns, especially over holiday periods which occur only once per year \cite{Chen2010}.
+
+%Holiday type indicates which holiday the load profile occurs on - Easter or Christmas for example.
+%These different holidays are assigned different integer identifiers (with normal days assigned identifier 0) to form a time series.
+
+The forecasting system was provided with historical load and weather profiles from periods that had similar exogenous data to the period of the load profile being forecast.
+Similar periods were identified by first finding candidate similar periods an integer multiple of 1 year $\pm$30 days away from the period being forecast.
+These candidates were then filtered down to periods with exactly matching hour and minute.
+
+Then the weighted Euclidean distance between the period being forecast and each candidate similar period was calculated using the following features: 
+maximum future temperature, 
+minimum future temperature,
+maximum past load,
+current holiday type, 
+current day of the week,
+current day of the month, and
+current month of the year.
+The holiday type indicates the current holiday --- Easter or Christmas for example --- and is encoded as a time series of integers with a different integer for each holiday.
+When the holiday type always occurs on the same date each year then the month of the year and day of the month were used, whereas when the holiday type always occurs on the same day of the week each year then the day of the week was used.
+The candidate similar periods with the lowest Euclidean distance were selected as the final set of similar periods.
+
+When training and testing the model the similar periods were selected from both the past and the future, as the train and test datasets were only five years each.
+It was assumed that, for testing, there were no changes in the patterns underlying the load profile over the duration of the testing set.
 
 \section{Evaluation tasks}
 The following time series forecasting tasks will be used to evaluate the models
