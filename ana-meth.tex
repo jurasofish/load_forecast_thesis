@@ -162,10 +162,10 @@ These zero values do not affect the output of the decoder, as the decoder self-a
 When training, the decoder input is set to the known expected value and the model is executed --- and the learnable parameters updated --- a single time.
 
 \section{Universal Transformer}
-blah
+Same as transformer, except layers share weights, plus temporal encoding. One page probably.
 
 \section{Clio}
-blah
+Same as transformer, except for a new multihead attention layer in the encoder which takes keys and queries from historical data.
 
 \section{Similar profile selection}
 Load profiles are influenced by exogenous data such as weather, day of the week, and holiday type \cite{Weron2006}.
