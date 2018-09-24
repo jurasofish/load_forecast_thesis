@@ -27,22 +27,21 @@ This section will investigate the performance of several of the best performing 
 	Benefit of putting evaluation first is that it prevents the reader from being daunted by too much detail upfront.
 	Might seem a little backwards though.}
 
-\section{Investigated models}
-The following NMT models will be investigated and their results in time series forecasting compared
+\section{Investigated models and methods}
+The following models will be discussed and their results in time series forecasting compared.
 \begin{itemize}
-	\item sequence to sequence (S2S) \citep{Cho2014a} long short term memory (LSTM) \citep{hochreiter1997long}
-	\item S2S LSTM with attention \citep{luong2015effective}
-	\item S2S gated recurrent unit (GRU) \citep{Cho2014a}
-	\item S2S GRU with attention
+	\item ARIMA
+	\item Sequence to sequence (S2S) recurrent neural network (RNN) \citep{Cho2014a} using long short term memory (LSTM) \citep{hochreiter1997long} cells
 	\item Transformer \citep{Vaswani2017}
+	\item Universal Transformer \cite{Dehghani2018}
+	\item Clio - a modified transformer with the ability to automatically select similar profile data
 \end{itemize}
 
-Additionally, I will compare them to the following traditional methods
-\begin{itemize}
-	\item ARIMA and related methods
-	\item support vector regression
-	\item I'll probably add a few more as I further work on the state of the art section.
-\end{itemize}
+Additionally, a similar profile selection method was developed to provide the models with relevant input data.
+These models and methods are described in the following sections.
+
+\section{ARIMA}
+blah
 
 \section{Recurrent neural network}
 Introduce RNN, then within this same section expand it to include sequence to sequence architecture, and then again expand it to include attention mechanisms.
@@ -87,6 +86,15 @@ I need to research this further before writing about it.
 \subsection{Training}
 Discuss how the decoder is used in training and inference modes.
 Causality, iterative inference.
+
+\section{Universal Transformer}
+blah
+
+\section{Clio}
+blah
+
+\section{Similar profile selection}
+blah
 
 \section{Evaluation tasks}
 The following time series forecasting tasks will be used to evaluate the models
