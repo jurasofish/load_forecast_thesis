@@ -44,45 +44,6 @@ Additionally, I will compare them to the following traditional methods
 	\item I'll probably add a few more as I further work on the state of the art section.
 \end{itemize}
 
-\section{Evaluation tasks}
-The following time series forecasting tasks will be used to evaluate the models
-\begin{itemize}
-	\item forecasting a pure sine wave given its past values
-	\item forecasting a sine wave with normally distributed noise given its past values
-	\item forecasting a signal comprised of several sine waves with normally distributed noise given past values
-	\item forecasting the Bruny Island load data - no priority given to special days.
-\end{itemize}
-
-\section{Evaluation Results}
-\hl{At this stage, only performance on the actual load forecasting task has been evaluated} \\
-with the following notation: \\
-$L$ number of hidden layers \\
-$h_d$ dimension of the state vector \\
-$A$ number of attention units \\
-$h_a$ dimension of attention state vector
-
-
-\begin{table}[htbp]
-	\centering
-	\begin{tabular}{lcl}
-		\hline
-		\textbf{Architecture} & \textbf{Loss} & \\
-		\hline
-		Transformer with 256 hidden units, 4 heads, 4 layers   &  -5.85  &  \\
-		S2S GRU with  $L = 2, h_d = 5, A=2, h_a=5$ &  -5.72  &  \\
-		S2S GRU with  $L = 2, h_d = 5, A=2, h_a=0$  &  -5.75  &  \\
-		S2S GRU with  $L = 2, h_d = 5, A=0, h_a=0$  &  -5.65  &  \\
-		S2S LSTM with  $L = 2, h_d = 5, A=0, h_a=0$  &  -5.66  &  \\
-		\hline
-	\end{tabular}
-	\caption{Comparison of architectures evaluated so far.}
-	\label{tab:architecture_comparison}
-\end{table}
-
-Preliminary forecasting results are displayed in section \ref{bruny-results}.
-It must be noted that not all architectures have been tuned as well as they could.
-
-
 \section{Recurrent neural network}
 Introduce RNN, then within this same section expand it to include sequence to sequence architecture, and then again expand it to include attention mechanisms.
 
@@ -126,4 +87,45 @@ I need to research this further before writing about it.
 \subsection{Training}
 Discuss how the decoder is used in training and inference modes.
 Causality, iterative inference.
+
+\section{Evaluation tasks}
+The following time series forecasting tasks will be used to evaluate the models
+\begin{itemize}
+	\item forecasting a pure sine wave given its past values
+	\item forecasting a sine wave with normally distributed noise given its past values
+	\item forecasting a signal comprised of several sine waves with normally distributed noise given past values
+	\item forecasting the Bruny Island load data - no priority given to special days.
+\end{itemize}
+
+\section{Evaluation Results}
+\hl{At this stage, only performance on the actual load forecasting task has been evaluated} \\
+with the following notation: \\
+$L$ number of hidden layers \\
+$h_d$ dimension of the state vector \\
+$A$ number of attention units \\
+$h_a$ dimension of attention state vector
+
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{lcl}
+		\hline
+		\textbf{Architecture} & \textbf{Loss} & \\
+		\hline
+		Transformer with 256 hidden units, 4 heads, 4 layers   &  -5.85  &  \\
+		S2S GRU with  $L = 2, h_d = 5, A=2, h_a=5$ &  -5.72  &  \\
+		S2S GRU with  $L = 2, h_d = 5, A=2, h_a=0$  &  -5.75  &  \\
+		S2S GRU with  $L = 2, h_d = 5, A=0, h_a=0$  &  -5.65  &  \\
+		S2S LSTM with  $L = 2, h_d = 5, A=0, h_a=0$  &  -5.66  &  \\
+		\hline
+	\end{tabular}
+	\caption{Comparison of architectures evaluated so far.}
+	\label{tab:architecture_comparison}
+\end{table}
+
+Preliminary forecasting results are displayed in section \ref{bruny-results}.
+It must be noted that not all architectures have been tuned as well as they could.
+
+
+
 	
