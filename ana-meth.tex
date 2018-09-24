@@ -47,45 +47,119 @@ blah
 Introduce RNN, then within this same section expand it to include sequence to sequence architecture, and then again expand it to include attention mechanisms.
 
 \section{Transformer}
-\hl{My preliminary investigations show that the transformer architecture is the best, or at least equal best but likely with less expensive training. This is consistent with \protect\cite{Song2017} and \protect\cite{Vaswani2017}}\\
-\par
-The transformer is a neural network architecture that is currently the state of the art in NMT \citep{Vaswani2017}.
-This architecture will be discussed in detail. 
+The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \cite{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
+This architecture follows the standard sequence-to-sequence/encoder-decoder architecture: the encoder transforms an input sequence $X = (\boldsymbol{x}_1, ..., \boldsymbol{x}_P)$ into a latent representation $Z = (\boldsymbol{z}_1, ..., \boldsymbol{z}_M)$, and the decoder transforms $Z$ into an output sequence $Y = (\boldsymbol{y}_1, ..., \boldsymbol{y}_R)$, where $x_t$, $y_t$, and $z_t$ are of arbitrary dimension.
+This matches the requirements of a load forecasting system, where $P$ is the length of the time series input, $x_t$ is of dimension equal to the number of variables in the input time series, $R$ is the length of the time series output, and $y_t$ is of dimension equal to the number of variables in the output time series.
+The latent representation $Z$ is used solely by the model as an internal representation of the input data.
 
-\subsection{Overview}
-overview of the transformer architecture.
-\begin{itemize}
-	\item encoder and decoder
-	\item input embedding
-	\item positional encoding
-	\item multi-head attention
-	\item residual connections
-	\item feed forward
-	\item layer normalization
-	\item 
-\end{itemize}
+\begin{figure}[htbp]
+	\centerline{\includegraphics[trim=0 0.8cm 0 0, width=.35\textwidth]{images/transformer.pdf}}
+	\caption{The Transformer architecture.}
+	\label{fig:transformer}
+\end{figure}
 
-\subsection{Input embedding}
-convolutional embedding as per \citep{Song2017} (a paper using the transformer architecture to perform classification based on time series).
+The encoder is constructed of a stack of $L$ identical layers, each containing two sub-layers.
+The first is multi-head self-attention and the second is a position-wise feed-foward network.
+Both sub-layers have a residual connection around them and are fed into a normalization layer.
 
-\subsection{Positional encoding}
-Every input vector, $\vb_i$, has a vector added to it, $\vp_i$, depending on its position, $i$, in the input.
-$\vp_i$ is trainable - it is drawn from $\vtheta$.
+The decoder is similar to the encoder except for a third layer which implements multi-head attention on the outputs of the encoder.
+The input to the decoder is the previous output of the decoder, but shifted right by one.
+This requires an iterative approach to be used to predict all points in the time series.
+The self-attention in the decoder is masked so that when evaluating a query at time $t$ it does not assign large weights to keys/values occurring after $t$ in time, making the decoder autoregressive.
 
-\subsection{multi-head attention}
-I need to research this further before writing about it.
+The individual components of the transformer are discussed in the following sections.
 
-\subsection{residual connections}
+\subsection{Input Embedding}
+The input $\boldsymbol{X} \in \mathbb{R}^{T \times N}$, where the rows represent $T$ points in time and the columns represent $N$ time series, is embedded by applying a dense layer to produce an embedded $\boldsymbol{Y} \in \mathbb{R}^{T \times d}$, where $d$ is the hidden dimension of the model and $d$ is the same for both the encoder and the decoder.
+This is intended to allow the neural network to learn the relationships and dependencies between the different input time series.
+The embedded representation is given by Equation \ref{dense_layer}, with learned weights $\boldsymbol{W} \in \mathbb{R}^{N \times d}$ and a learned bias vector $\boldsymbol{b} \in \mathbb{R}^{d}$.
 
-\subsection{Feedforward}
+\begin{equation} \label{dense_layer}
+\boldsymbol{Y} = \text{max}(0, \boldsymbol{XW} + \boldsymbol{b})
+\end{equation}
 
-\subsection{Normalization}
+\subsection{Positional Encoding}
+The model has no way of telling the position or order of each element in the input, so this information is injected in the positional encoding layer.
+This is done by using a learned lookup table to add the same value to the inputs at both test and train time depending on their position in time in the input.
+Specifically, a matrix lookup table of embeddings $\boldsymbol{E} \in \mathbb{R}^{T \times d}$ is added to the embedded inputs as per Equation \ref{positional_encoding}.
+\begin{equation}\label{positional_encoding}
+\boldsymbol{Y} = \boldsymbol{X} + \boldsymbol{E}
+\end{equation}
 
-\subsection{etc.}
+\subsection{Multi-Head Attention} \label{multihead_attention}
+The primary innovation of the Transformer architecture is multi-head attention.
+Generic attention and dot-product attention will now be described as these are prerequisite to describing multi-head attention.
 
-\subsection{Training}
-Discuss how the decoder is used in training and inference modes.
-Causality, iterative inference.
+Given a single query vector and a set of key and value pairs (with each key and each value being a vector), an attention function matches the query to the keys to produce a weight for each key by applying an arbitrary fitness function.
+These key weights are then used to create an output vector comprised of the weighted sum of the values, where each value's weight is the weight assigned to its corresponding key. 
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.35\textwidth]{images/multihead_attn.pdf}}
+	\caption{Multiheaded attention (b) splits the key, query, and value matrices and applies scaled dot product attention (a) on each in parallel before concatenating the result to return the data to its original dimension.}
+	\label{fig:multihead}
+\end{figure}
+
+Scaled dot-product attention, shown in Figure \ref{fig:multihead} (a), is a specific implementation of an attention function. 
+It uses the dot product of the query and each key to generate the weights, which are then passed through a softmax function such that the sum of all weights is equal to 1.
+In practice, the query row vectors are combined into a single matrix, $\boldsymbol{Q}$, allowing cheap matrix calculations to be used to evaluate the attention outputs in parallel.
+The keys and values are represented by row vectors in $\boldsymbol{K}$ and $\boldsymbol{V}$, respectively.
+
+The dot product of the keys and queries is scaled (hence the name) by multiplying it by $1 / \sqrt{d_k}$, with $d_k$ being the key and query dimension, to prevent the dot product from becoming large when $d_k$ is large as this may cause the softmax gradient to become very small and affect the gradient descent training.
+
+The causal mask shown in Figure \ref{fig:multihead} is used exclusively in the decoder self-attention to prevent the attention function from matching any query to a key that occurs after itself in time.
+This is achieved by leaving the lower triangular portion of the matrix untouched and setting the other values to be large negative numbers, indicating a very poor match.
+
+Multi-head attention, shown in Figure \ref{fig:multihead} (b), applies a separate dense layer to each of the values, queries, and keys. 
+The dense layer is applied per Equation \ref{dense_layer} with learned weights $\boldsymbol{W} \in \mathbb{R}^{d \times d}$ and a learned bias vector $\boldsymbol{b} \in \mathbb{R}^{d}$.
+The outputs of the dense layers are then split along the last axis into $h$ sets, or heads.
+As a result the key, query, and value dimension is reduced by a factor of $h$ to $\frac{d}{h}$.
+Scaled dot-product attention is then run independently on each set.
+The results are concatenated and put through a final dense layer to produce the output of the attention function.
+The dense layer function on the output is defined by Equation \ref{dense_layer} where $\boldsymbol{W} \in \mathbb{R}^{d \times d}$ is a learned weight matrix and $\boldsymbol{b} \in \mathbb{R}^{d}$ is a learned bias vector.
+
+The dense layer combined with the split allows the multi-head attention to pick out information from different subspaces in the input and direct these to different attention heads.
+This is in contrast to a single head which must average all subspaces.
+
+\subsection{Feed-forward}
+The feed-forward layer is a two layer network with a rectified linear unit in the middle.
+Given an input $\boldsymbol{X} \in \mathbb{R}^{T \times d}$, the output $\boldsymbol{Y} \in \mathbb{R}^{T \times d}$ is populated by Equation \ref{feedforward} where $\boldsymbol{W}_1 \in \mathbb{R}^{d \times 4d}$, $\boldsymbol{b}_1 \in \mathbb{R}^{4d}$, $\boldsymbol{W}_2 \in \mathbb{R}^{4d \times d}$, and $\boldsymbol{b}_2 \in \mathbb{R}^{d}$ are learned weights and biases.
+
+\begin{equation} \label{feedforward}
+\boldsymbol{Y} = \text{max}(0, \boldsymbol{X}  \boldsymbol{W}_1 + \boldsymbol{b}_1)  \boldsymbol{W}_2 + \boldsymbol{b}_2
+\end{equation}
+
+\subsection{Decoder Dense Output}
+The output of the decoder is passed through a dense layer to project the hidden dimension to the desired dimension of 1.
+The layer is implemented per Equation \ref{dense_layer} where $\boldsymbol{W} \in \mathbb{R}^{d \times 1}$ is a learned weight matrix and $\boldsymbol{b} \in \mathbb{R}^{1}$ is a learned bias vector.
+By adjusting the dimension of $\boldsymbol{W}$ and $\boldsymbol{b}$ the network could be modified to perform multiple forecasts simultaneously.
+
+
+\subsection{Residuals \& Normalization}
+Residual connections \cite{He2015} are applied around each sub-layer.
+That is, the output of each sub-layer is given by $\boldsymbol{Y} = \boldsymbol{X} + \text{subLayer}(\boldsymbol{X})$ where subLayer$(\boldsymbol{X})$ is the original output of the sub-layer.
+The outputs are then normalized by applying layer normalization \cite{Ba2016}, as per Equation \ref{layernorm} where $\mu_{\boldsymbol{x}}$ and $\sigma_{\boldsymbol{x}}$ are the mean and variance of $\boldsymbol{x}$ respectively.
+
+\begin{equation} \label{layernorm}
+\boldsymbol{Y}_{i,*} = \frac{\mu_{\boldsymbol{X}_{i,*}}}{\sigma_{\boldsymbol{X}_{i,*}}}
+\end{equation}
+
+\subsection{Dropout and Training}
+To help prevent overfitting to the training data, dropout \cite{srivastava14a} is applied during training at the output of both positional encoding layers, and immediately after the softmax operation in all multi-head attention layers.
+Additionally, the encoder inputs, decoder inputs, and expected outputs were summed with randomly distributed noise with a mean of 0 and standard deviation of 0.01 before being supplied to the model during training.
+
+The model is trained using the Adam optimizer \cite{Kingma2014} and a modified sum of errors squared loss function.
+Given a vector $\boldsymbol{y}$ of predictions from the model and a vector $\boldsymbol{y'}$ of expected predictions the loss function $l$ is given by 
+\begin{equation}
+l = \sum_{t=0}^{R}((\boldsymbol{y}_t - \boldsymbol{y'}_t)^2 \times |\boldsymbol{y'}_t|^c)
+\end{equation}
+where $c$ is a model hyperparameter.
+For $c>0$ this function accentuates loss when the actual value is large --- making the model more accurate at forecasting peaks.
+
+When testing or being used for inference, the decoder outputs are generated sequentially one at a time.
+After each output value is generated it is shifted right by one and populated in the decoder input and the model is executed again until all the outputs have been generated.
+Values that have not yet been generated are set to zero in the decoder input.
+These zero values do not affect the output of the decoder, as the decoder self-attention is masked so that it does not make use of them.
+When training, the decoder input is set to the known expected value and the model is executed --- and the learnable parameters updated --- a single time.
 
 \section{Universal Transformer}
 blah
