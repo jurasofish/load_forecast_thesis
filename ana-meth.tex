@@ -129,21 +129,18 @@ The self-attention in the decoder is masked so that when evaluating a query at t
 The individual components of the transformer are discussed in the following sections.
 
 \subsection{Input Embedding}
-The input $\boldsymbol{X} \in \mathbb{R}^{T \times N}$, where the rows represent $T$ points in time and the columns represent $N$ time series, is embedded by applying a dense layer to produce an embedded $\boldsymbol{Y} \in \mathbb{R}^{T \times d}$, where $d$ is the hidden dimension of the model and $d$ is the same for both the encoder and the decoder.
+The input $\boldsymbol{X} \in \mathbb{R}^{T \times N}$, where the rows represent $T$ points in time and the columns represent $N$ time series, is embedded by applying a dense layer to produce an embedded $\boldsymbol{X'} \in \mathbb{R}^{T \times d}$, where $d$ is the hidden dimension of the model and $d$ is the same for both the encoder and the decoder.
 This is intended to allow the neural network to learn the relationships and dependencies between the different input time series.
 The embedded representation is given by Equation \ref{dense_layer}, with learned weights $\boldsymbol{W} \in \mathbb{R}^{N \times d}$ and a learned bias vector $\boldsymbol{b} \in \mathbb{R}^{d}$.
 
 \begin{equation} \label{dense_layer}
-\boldsymbol{Y} = \text{max}(0, \boldsymbol{XW} + \boldsymbol{b})
+\text{dense}(\boldsymbol{X}) = \text{max}(0, \boldsymbol{XW} + \boldsymbol{b})
 \end{equation}
 
 \subsection{Positional Encoding}
 The model has no way of telling the position or order of each element in the input, so this information is injected in the positional encoding layer.
 This is done by using a learned lookup table to add the same value to the inputs at both test and train time depending on their position in time in the input.
-Specifically, a matrix lookup table of embeddings $\boldsymbol{E} \in \mathbb{R}^{T \times d}$ is added to the embedded inputs as per Equation \ref{positional_encoding}.
-\begin{equation}\label{positional_encoding}
-\boldsymbol{Y} = \boldsymbol{X} + \boldsymbol{E}
-\end{equation}
+Specifically, a matrix lookup table of embeddings $\boldsymbol{E} \in \mathbb{R}^{T \times d}$ is added to the embedded inputs.
 
 \subsection{Multi-Head Attention} \label{multihead_attention}
 The primary innovation of the Transformer architecture is multi-head attention.
@@ -181,10 +178,10 @@ This is in contrast to a single head which must average all subspaces.
 
 \subsection{Feed-forward}
 The feed-forward layer is a two layer network with a rectified linear unit in the middle.
-Given an input $\boldsymbol{X} \in \mathbb{R}^{T \times d}$, the output $\boldsymbol{Y} \in \mathbb{R}^{T \times d}$ is populated by Equation \ref{feedforward} where $\boldsymbol{W}_1 \in \mathbb{R}^{d \times 4d}$, $\boldsymbol{b}_1 \in \mathbb{R}^{4d}$, $\boldsymbol{W}_2 \in \mathbb{R}^{4d \times d}$, and $\boldsymbol{b}_2 \in \mathbb{R}^{d}$ are learned weights and biases.
+Given an input $\boldsymbol{X} \in \mathbb{R}^{T \times d}$, the output $\boldsymbol{X'} \in \mathbb{R}^{T \times d}$ is populated by Equation \ref{feedforward} where $\boldsymbol{W}_1 \in \mathbb{R}^{d \times 4d}$, $\boldsymbol{b}_1 \in \mathbb{R}^{4d}$, $\boldsymbol{W}_2 \in \mathbb{R}^{4d \times d}$, and $\boldsymbol{b}_2 \in \mathbb{R}^{d}$ are learned weights and biases.
 
 \begin{equation} \label{feedforward}
-\boldsymbol{Y} = \text{max}(0, \boldsymbol{X}  \boldsymbol{W}_1 + \boldsymbol{b}_1)  \boldsymbol{W}_2 + \boldsymbol{b}_2
+\text{feedforward}(\boldsymbol{X}) = \text{max}(0, \boldsymbol{X}  \boldsymbol{W}_1 + \boldsymbol{b}_1)  \boldsymbol{W}_2 + \boldsymbol{b}_2
 \end{equation}
 
 \subsection{Decoder Dense Output}
@@ -195,7 +192,7 @@ By adjusting the dimension of $\boldsymbol{W}$ and $\boldsymbol{b}$ the network 
 
 \subsection{Residuals \& Normalization}
 Residual connections \cite{He2015} are applied around each sub-layer.
-That is, the output of each sub-layer is given by $\boldsymbol{Y} = \boldsymbol{X} + \text{subLayer}(\boldsymbol{X})$ where subLayer$(\boldsymbol{X})$ is the original output of the sub-layer.
+That is, the output of each sub-layer is given by $\boldsymbol{X'} = \boldsymbol{X} + \text{subLayer}(\boldsymbol{X})$ where subLayer$(\boldsymbol{X})$ is the original output of the sub-layer.
 The outputs are then normalized by applying layer normalization \cite{Ba2016}, as per Equation \ref{layernorm} where $\mu_{\boldsymbol{x}}$ and $\sigma_{\boldsymbol{x}}$ are the mean and variance of $\boldsymbol{x}$ respectively.
 
 \begin{equation} \label{layernorm}
