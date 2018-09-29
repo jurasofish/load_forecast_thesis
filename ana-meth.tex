@@ -94,7 +94,16 @@ Where $(p,d,q)$ are the parameters of the non-seasonal ARIMA component, $(P,Q,D)
 The SARIMA model can be further extended to a SARIMA with exogenous variables (SARIMAX) model. 
 
 \section{Recurrent neural network}
-Introduce RNN, then within this same section expand it to include sequence to sequence architecture, and then again expand it to include attention mechanisms.
+
+The recurrent neural network RNN architecture, shown in figure \hl{xx}, was introduced by \cite{Rumelhart1986} in 1986.
+RNNs operate on sequences of data by applying an identical function to every element of the sequence.
+This function takes as input the output of the function at the previous element, and the current element of the sequence.
+RNNs suffer from issues with vanishing and exploding gradients \cite{Goodfellow-et-al-2016}, which is addressed through the use of a long short term memory (LSTM) \cite{hochreiter1997long} cell as the function in the RNN.
+
+An LSTM cell is able to selectively add and remove elements from the state as it passes through.
+
+An RNN can be extended to form a sequence to sequence (S2S) architecture by applying an encoder RNN to an input sequence, and then having a decoder RNN produce an output sequence with  the decoder's initial cell state set to the final cell state of the encoder \cite{Cho2014a}.
+This configuration allows the encoder to create a latent space representation of the input, which is then used by the decoder to produce an output.
 
 \section{Transformer}
 The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \cite{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
