@@ -112,8 +112,6 @@ The load being forecast was approximately 600MW.
 
 
 \subsection{Autoregressive integrated moving average}
-\todo[inline]{todo Change X to Y for output}
-\todo[inline]{todo make consistent with Nomenclature chapter}
 Autoregressive integrated moving average (ARIMA) models, introduced by \citet{Box1970}, are used widely for time series forecasting \citep{Weron2006}. 
 Generally, ARIMA models are used at the core of the forecasting system, and other methods are used in a supporting role. 
 \par
@@ -123,55 +121,6 @@ Generally, ARIMA models are used at the core of the forecasting system, and othe
 \par
 ARIMA-based models are complex and require a great deal of experience to effectively select appropriate parameters \citep{Desouky2000}.
 \hl{todo expand on this lonely sentence}
-\par
-The ARIMA model is an extension of the autoregressive moving average (ARMA) model, which is comprised of an autoregressive (AR) term and a moving average (MA) term.
-\\
-Consider a time series $X$, being drawn from some underlying process, with elements $X_{t}, X_{t-1}, ..., X_{0}$. 
-\\
-An autoregressive model is given by
-\begin{equation}
-X_{t} = \alpha_{1}X_{t-1} + \alpha_{2}X_{t-2} + \ldots + \alpha_{p}X_{t-p} + \epsilon_{t} = \epsilon_{t} + \sum_{i=1}^{p}\alpha_{i}X_{t-i}
-\end{equation}
-where $p$ is the order of the AR model, $\alpha$ are the parameters of the model, and $\epsilon_{t}$ is a random normally distributed error with zero mean and variance $\sigma^2$. 
-\\ 
-A moving average model is given by 
-\begin{equation}
-X_{t} = \theta_{1}\epsilon_{t-1} + \theta_{2}\epsilon_{t-2} + \ldots + \theta_{q}\epsilon_{t-q} + \epsilon_{t} = \epsilon_{t} + \sum_{i=1}^{q}\theta_{i}\epsilon_{t-i}
-\end{equation}
-where $q$ is the order of the MA model, $\theta$ are the parameters of the model, and $\epsilon_{t}$ is, again, a random normally distributed error with zero mean and variance $\sigma^2$.
-\par
-The AR and MA models are combined to form an ARMA model, given by 
-\begin{equation}
-X_{t} = \epsilon_{t} + \sum_{i=1}^{q}\theta_{i}\epsilon_{t-i} + \sum_{i=1}^{p}\alpha_{i}X_{t-i}
-\end{equation}
-\par
-An ARMA model requires the time series, $X$, being forecast to come from a weakly stationary process.
-That is, the mean and autocovariance of the the process do not change with time.
-\par
-The ARIMA model is an extension to the ARMA model that can be applied when non-stationarity is exhibited by the underlying process.
-ARIMA applies differencing to the time series prior to applying the ARMA model to the new time series $\hat{X}$.
-This differencing is applied such that $\hat{X}_{t} = X_{t} - X_{t-1}$ and is repeated $d$ times.
-Differencing can sometimes be sufficient to make a series stationary, such that it is appropriate for forecasting with an ARMA model.
-\par
-In order to concisely articulate the ARIMA model, the following notation will be used. The backward shift operator, defined by $\textbf{B}^{m}X_{t} = X_{t-m}$. The difference operator, defined by $\nabla_{s} X_{t} = X_{t} - X_{t-s} = (1 - \textbf{B}^{s})X_{t}$. The parameter functions $\alpha_{p}(\textbf{B}) = 1 - \alpha_{1}\textbf{B} - \ldots - \alpha_{p}\textbf{B}^p$ and $\theta_{q}(\textbf{B}) = 1 + \theta_{1}\textbf{B} + \ldots + \theta_{q}\textbf{B}^q$.
-\par
-Using this notation, the ARIMA model can be represented as the following
-\begin{equation}
-\alpha_{p}(\textbf{B})(\nabla_{1}^{d}X_{t}) = \theta_{q}(\textbf{B})\epsilon_{t}
-\end{equation}
-This is identical to an ARMA model, except that $X_{t}$ has been replaced with a  version of itself, $\nabla_{1}^{d}X_{t}$, that has been differenced $d$ times.
-The above model is denoted ARIMA($p,d,q$).
-\par
-Differencing with a lag of one, as applied by the differencing operator, is not always sufficient to make the series stationary even when performed multiple ($d$) times.
-A further extension of the ARIMA model is the seasonal ARIMA (SARIMA) model, which takes into account seasonal patterns which require differencing with a lag greater than one, such as daily, weekly, and yearly seasonalities commonly found in electrical load time series.
-\\
-Denoted ARIMA$(p,d,q)\times(P,D,Q)s$, a SARIMA model can be represented as the following
-\begin{equation}
-\alpha_{p}(\textbf{B})A_{P}(\textbf{B}^{s})(\nabla_{1}^{d}\nabla_{s}^{D}X_{t}) = \theta_{q}(\textbf{B})\Theta_{Q}(\textbf{B}^{s})\epsilon_{t}
-\end{equation}
-Where $(p,d,q)$ are the parameters of the non-seasonal ARIMA component, $(P,Q,D)s$ are the parameters of the seasonal component, $A_{P}(\textbf{B}^{s})$ and $\Theta_{Q}(\textbf{B}^{s})$ are defined similarly to $\alpha_{p}(\textbf{B})$ and $\theta_{q}(\textbf{B})$, and $s$ is the number of periods over which the seasonality occurs (e.g. $s=7$ for weekly seasonality if the data is daily).
-\par
-The SARIMA model can be further extended to a SARIMA with exogenous variables (SARIMAX) model. 
 
 \subsection{Support vector regression}
 \todo[inline]{todo make consistent with Nomenclature chapter}
