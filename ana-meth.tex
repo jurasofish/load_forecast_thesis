@@ -95,12 +95,43 @@ The SARIMA model can be further extended to a SARIMA with exogenous variables (S
 
 \section{Recurrent neural network}
 
-The recurrent neural network RNN architecture, shown in figure \hl{xx}, was introduced by \cite{Rumelhart1986} in 1986.
-RNNs operate on sequences of data by applying an identical function to every element of the sequence.
-This function takes as input the output of the function at the previous element, and the current element of the sequence.
-RNNs suffer from issues with vanishing and exploding gradients \cite{Goodfellow-et-al-2016}, which is addressed through the use of a long short term memory (LSTM) \cite{hochreiter1997long} cell as the function in the RNN.
+\subsection{Generic RNN}
+The recurrent neural network RNN architecture was introduced by \cite{Rumelhart1986} in 1986.
+RNNs operate on sequences of data by applying an identical function $f$ to every element of the sequence to produce a sequence of state vectors $\vh$.
+$f$ takes as input the output of the function at the previous point in the sequence, and the current element of the input sequence $\vx$.
+At each point $t$ in the sequence $\vh^t$ is taken as the output.
+An RNN can be unfolded to represent it as a traditional feedforward neural network with no recurrence.
+A generic RNN is shown in figure \ref{fig:basic_rnn}.
 
-An LSTM cell is able to selectively add and remove elements from the state as it passes through.
+\begin{figure}[htbp]
+	\centerline{\includegraphics[trim=0 0cm 0 0, width=.5\textwidth]{images/basic_rnn.pdf}}
+	\caption{A generic recurrent neural network, operating on an input sequence of $\vx$ vectors and producing an output sequence of $\vh$ vectors.
+		     Both the recurrent and unfolded purely feedforward representations are shown.
+		     The function $f$ can be replaced with any arbitrary function.}
+	\label{fig:basic_rnn}
+\end{figure}
+
+RNNs can be extended to multiple layers, with a two-layer RNN illustrated in figure \ref{fig:multilayer_rnn}.
+Each layer implements it's own function, with layer $n$ implementing function $f_n$ and producing output $\vh_n$.
+For layers after the first layer, instead of taking an $\vx$ vector as input they take the state vector from the previous layer.
+There can be an arbitrary number of layers.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[trim=0 0cm 0 0, width=.5\textwidth]{images/multilayer_rnn.pdf}}
+	\caption{A two-layer RNN.}
+	\label{fig:multilayer_rnn}
+\end{figure}
+
+\subsection{Long short-term memory}
+RNNs are prone issues with vanishing and exploding gradients \cite{Goodfellow-et-al-2016}, which is addressed through the use of a long short-term memory (LSTM) \cite{hochreiter1997long} cell as the function in the RNN.
+An LSTM cell is able to selectively add and remove elements from the state as it passes through, while also generally out-performing simpler functions.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[trim=0 0cm 0 0, width=.65\textwidth]{images/LSTM.pdf}}
+	\caption{A LSTM cell and it's configuration in a multilayer RNN.}
+	\label{fig:LSTM}
+\end{figure}
+
 
 An RNN can be extended to form a sequence to sequence (S2S) architecture by applying an encoder RNN to an input sequence, and then having a decoder RNN produce an output sequence with  the decoder's initial cell state set to the final cell state of the encoder \cite{Cho2014a}.
 This configuration allows the encoder to create a latent space representation of the input, which is then used by the decoder to produce an output.
