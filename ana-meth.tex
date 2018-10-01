@@ -91,7 +91,10 @@ Denoted ARIMA$(p,d,q)\times(P,D,Q)s$, a SARIMA model can be represented as the f
 \end{equation}
 Where $(p,d,q)$ are the parameters of the non-seasonal ARIMA component, $(P,Q,D)s$ are the parameters of the seasonal component, $A_{P}(\textbf{B}^{s})$ and $\Theta_{Q}(\textbf{B}^{s})$ are defined similarly to $\alpha_{p}(\textbf{B})$ and $\theta_{q}(\textbf{B})$, and $s$ is the number of periods over which the seasonality occurs (e.g. $s=7$ for weekly seasonality if the data is daily).
 \par
-The SARIMA model can be further extended to a SARIMA with exogenous variables (SARIMAX) model. 
+The SARIMA model can be further extended to a SARIMA with exogenous variables (SARIMAX) model.
+
+\subsection{Implementation}
+A SARIMAX model was implemented using the python statsmodels package.
 
 \section{Recurrent neural network}
 
@@ -139,6 +142,11 @@ An RNN can be extended to form a sequence to sequence (S2S) architecture by appl
 The decoder RNN's initial cell state is set to the final cell state of the encoder \cite{Cho2014a}.
 The encoder's final cell state is a latent representation of the input, which is used by the decoder to produce an output.
 The encoder and decoder can be of different lengths, allowing this architecture to naturally model tasks such as load forecasting where the input may be 48 hours of data while the output is only 24.
+
+\subsection{Implementation}
+A S2S RNN with LSTM cells was implemented in tensorflow.
+The encoder was provided with historical load and weather, and forecast weather.
+The decoder output was projected to a dimension of 1 and taken as the load forecast.
 
 \section{Transformer}
 The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \cite{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
@@ -243,6 +251,10 @@ Values that have not yet been generated are set to zero in the decoder input.
 These zero values do not affect the output of the decoder, as the decoder self-attention is masked so that it does not make use of them.
 When training, the decoder input is set to the known expected value and the model is executed --- and the learnable parameters updated --- a single time.
 
+\subsection{Implementation}
+The encoder was provided with historical load and weather, and forecast weather.
+The decoder output was projected to a dimension of 1 and taken as the load forecast.
+
 \section{Universal Transformer}
 Same as transformer, except layers share weights, plus temporal encoding. One page probably.
 
@@ -271,6 +283,10 @@ For example, with five years of 30-minute data the embedded $\mH$ will contain a
 On the other hand, the embedded $\mX$ typically contains around 6e3 elements.
 The Clio architecture is an order of magnitude more computationally expensive than the others discussed.
 
+\subsection{Implementation}
+The encoder was provided with historical load and weather, and forecast weather.
+The historical input was populated with data as described in ...
+The decoder output was projected to a dimension of 1 and taken as the load forecast.
 
 \section{Training and Regularization}
 Training and regularization is common to all described models.
