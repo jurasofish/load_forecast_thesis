@@ -124,7 +124,7 @@ There can be an arbitrary number of layers.
 
 \subsection{Long short-term memory}
 RNNs are prone issues with vanishing and exploding gradients \cite{Goodfellow-et-al-2016}, which is addressed through the use of a long short-term memory (LSTM) \cite{hochreiter1997long} cell as the function in the RNN.
-An LSTM cell is able to selectively add and remove elements from the state as it passes through, while also generally out-performing simpler functions.
+An LSTM cell is able to selectively add and remove elements from the state as it passes through and generally outperforms simpler functions \hl{get some sources}.
 
 \begin{figure}[htbp]
 	\centerline{\includegraphics[trim=0 0cm 0 0, width=.65\textwidth]{images/LSTM.pdf}}
@@ -132,9 +132,11 @@ An LSTM cell is able to selectively add and remove elements from the state as it
 	\label{fig:LSTM}
 \end{figure}
 
-
-An RNN can be extended to form a sequence to sequence (S2S) architecture by applying an encoder RNN to an input sequence, and then having a decoder RNN produce an output sequence with  the decoder's initial cell state set to the final cell state of the encoder \cite{Cho2014a}.
-This configuration allows the encoder to create a latent space representation of the input, which is then used by the decoder to produce an output.
+\subsection{Sequence to sequence}
+An RNN can be extended to form a sequence to sequence (S2S) architecture by applying an encoder RNN to an input sequence, and then having a decoder RNN produce an output sequence.
+The decoder RNN's initial cell state is set to the final cell state of the encoder \cite{Cho2014a}.
+The encoder's final cell state is a latent representation of the input, which is used by the decoder to produce an output.
+The encoder and decoder can be of different lengths, allowing this architecture to naturally model tasks such as load forecasting where the input may be 48 hours of data while the output is only 24.
 
 \section{Transformer}
 The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \cite{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
@@ -171,7 +173,7 @@ The embedded representation is given by Equation \ref{dense_layer}, with learned
 \subsection{Positional Encoding}
 The model has no way of telling the position or order of each element in the input, so this information is injected in the positional encoding layer.
 This is done by using a learned lookup table to add the same value to the inputs at both test and train time depending on their position in time in the input.
-Specifically, a matrix lookup table of embeddings $\boldsymbol{E} \in \mathbb{R}^{T \times d}$ is added to the embedded inputs.
+Specifically, the positional encoding layer adds a matrix lookup table of embeddings $\boldsymbol{E}$ to the input, where $\boldsymbol{E}$ is of the same dimension as the input.
 
 \subsection{Multi-Head Attention} \label{multihead_attention}
 The primary innovation of the Transformer architecture is multi-head attention.
@@ -260,7 +262,7 @@ For testing and training data is also taken from future years, but never from th
 As a result, $\mH \in \mathbb{R}^{T \times h}$ where $T$ is the number of observations and $h$ is the number of variables in each observation.
 
 $\mH$ is embedded by a single dense layer, given by Equation \ref{dense_layer}, with learned weights $\boldsymbol{W} \in \mathbb{R}^{h \times d}$ and a learned bias vector $\boldsymbol{b} \in \mathbb{R}^{d}$.
-This reshapes $\mH$ into $\boldsymbol{H'} \in \mathbb{R}^{T \times d}$ to match the hidden dimension of the rest of the model.
+This reshapes $\mH$ into $\boldsymbol{H'} \in \mathbb{R}^{T \times d}$ to match the hidden dimension of the remainder of the model.
 
 $\mH$ will be very large in practice.
 For example, with five years of 30-minute data the embedded $\mH$ will contain around 850e3 elements.
