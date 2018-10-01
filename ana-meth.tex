@@ -99,9 +99,11 @@ The SARIMA model can be further extended to a SARIMA with exogenous variables (S
 The recurrent neural network RNN architecture was introduced by \cite{Rumelhart1986} in 1986.
 RNNs operate on sequences of data by applying an identical function $f$ to every element of the sequence to produce a sequence of state vectors $\vh$.
 $f$ takes as input the output of the function at the previous point in the sequence, and the current element of the input sequence $\vx$.
-At each point $t$ in the sequence $\vh^t$ is taken as the output.
 An RNN can be unfolded to represent it as a traditional feedforward neural network with no recurrence.
 A generic RNN is shown in figure \ref{fig:basic_rnn}.
+
+At each point $t$ in the sequence $\vh^t$ is taken as the output.
+ $\vh^t$ is projected by equation \ref{dense_layer} to a dimension of 1.
 
 \begin{figure}[htbp]
 	\centerline{\includegraphics[trim=0 0cm 0 0, width=.5\textwidth]{images/basic_rnn.pdf}}
