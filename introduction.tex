@@ -73,25 +73,26 @@ Interestingly, this survey also found that the majority of load forecasting soft
 In a residential setting, such as a residential feeder, power is consumed as a result of customer actions - taking a shower causes the hot water system to consume power to reheat water, turning on a kettle or toaster causes power to be consumed, use of air conditioning results in power consumption, etc.
 It is intuitive to expect that there would be patterns underlying these actions or behaviours; customers probably take showers more often in the morning, and when it is cold customers are probably more likely to turn on their heaters.
 If the feeder in question happens to be in a popular holiday destination, then it might also be the case that overall more power is consumed during holiday periods as a result of more customers being in the area.
+Conversely, a feeder in a commercial area may experience a reduction in load over holiday periods.
 Any load forecasting system must be able to intrinsically model these underlying patterns if it is to effectively predict load.
 \par
-Before looking at load forecasting techniques and systems, we will first delve into the typically available data and investigate what patterns exist.
-It needs to be kept in mind though that all conclusions presented here are general; they will likely vary between countries, cultures, and feeders.
+Before looking at load forecasting techniques and systems, the typical patterns of load profiles will be discussed.
+It must be kept in mind though that all conclusions presented here are general; they will likely vary between countries, cultures, and feeders.
 Analysis of a specific feeder is undertaken in section \ref{bruny-data-analysis}.
 
 \subsubsection{Calendar day}
 The most significant factor contributing to a load profile is the calendar day \citep{Weron2006}.
 Generally weekdays and weekends have differing load profiles, and even days during the week can be observed to have significantly different profiles.
-It can be seen that seasonality normally plays a large role in load variation over a full year, but the extent depends on the location of the feeder.
-Different feeders will experience changes in load due to warm and cool weather differently depending on customer behaviour.
+Meteorological seasonality usually plays a large role in load variation over a full year.
+This may be a direct result of day of the year, such as in the case of a commercial load that only operates over summer, or it may actually be a result of weather.
 Finally, holiday periods cause large deviations from standard profiles and can be difficult to predict due to the relatively few examples available.
-Holidays sometimes also affect days adjacent to them, as people may also take these days off work.
+Holidays sometimes also affect days adjacent to them as people may also take these days off work.
 
 \subsubsection{Weather}
-Second to calendar day, the most significant factor behind the load profile is the weather \citep{Hippert2001}.
+Second to calendar day, the most significant factor behind the load profile is weather \citep{Hippert2001}.
 Typically temperature and humidity are considered the most influential, as they drive customers to use heating and cooling which both consume large amounts of power.
-More recently, cloud cover and solar irradiance have become increasingly important as they affect rooftop photovoltaic (PV) generation \citet{AEMO2017}.
-In regards to PV, it may be further necessary to model its uptake - solar capacity is increasing in Australia \citep{Jacobs2017} and so training data may need to be manipulated to reflect this.
+More recently, cloud cover and solar irradiance have become increasingly important as they affect rooftop photovoltaic (PV) generation \cite{AEMO2017}.
+In regards to PV, it may be further necessary to model its uptake - solar capacity is increasing in Australia \citep{Jacobs2017} and so a forecasting system that relies on past examples to create future predictions may need to account for this.
 
 \subsection{Similar day and clustering}
 As discussed in section \ref{patterns-profiles}, a load profile is dependent primarily on the calendar day and the weather.
