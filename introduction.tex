@@ -86,7 +86,7 @@ Generally weekdays and weekends have differing load profiles, and even days duri
 Meteorological seasonality usually plays a large role in load variation over a full year.
 This may be a direct result of day of the year, such as in the case of a commercial load that only operates over summer, or it may actually be a result of weather.
 Finally, holiday periods cause large deviations from standard profiles and can be difficult to predict due to the relatively few examples available.
-Holidays sometimes also affect days adjacent to them as people may also take these days off work.
+Holidays can also affect days adjacent to them as people may also take these days off work.
 
 \subsubsection{Weather}
 Second to calendar day, the most significant factor behind the load profile is weather \citep{Hippert2001}.
@@ -95,8 +95,7 @@ More recently, cloud cover and solar irradiance have become increasingly importa
 In regards to PV, it may be further necessary to model its uptake - solar capacity is increasing in Australia \citep{Jacobs2017} and so a forecasting system that relies on past examples to create future predictions may need to account for this.
 
 \subsection{Similar day and clustering}
-As discussed in section \ref{patterns-profiles}, a load profile is dependent primarily on the calendar day and the weather.
-This fact can be used to form a rudimentary load forecasting system by simply finding a load profile from the past that has the most similar calendar day and weather properties to the period being forecast. 
+As load profiles are dependent primarily on calendar day and weather, a rudimentary load forecasting system can be implemented by simply finding a load profile from the past that has the most similar calendar day and weather properties to the period being forecast. 
 Similarly, a clustering approach can be taken if it is assumed that load profiles will repeat themselves as a result of repeating weather and calendar day patterns.
 \par
 \citet{Rahman1993} used an expert-system based method to select a set of similar days from the past. 
