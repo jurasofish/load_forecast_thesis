@@ -2,30 +2,10 @@
 \label{ana-meth}
 
 \section{Time series forecasting - general model structure}
-A model for time series forecasting must be structured in the following way.
-As input, it must take a sequence of vectors, with each vector representing a single point in time, and each element of the vector representing an element of the multivariate time series.
-For example, a multivariate time series of load and temperature would be represented by a sequence of vectors, each with two elements.
-As output, the system must similarly produce a sequence of multivariate vectors.
-In the case that the model is forecasting only a single time series, the output vectors will have only a single element each.
-This structure is presented in Figure \ref{fig:forecast-model}.
-Of course, it may be the case that a time series forecasting model is comprised of several models cascaded together.
-Perhaps the sequence of input vectors are concatenated by one model, then passed to the actual forecasting model which produces a single output vector, then the output vector is split by a third model before being produced at the output.
+A time series forecasting model can generally be structured as a model that takes as input one or more matrices of historical and/or forecast data, and produces an output matrix of predictions.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=0.35\linewidth]{images/forecast-model}
-	\caption{A time series forecasting model takes a sequence of vectors, $\va, \vb, \vc$, as input and produces a sequence of vectors, $\vw, \vx, \vy, \vz$, as output. Note the number of input and output vectors is able to vary.}
-	\label{fig:forecast-model}
-\end{figure}
-
-This structure - with sequences of input and output vectors - is identical to that used for neural machine translation (NMT), where a source sentence/phrase is translated from one language, say English, to another language such as Dutch \citep{Cho2014}.
-In NMT, a word is represented by a vector, and a sentence is represented by a sequence of vectors.
-
-\par
 This section will investigate the performance of several of the best performing NMT architectures when applied to time series forecasting.
-\hl{I'm still deciding whether I want to put the evaluation before I discuss in detail how the architectures work.
-	Benefit of putting evaluation first is that it prevents the reader from being daunted by too much detail upfront.
-	Might seem a little backwards though.}
+
 
 \section{Investigated models and methods}
 The following models will be discussed and their results in time series forecasting compared.
