@@ -51,8 +51,7 @@ In order to concisely articulate the ARIMA model, the following notation will be
 The backward shift operator, defined by $\textbf{B}^{m}x_{t} = x_{t-m}$. 
 The difference operator, defined by $\nabla_{s} X_{t} = x_{t} - x_{t-s} = (1 - \textbf{B}^{s})x_{t}$. 
 The parameter functions $\alpha_{p}(\textbf{B}) = 1 - \alpha_{1}\textbf{B} - \ldots - \alpha_{p}\textbf{B}^p$ and $\theta_{q}(\textbf{B}) = 1 + \theta_{1}\textbf{B} + \ldots + \theta_{q}\textbf{B}^q$.
-Note that the difference operator can be raised to a power to allow repeated differencing, such that $\nabla_{s}^{u} X_{t} = [(1 - \textbf{B}^{s})^{u}]x_{t}$
-
+Note that the difference operator can be raised to a power to allow repeated differencing, such that $\nabla_{s}^{u} X_{t} = [(1 - \textbf{B}^{s})^{u}]x_{t}$.
 Using this notation, the ARIMA model can be represented by the following expression
 \begin{equation}
 \alpha_{p}(\textbf{B})(\nabla_{1}^{d}x_{t}) = \theta_{q}(\textbf{B})\epsilon_{t}
