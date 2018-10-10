@@ -86,9 +86,12 @@ A SARIMAX model was implemented using the python statsmodels package.
 
 
 \section{Neural networks in general}
-Prior to discussion of the neural network architectures in the following chapters, neural networks will be described in a general sense.
+Neural networks will be described in a general sense here prior to discussion of the specific neural network architectures in the following sections.
+
+An artificial neural network (ANN) is a method for computation based loosely on biological brains \citep{negnevitsky2005artificial}.
+An ANN is simply a function approximator; given a function $f^*(\vx)$, an ANN defines an approximation function $f(\vx; \vtheta)$ where $\vtheta$ is a (usually learned) set of parameters that lead to the best approximation of $f^*$ \citep{Goodfellow-et-al-2016}. 
 Generally, ANNs are formed by combining many fundamental sub-functions in a graph-like manner. 
-An example is the multilayer perceptron.
+A simple example is the multilayer perceptron.
 Consider a single perceptron, shown in figure \ref{fig:single-perceptron}.
 This single perceptron simply takes the weighted sum of all inputs and applies an activation function, usually differentiable and highly non-linear, to produce an output $a$.
 A multilayer perceptron is formed by structuring individual perceptrons in layers and cascading them so that the outputs of the perceptrons in one layer are the inputs to the perceptrons in the next layer, as shown in figure \ref{fig:mlayer-perceptron} where the squares and circles are individual perceptrons and the lines indicate connections from the output of one perception to the input of the next.
@@ -109,19 +112,16 @@ The exception to this is recurrent neural networks, where the outputs of sub-fun
 	\caption{(a) A multilayer perceptron comprised of layers of individual perceptrons. (b) An individual perceptron. TODO: reproduce myself}
 	\label{fig:simple-ann}
 \end{figure}
-% directed acyclic graph, where nodes in the graph represent operations on data, and edges represent the flow of data through the graph. 
-%This thesis will restrict itself to discussion of feedforward neural networks. 
-%A feedforward neural network is an ANN where 
-%Any recurrence will be unrolled to form a feedforward network. A feedforward 
 
 The set of parameters $\vtheta$ is usually learned, or trained, by stochastic gradient descent \citep{Bottou2011}.
 Consider an ANN producing an approximated output $\hat{\vy} = f(\vx; \vtheta)$ and a cost function $J(\vy, \hat{\vy}) = J(\vy, \vx, \vtheta)$, with  $J$ being a differentiable function of its inputs, $\vy$ being the correct output of $f^*$, and $\vtheta$ being randomly initialized.
 The cost function produces a scalar describing the error between $\vy$ and $\hat{\vy}$.
 A common example of this is sum squared error, where $J(\vy, \hat{\vy}) = \sum_{n=o}^{i}(|\vy_n - \hat{\vy}_n|^2)$.
 The gradient of $J$ with respect to the parameters is given by $\nabla_{\vtheta}J(\vy, \vx, \vtheta)$ and indicates the direction in which to move $\vtheta$ in order to increase $J$.
-By iteratively applying $\vtheta = \vtheta - \epsilon \nabla_{\vtheta}J(\vy, \vx, \vtheta)$ (where $\epsilon$ is a scalar constant referred to as the learning rate), the value of $\vtheta$ will be modified such that $J(\vy, \vx, \vtheta)$ is minimized - thus maximizing the approximation accuracy of $f$.
+By iteratively applying $\vtheta = \vtheta - \epsilon \nabla_{\vtheta}J(\vy, \vx, \vtheta)$, where $\epsilon$ is a scalar constant referred to as the learning rate, the value of $\vtheta$ will be modified such that $J(\vy, \vx, \vtheta)$ is minimized - thus maximizing the approximation accuracy of $f$.
 $\vx$ and $\vy$ must be a randomly selected pair from the training set in order for this training process to represent the whole training dataset.
-Whether this minimization lands on a global or local minimum is dependant on the function $J$.
+Whether this minimization lands on a global or local minimum is dependant on the function $J$ and the specifics of the gradient descent implementation.
+The training processes used in this thesis are discussed in section \ref{train-reg}.
 
 
 \section{Recurrent neural network}
@@ -318,6 +318,9 @@ The decoder output was projected to a dimension of 1 and taken as the load forec
 
 \section{Training and Regularization}
 Training and regularization is common to all described models.
+\section{Training and regularization of neural networks}
+\label{train-reg}
+Training and regularization is common to all described neural network models.
 The encoder inputs, decoder inputs, and expected outputs were summed with randomly distributed noise with a mean of 0 and standard deviation of 0.01 before being supplied to the model during training.
 This has been demonstrated to improve the generalization ability of a neural network \cite{Wang1999} \cite{Brown2003} and can be considered an extension of dropout \cite{srivastava14a}.
 
