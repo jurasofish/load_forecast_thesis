@@ -190,15 +190,14 @@ The forecasting system was evaluated on six feeders from the same substation, wi
 
 \section{Problem formation and scope}
 \label{scope}
-The aim of this thesis is to build upon existing research and develop a load forecasting system which can predict future load based on weather, holiday periods, car movement, and other factors. 
-Bruny Island and the NAC will be used as a case study. 
+The aim of this thesis is to build upon existing research and develop a load forecasting system which can predict future load based on weather, holiday periods, and other exogenous factors. 
+Bruny Island and the CONSORT project will be used as a case study. 
 The forecasting system is expected to be equally applicable to any power system network.
-\\
 Specifically, the system will have the following properties:
 \begin{itemize}
-	\item The system will produce a forecast up to 24 hours in the future in 15- to 60-minute intervals. This will be a rolling forecast that can be re-calculated at any time.
+	\item The forecasting system will produce a forecast with a horizon of up to 24 hours in the future in 15- to 60-minute intervals.
 	\item The forecast will be able to begin from any point time.
-	\item The forecast will predict load in kVA at each interval.
-	\item The forecast system will be aimed at predicting aggregate load at the feeder level. That is, between approximately 0.5 and 10MVA.
-	\item The forecast system will be especially tuned to predict load during holiday periods.
+	\item The forecasting system will predict load in kVA at each interval.
+	\item The forecasting system will be aimed at predicting aggregate load at the feeder level. That is, between approximately 0.5 and 10MVA.
+	\item The forecasting system will be especially aimed at predicting load during anomalous holiday periods.
 \end{itemize}
