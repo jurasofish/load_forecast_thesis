@@ -50,7 +50,7 @@ This section will attempt to cover only the most prolific techniques, and the ex
 \subsection{Load forecasting - definition and general remarks}
 Before diving into state of the art load forecasting methods, it is important to first establish precisely what load forecasting is.
 Load forecasting is the process of predicting the electricity demand in a particular area at each period over a planning horizon \citep{Weron2006}.
-For example, a load forecast with a period of one hour and a horizon of 24 hours would forecast the load at each hour over the next 24 hours.
+For example, a load forecast with a period (or resolution) of one hour and a horizon of 24 hours would forecast the load at each hour over the next 24 hours.
 It is a specific case of time series forecasting.
 Load forecasting can be broadly categorised into short-term (STLF), medium-term (MTLF), and long-term load forecasting (LTLF).
 The exact horizon for each category differs between publications, but it is widely accepted that anything with a forecast horizon of up to 24 hours is short-term load forecasting.
@@ -59,7 +59,8 @@ Generally load forecasting systems uses exogenous information as input, such as 
 
 The literature presents no single load forecasting system that is superior under all conditions.
 A system that is well suited to forecasting load with a majority industrial customers may be poorly suited to forecasting load with a majority residential customers.
-This is because there is no single load forecasting problem - every household, feeder, and  power system exhibits different patterns as a result of the different customers attached to it and thus must be treated as a separate problem.
+This is because there is no single load forecasting problem - every household, feeder, and power system exhibits different patterns as a result of the different customers attached to it and thus presents a different problem.
+As a result, it is invalid to compare the performance of forecasting systems unless they are evaluated on the same datasets.
 
 
 \subsection{Load forecasting in industry}
@@ -75,7 +76,7 @@ It is intuitive to expect that there would be patterns underlying these actions 
 If the feeder in question happens to be in a popular holiday destination, then it might also be the case that overall more power is consumed during holiday periods as a result of more customers being in the area.
 Conversely, a feeder in a commercial area may experience a reduction in load over holiday periods.
 Any load forecasting system must be able to intrinsically model these underlying patterns if it is to effectively predict load.
-\par
+
 Before looking at load forecasting techniques and systems, the typical patterns of load profiles will be discussed.
 It must be kept in mind though that all conclusions presented here are general; they will likely vary between countries, cultures, and feeders.
 Analysis of a specific feeder is undertaken in section \ref{bruny-data-analysis}.
@@ -97,60 +98,95 @@ In regards to PV, it may be further necessary to model its uptake - solar capaci
 \subsection{Similar day and clustering}
 As load profiles are dependent primarily on calendar day and weather, a rudimentary load forecasting system can be implemented by simply finding a load profile from the past that has the most similar calendar day and weather properties to the period being forecast. 
 Similarly, a clustering approach can be taken if it is assumed that load profiles will repeat themselves as a result of repeating weather and calendar day patterns.
-\par
+
 \citet{Rahman1993} used an expert-system based method to select a set of similar days from the past. 
 These days were then modified by use of a lookup table based on differences in temperature and other exogenous factors between the similar and forecast period.
 Finally, all similar days were regressed to form a forecast.
-\par
+This method achieved a mean absolute percentage error (MAPE) of around 2\% when forecasting at the level of a a single state of the United States with a 24-hour horizon.
+
 \citet{Senjyu1998} used a weighted sum-squared-error between the maximum temperature, minimum temperature, and day type of the period being forecast and previous days to select the most similar five days from the past.
 A fuzzy logic system was then used to generate weights to augment the similar days based on differences in weather and differences in load profile between the similar day and the day prior to the forecast day.
 This was found to out-perform a more rudimentary systems which only used average load of the similar days.
-The load being forecast was approximately 600MW.
-\par
-\todo[inline]{add some more. Next day load curve forecasting using recurrent neural network structure}
+The system achieved a MAPE of around 2.5\% when forecasting hourly load of approximately 600MW with a 24-hour horizon.
+Interestingly, this system was further extended \cite{Senjyu2004} to use a recurrent neural network instead of a fuzzy logic system and this resulted in a decrease in MAPE to 2.8\%.
 
+\citet{Dou2018} used K-means clustering combined with variational mode decomposition and a self-adaptive evolutionary extreme learning machine to predict the load demand for renewable generation.
+The system assigns historical days to clusters and then finds the most similar cluster to the day being forecast and uses properties from that cluster to produce a forecast.
+The system was applied to forecasting photovoltaic power output, wind power output, and electrical load.
+The system achieves a mean absolute error of 10.8 MW when forecasting hourly load of around 60 MW with a 24-hour horizon.
 
 \subsection{Autoregressive integrated moving average}
 Autoregressive integrated moving average (ARIMA) models, introduced by \citet{Box1970}, are used widely for time series forecasting \citep{Weron2006}. 
-Generally, ARIMA models are used at the core of the forecasting system, and other methods are used in a supporting role. 
-\par
+Generally, ARIMA models are used at the core of the forecasting system, and other methods are used in a supporting role.
+ARIMA-based models are generally considered to be complex and require a great deal of experience to effectively select appropriate parameters \citep{Desouky2000}.
+
+\citet{Taylor2007} applied a seasonal autoregressive moving average (ARMA) model to forecast a variety of European loads, with means of between 3 and 50 GW.
+The method achieves an accuracy of approximately 1.75\% when performing hourly forecasts with a 24-hour horizon.
+This was extended by \citet{Arora2013} who used a rule-based system combined with the seasonal ARMA model to more accurately predict anomalous holiday periods.
+This rule based system dictates the intrayear seasonal cycle of the model, which is set such that it corresponds to both a matching anomalous day (Easter, Christmas, etc.) from a previous year and a matching day of the week from a previous year.
+Thus, the model will take historical data from the same anomalous day occurring on the same day of the week at some time in the past.
+This rule decreased the MAPE on anomalous days from approximately 5\% to approximately 3\% when evaluated on data from Great Britain with a typical load of around 30 GW.
+
 \citet{Bennett2014} used an ARIMAX model to forecast the properties of the next day's load (next day peak demand, next day morning peak, and next day total energy usage). These properties were then provided to a neural network which selected the appropriate cluster for the day, whose load profile mean was then modified to better match the predicted properties.
-\\
+The system achieves a MAPE of 12\% when forecasting hourly loads of around 60 kVA over a 7-day horizon.
+
 \citet{Karthika2017} used an ARIMA model to perform a preliminary load forecast, which was then augmented by a support vector machine to account for non-linear exogenous variables such as temperature and day of week.
-\par
-ARIMA-based models are complex and require a great deal of experience to effectively select appropriate parameters \citep{Desouky2000}.
-\hl{todo expand on this lonely sentence}
+The method achieved a MAPE of 4.15\% on an hourly 24-hour horizon forecast.
+
+\citet{Amjady2001} used an ARIMA model which was augmented by estimated forecasts from human power system operators.
+This additional information allowed the system to achieve a MAPE of approximately 1.75\% when forecasting load on the order of 10 GW with hourly resolution and a 24-hour horizon.
+This compares to a MAPE of about 3\% for a standard ARIMA model.
+This system has the downside of relying entirely upon a specialist expert to provide regular input information.
 
 \subsection{Support vector regression}
-\todo[inline]{todo make consistent with Nomenclature chapter}
-\todo[inline]{rewrite with notation and rationale from \cite{Goodfellow-et-al-2016} - their explanation is concise and eloquent}
 Support vector regression (SVR) was introduced by \citet{Drucker1996} and has been applied widely to short-term load forecasting.
-In essence, SVR maps an input feature vector into a higher dimensional space and applies linear regression.
-\par
-\citet{Chen2004} applied a SVR model to predict the maximum daily load over a 31 day period, taking first place at the EUNITE Competition 2001.
-\par
-\citet{Ceperic2013} applied an ensemble of 24 SVR models to predict each hour of a 24-hour forecast.
-This was found to out-perform \citet{RochaReis2005}, \citet{AMJADY2009}, and \citet{Deihimi2012} \hl{(todo expand on what these three papers actually are)}.
+SVR maps an input feature vector into a higher dimensional space and applies linear regression.
 
-\subsection{Gradient boosting}
+\citet{Ceperic2013} applied an ensemble of 24 SVR models to predict each hour of a 24-hour forecast.
+This was found to out-perform wavelet transform neural network methods \cite{RochaReis2005}\cite{AMJADY2009}, and echo state neural networks \cite{Deihimi2012}.
+The SVR ensemble achieves a MAPE of 1.31\% when forecasting hourly load with a 24-hour horizon on the ISO New England dataset.
+This load is on the order of 15 GW.
+
+\citet{Elattar2010} modified SVR such that during the training phase the more recent historical data had a larger influence on the model parameters.
+This approach achieved a MAPE of 3.62\% when forecasting hourly load with a horizon between 16 and 88 hours on a dataset with a mean load of around 2.5 GW.
+
 
 \subsection{Artificial Neural Network}
-\todo[inline]{clarify feedforward/recurrence and unrolling of RNN when defining ANN}
 An artificial neural network (ANN) is a method for computation based loosely on biological brains \citep{negnevitsky2005artificial}.
 An ANN is simply a function approximator; given a function $f^*(\vx)$, an ANN defines an approximation function $f(\vx; \vtheta)$ where $\vtheta$ is a (usually learned) set of parameters that lead to the best approximation of $f^*$ \citep{Goodfellow-et-al-2016}. 
-\par
-ANNs have achieved state of the art performance in handwriting recognition \citep{2017arXiv171009829S}, machine translation \citep{Vaswani2017}, speech recognition \citep{Chiu2017}, and speech synthesis \citep{DBLP:journals/corr/OordDZSVGKSK16}.
+ANNs can take on widely differing structures, and have have achieved state of the art performance in a wide range of fields including handwriting recognition \citep{2017arXiv171009829S}, machine translation \citep{Vaswani2017}, speech recognition \citep{Chiu2017}, and speech synthesis \citep{DBLP:journals/corr/OordDZSVGKSK16}.
 ANNs have been demonstrated to out-perform ARIMA models for electricity time series price forecasting \citep{Mandal2010}.
 For short-term time series vehicle traffic forecasting, ANNs have been shown to outperform both ARIMA and SVM (SVR) models \cite{Zhao2017}.
-\par
+
 \citet{Chen2010} employed a wavelet neural network and similar day selection to perform a load forecast with a 24-hour horizon and 1-hour resolution.
-The load being forecast was on the order of $10^4$ MW and the forecast was performed only once per day, at 9am.
+The load being forecast was on the order of 15 GW (ISO New England dataset) and the forecast was performed only once per day, at 9am.
 The authors calculated the wind chill temperature, based on ambient temperature and wind speed, and transformed it to have a linear relationship with load before using it as an input to the system.
-\par
-\citet{Kong2017} and \citet{Kong2018} applied a long short term memory recurrent neural network for short term load forecasting of individual household load and found that it out-performed simpler multilayer perceptron models and clustering-only methods.
-\par
-\hl{ add also} \citep{Mansouri2014}.
-\par
+
+\citet{Kong2017}\cite{Kong2018} applied a long short term memory recurrent neural network for short term load forecasting of aggregate household load.
+The loads of 69 households were aggregated to form a load time series varying between 0 and 3000 kW.
+Forecasting this time series resulted in a MAPE of 8.59\%.
+Additionally, the method was used to forecast individual household loads, achieving a MAPE of 44.39\%.
+The paper does not state the forecast horizon or resolution.
+This method was found to out perform simpler multilayer perceptron models and clustering-only methods.
+
+\citet{Ding2016} applied a multilayer perceptron neural network to forecasting residential feeder level load with hourly resolution and a 24-hour horizon.
+The load was split into daily average power and intra-day load fluctuations, and each was forecast separately.
+Interestingly, their justification for use of a multilayer perceptron is that it is a universal function approximator.
+While true in theory \cite{Hornik1989MultilayerFN}, this statement pays no regard to the complexity of the neural network nor the methods by which the neural network parameters must be found.
+When evaluating the forecaster on a residential feeder with a mean load of around 50 kW a MAPE of 10.3\% and mean absolute error (MAE) of 3.63 kW was achieved.
+When evaluating on a commercial feeder the system achieves a MAPE of 15.5\% and a MAE of 75 kW - worse performance than the residential case despite the higher load.
+This discrepancy is put down to the residential feeder being the aggregate of many individual small independent customers, while the commercial feeder is an aggregate of only several customers.
+By the central limit theorem the residential feeder load at a given instant in time will more closely represent a normal distribution.
+
+\citet{Hernandez2014} applied a multilayer perceptron to forecasting load in the 25 MW range.
+Sine and cosine functions were used to encode date information before supplying it to the neural network.
+The forecasting system achieves a MAPE of 2.4\% when performing hourly forecasts with a 24-hour horizon.
+The paper presents a graph of MAPE versus forecast horizon, and notably the MAPE is not lower earlier in the forecast, as it is in most other papers.
+
+\citet{Sun2016} applied wavelet neural networks to forecast load in a distribution network in a hierarchical fashion.
+The substation level load was forecast first, then feeders, transformers, and finally individual customers.
+The forecasting system was evaluated on six feeders from the same substation, with mean loads ranging from 2.5 to 8 MW, and achieved MAPE scores between 3.5\% and 5\%.
+
 Generally, ANNs are formed by combining many fundamental sub-functions in a graph-like manner. 
 An example is the multilayer perceptron.
 Consider a single perceptron, shown in figure \ref{fig:single-perceptron}.
