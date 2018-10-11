@@ -96,8 +96,10 @@ Consider a single perceptron, shown in figure \ref{fig:single-perceptron}.
 This single perceptron simply takes the weighted sum of all inputs and applies an activation function, usually differentiable and highly non-linear, to produce an output $a$.
 A multilayer perceptron is formed by structuring individual perceptrons in layers and cascading them so that the outputs of the perceptrons in one layer are the inputs to the perceptrons in the next layer, as shown in figure \ref{fig:mlayer-perceptron} where the squares and circles are individual perceptrons and the lines indicate connections from the output of one perception to the input of the next.
 The weights W are mapped to elements in the parameter vector $\vtheta$.
+
 The hidden layer can be repeated any number of times, allowing the neural network to be written in the form $f(\vx) = f^n(f^{\ldots}(f^1(\vx)))$.
-The exception to this is recurrent neural networks, where the outputs of sub-functions in the network form cycles.
+This is a feedforward neural network, and is the only type of neural network this thesis will consider.
+In the case of recurrent neural networks, where the outputs of sub-functions in the network form cycles, the network will be unrolled to form a feedforward network.
 \todo[inline]{todo reproduce figure \ref{fig:simple-ann} myself.}
 \begin{figure}[htbp]
 	\centering
@@ -125,51 +127,118 @@ The training processes used in this thesis are discussed in section \ref{train-r
 
 
 \section{Recurrent neural network}
+The recurrent neural network (RNN) architecture was introduced by \citet{Rumelhart1986} in 1986.
+Over the past five years RNN-based neural network models have achieved state of the art performance -- though in many cases have since been outperformed by more obscure models -- in speech recognition \cite{Chiu2017}, neural machine translation \cite{luong2015effective}, image captioning \cite{yao2017boosting}, and time series classification \cite{Karim2018}.
+Over this same time span RNN-based neural networks have been used to forecast electrical load at the household-level \cite{Kong2017}\cite{Shi2018}, building level \cite{Zheng2017a}, feeder-level \cite{Bedi2018}, and city/state level \cite{Narayan2017}\cite{Din2017}.
+RNN-based models appear to offer the ability to forecast load with minimal transformation of the data and so may be a very attractive option for practical load forecasting systems.
 
-\subsection{Generic RNN}
-The recurrent neural network RNN architecture was introduced by \cite{Rumelhart1986} in 1986.
-RNNs operate on sequences of data by applying an identical function $f$ to every element of the sequence to produce a sequence of state vectors $\vh$.
-$f$ takes as input the output of the function at the previous point in the sequence, and the current element of the input sequence $\vx$.
+\subsection{Generic recurrent neural network}
+RNNs operate on sequences of data by applying an identical function $f$ to every element of the sequence to produce a sequence of state vectors $\mH = [\vh_1 \, \ldots \, \vh_P]$.
+$f$ takes as input both the output of the function at the previous point in the sequence, and the current element of the input sequence $\mX = [\vx_1 \, \ldots \, \vx_P]$.
 An RNN can be unfolded to represent it as a traditional feedforward neural network with no recurrence.
 A generic RNN is shown in figure \ref{fig:basic_rnn}.
 
-At each point $t$ in the sequence $\vh^t$ is taken as the output.
- $\vh^t$ is projected by equation \ref{dense_layer} to a dimension of 1.
-
-\begin{figure}[htbp]
-	\centerline{\includegraphics[trim=0 0cm 0 0, width=.5\textwidth]{images/basic_rnn.pdf}}
-	\caption{A generic recurrent neural network, operating on an input sequence of $\vx$ vectors and producing an output sequence of $\vh$ vectors.
-		     Both the recurrent and unfolded purely feedforward representations are shown.
-		     The function $f$ can be replaced with any arbitrary function.}
-	\label{fig:basic_rnn}
-\end{figure}
+At each point $t$ in the sequence $\vh_t$ is taken as the output.
+$\vh_t$ can be projected to the required output dimension - for example by equation \ref{dense_layer}, but any method can be used.
+An output dimension of 1 is typical for univariate load forecasting.
 
 RNNs can be extended to multiple layers, with a two-layer RNN illustrated in figure \ref{fig:multilayer_rnn}.
-Each layer implements it's own function, with layer $n$ implementing function $f_n$ and producing output $\vh_n$.
+Each layer implements its own function, with layer $n$ implementing function $f^n$ and producing output $\vh^n$.
 For layers after the first layer, instead of taking an $\vx$ vector as input they take the state vector from the previous layer.
 There can be an arbitrary number of layers.
 
+
 \begin{figure}[htbp]
-	\centerline{\includegraphics[trim=0 0cm 0 0, width=.5\textwidth]{images/multilayer_rnn.pdf}}
-	\caption{A two-layer RNN.}
-	\label{fig:multilayer_rnn}
+	\centering
+	\subfigure[A generic recurrent neural network.]{
+		\includegraphics[width=.5\textwidth]{images/basic_rnn.pdf}
+		\label{fig:basic_rnn}}
+	%\vfil
+	\quad\quad
+	\subfigure[A two-layer recurrent neural network.]{
+		\includegraphics[width=.5\textwidth]{images/multilayer_rnn.pdf}
+		\label{fig:multilayer_rnn}}
+	\caption{Recurrent neural networks in single- and multi-layer configurations, with both recurrent and unrolled feedforward representations shown. }
+	\label{fig:rnn}
 \end{figure}
 
+
 \subsection{Long short-term memory}
-RNNs are prone issues with vanishing and exploding gradients \cite{Goodfellow-et-al-2016}, which is addressed through the use of a long short-term memory (LSTM) \cite{hochreiter1997long} cell as the function in the RNN.
-An LSTM cell is able to selectively add and remove elements from the state as it passes through and generally outperforms simpler functions \hl{get some sources}.
+RNNs are prone to issues with vanishing and exploding gradients \cite{Goodfellow-et-al-2016}, which is addressed through the use of a long short-term memory (LSTM) \cite{hochreiter1997long} cell as the function in the RNN.
+An LSTM cell is able to selectively add and remove elements from the state vector as it passes through the cell.
+LSTM-based RNNs have been demonstrated to outperform simpler functions in a variety of tasks when employed as the RNN function \cite{Chung2014}\cite{jozefowicz2015empirical}\cite{le2015simple}.
+The LSTM cell extends the standard RNN model by separating the cell output $\vc_t$ from the cell state $\vh_t$, shown in figure \ref{fig:LSTM_cell}, and its multi-layer configuration shown in figure \ref{fig:LSTM_multilayer}.
+The LSTM cell is described by the following equations
+\begin{align}
+\vf_t &= \sigma(\mW_{f} \vx_t + \mU_{f} \vh_{t-1} + \vb_f) \label{eq:forget_lstm}\\
+\vi_t &= \sigma(\mW_{i} \vx_t + \mU_{i} \vh_{t-1} + \vb_i) \\
+\vo_t &= \sigma(\mW_{o} \vx_t + \mU_{o} \vh_{t-1} + \vb_o) \\
+\hat{\vc}_t &= \text{tanh}(\mW_{c} \vx_t + \mU_{c} \vh_{t-1} + \vb_c) \\
+\vc_t &= \vf_t \circ \vc_{t-1} + \vi_t \circ \hat{\vc}_t \\
+\vh_t &= \vo_t \circ \text{tanh}(\vc_t) \label{eq:cell_state_lstm}
+\end{align}
+
+where 
+\begin{itemize}
+	\item the input vector $\vx_t \in \mathbb{R}^{T}$;
+	\item the cell output vector $\vh_t \in \mathbb{R}^{d}$;
+	\item the cell state vector $\vc_t \in \mathbb{R}^{d}$;
+	\item  the forget gate vector $\vf_t \in \mathbb{R}^{d}$;
+	\item the input gate vector $\vi_t \in \mathbb{R}^{d}$;
+	\item the output gate vector $\vo_t \in \mathbb{R}^{d}$;
+	\item the cell candidate vector $\hat{\vc}_t \in \mathbb{R}^{d}$;
+	\item the learned cell state weight matrices $\mU \in \mathbb{R}^{d \times T}$;
+	\item the learned input weight matrices $\mW \in \mathbb{R}^{d \times d}$;
+	\item the learned bias vectors $\vb \in \mathbb{R}^{d}$;
+	\item $\circ$ denotes element-wise multiplication; and
+	\item $\sigma(\vy) = \frac{1}{1 + e^{-\vy}}$ represents the sigmoid function.
+\end{itemize}
+
+At first glance equations \ref{eq:forget_lstm} through \ref{eq:cell_state_lstm} may come across as esoteric, but they are in fact highly intuitive when studied alongside figure \ref{fig:LSTM}.
+There are three primary sub-sections within the LSTM cell, discussed in the three following paragraphs.
+Note that the use of two weight matrices ($\mW$ and $\mU$) in the LSTM equations is equivalent to concatenating $\vx$ and $\vh$ and using a single weight matrix - keeping consistency with figure \ref{fig:LSTM}.
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[trim=0 0cm 0 0, width=.65\textwidth]{images/LSTM.pdf}}
-	\caption{A LSTM cell and it's configuration in a multilayer RNN.}
+	\centering
+	\subfigure[A long short-term memory cell.]{
+		\includegraphics[width=.5\textwidth]{images/LSTM_cell.pdf}
+		\label{fig:LSTM_cell}}
+	%\vfil
+	\quad\quad
+	\subfigure[Multi-layer long short-term memory cell configuration.]{
+		\includegraphics[width=.35\textwidth]{images/LSTM_multilayer.pdf}
+		\label{fig:LSTM_multilayer}}
+	\caption{An LSTM cell and it's multi-layer configuration in an RNN.}
 	\label{fig:LSTM}
 \end{figure}
 
-\subsection{Sequence to sequence}
+First, data is removed from the cell state ($\vc$) as it flows through the LSTM cell.
+The sigmoid function that produces $\vf_t$ outputs values between 0 and 1.
+When these are multiplied with $\vc_{t-1}$ (the previous cell state) some elements will be removed or reduced.
+The sigmoid layer that produces $\vf_t$ is referred to as the forget gate, as it causes some data to be ``forgotten" from the cell state depending on the previous cell output ($\vh_{t-1}$) and the current input ($\vx_t$).
+
+Next, information is added to the cell state.
+The tanh layer produces a new candidate cell state ($\hat{\vc}_t$), and the input gate layer produces $\vi_t$ in a similar fashion to $\vf_t$.
+$\vi_t$ decides which elements of the new candidate cell state vector are added to the actual cell state vector by reducing the magnitude of elements in $\hat{\vc}_t$ based on the previous cell output ($\vh_{t-1}$) and the current input ($\vx_t$).
+After $\hat{\vc}_t$ has been multiplied by $\vi_t$ to selectively reduce elements it is added to the cell state.
+The sigmoid layer that produces $\vi_t$ is referred to as the input gate, as it decides what data is added to the cell state as it passes through the cell.
+
+Finally, a candidate output vector is produced by applying tanh element-wise to the cell state.
+The output gate layer produces $\vo_t$ and this is multiplied with the candidate output vector to selectively remove elements, producing the final cell output $\vh_t$.
+The sigmoid layer that produces $\vo_t$ is referred to as the output gate, as it decides which elements of the candidate output are passed as the final output.
+
+\subsection{Sequence to sequence recurrent neural network}
 An RNN can be extended to form a sequence to sequence (S2S) architecture by applying an encoder RNN to an input sequence, and then having a decoder RNN produce an output sequence.
 The decoder RNN's initial cell state is set to the final cell state of the encoder \cite{Cho2014a}.
-The encoder's final cell state is a latent representation of the input, which is used by the decoder to produce an output.
-The encoder and decoder can be of different lengths, allowing this architecture to naturally model tasks such as load forecasting where the input may be 48 hours of data while the output is only 24.
+This shared cell state is a latent representation of the input, which is used by the decoder to produce an output.
+The encoder and decoder can be of different lengths, depicted in figure \ref{fig:S2S} as $R$ and $P$, allowing this architecture to naturally model tasks such as load forecasting where the input may be 48 hours of data while the output is only 24.
+The output matrix $\mH \in \mathbb{R}^{T \times d}$ is then projected to the desired dimension.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[trim=0 0cm 0 0, width=.75\textwidth]{images/S2S.pdf}}
+	\caption{A sequence to sequence recurrent neural network architecture.}
+	\label{fig:S2S}
+\end{figure}
 
 \subsection{Implementation}
 A S2S RNN with LSTM cells was implemented in tensorflow.
