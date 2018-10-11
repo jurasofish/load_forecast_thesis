@@ -420,7 +420,7 @@ Training and regularization is common to all described neural network models.
 The encoder inputs, decoder inputs, and expected outputs were summed with randomly distributed noise with a mean of 0 and standard deviation of 0.01 before being supplied to the model during training.
 This has been demonstrated to improve the generalization ability of a neural network \cite{Wang1999} \cite{Brown2003} and can be considered an extension of dropout \cite{srivastava14a}.
 
-The model is trained using the Adam optimizer \cite{Kingma2014} and a modified sum of errors squared loss function.
+All models were trained using the Adam optimizer \cite{Kingma2014} and a modified sum of errors squared loss function.
 Given a vector $\boldsymbol{y}$ of predictions from the model and a vector $\boldsymbol{y'}$ of expected predictions the loss function $l$ is given by 
 \begin{equation}
 l = \sum_{t=0}^{R}((\boldsymbol{y}_t - \boldsymbol{y'}_t)^2 \times |\boldsymbol{y'}_t|^c)
@@ -442,13 +442,16 @@ Similar periods were identified by first finding candidate similar periods an in
 These candidates were then filtered down to periods with exactly matching hour and minute.
 
 Then the weighted Euclidean distance between the period being forecast and each candidate similar period was calculated using the following features: 
-maximum future temperature, 
-minimum future temperature,
-maximum past load,
-current holiday type, 
-current day of the week,
-current day of the month, and
-current month of the year.
+\begin{itemize}
+	\item maximum future (forecast) temperature, 
+	\item minimum future (forecast) temperature,
+	\item maximum past load,
+	\item current holiday type, 
+	\item current day of the week,
+	\item current day of the month, and
+	\item current month of the year.
+\end{itemize}
+
 The holiday type indicates the current holiday --- Easter or Christmas for example --- and is encoded as a time series of integers with a different integer for each holiday.
 When the holiday type always occurs on the same date each year then the month of the year and day of the month were used, whereas when the holiday type always occurs on the same day of the week each year then the day of the week was used.
 The candidate similar periods with the lowest Euclidean distance were selected as the final set of similar periods.
