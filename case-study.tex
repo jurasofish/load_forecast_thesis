@@ -28,13 +28,13 @@ In order to peak-shift while making efficient use of the batteries, the NAC requ
 The proposed forecasting system was implemented for this purpose.
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.25\textwidth]{images/bruny_single_line.pdf}}
+	\centerline{\includegraphics[width=.45\textwidth]{images/bruny_single_line.pdf}}
 	\caption{Single line schematic of distribution network on Bruny Island.}
 	\label{fig:bruny_network}
 \end{figure}
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.40\textwidth]{images/easter_bruny.png}}
+	\centerline{\includegraphics[width=.65\textwidth]{images/easter_bruny.png}}
 	\caption{Easter load on Bruny Island 2008 through 2017.
 		Unusable missing/bad data can also be seen in this graph.}
 	\label{fig:bruny_easter}
@@ -113,14 +113,14 @@ This is in contrast to load forecasting models which sometimes tend toward trivi
 
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.40\textwidth]{images/easter_2018_all_forecast.png}}
+	\centerline{\includegraphics[width=.65\textwidth]{images/easter_2018_all_forecast.png}}
 	\caption{Forecasts over the Easter 2018 period.
 		The black dashed line is the actual recorded load, and all previous forecasts are shown in grey.}
 	\label{fig:easter_forecasts}
 \end{figure}
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.40\textwidth]{images/bruny_mape.png}}
+	\centerline{\includegraphics[width=.65\textwidth]{images/bruny_mape.png}}
 	\caption{Mean absolute percentage error of each point in the forecast when evaluated over a variety of holiday periods.}.
 	
 	\label{fig:bruny_mape}
@@ -133,7 +133,7 @@ Furthermore, the errors between predicted and actual load are fairly evenly dist
 This indicates that the model has some room for improvement when predicting large holiday peaks, but overall this is evidence that the model has been able to generalize from the training data, as the training data is mostly comprised of normal days.
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.35\textwidth]{images/errors_histogram.png}}
+	\centerline{\includegraphics[width=.65\textwidth]{images/errors_histogram.png}}
 	\caption{Distribution of forecast error when evaluated over the same periods as Figure \ref{fig:bruny_mape}.}
 	\label{fig:bruny_hist}
 \end{figure}
@@ -150,7 +150,7 @@ During the first peak the graph shows the batteries supplying between 50 and 100
 Without this support from the batteries, the generator would have been required to operate.
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.35\textwidth]{images/bruny_nac.pdf}}
+	\centerline{\includegraphics[width=.65\textwidth]{images/bruny_nac.pdf}}
 	\caption{Results from the forecasting system's implementation in the CONSORT project.}
 	\label{fig:bruny_nac}
 \end{figure}
