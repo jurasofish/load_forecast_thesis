@@ -246,7 +246,7 @@ A S2S RNN with LSTM cells was implemented in tensorflow.
 The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
 
-\section{Transformer}
+\section{Transformer} \label{sec:transformer}
 The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \citet{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
 It has since been outperformed by a variant of itself, the universal transformer \cite{Dehghani2018}, which is discussed in section \ref{sec:universal_transformer}.
 A transformer-based neural network has been applied to time series classification and regression in a medical context, achieving state of the art results \cite{Song2017}.
@@ -283,7 +283,7 @@ The embedded representation is given by Equation \ref{dense_layer}, with learned
 \text{dense}(\boldsymbol{X}) = \text{max}(0, \boldsymbol{XW} + \boldsymbol{b})
 \end{equation}
 
-\subsection{Positional Encoding}
+\subsection{Positional Encoding} \label{sec:positional_encoding}
 The model has no way of telling the position or order of each element in the input, so this information is injected in the positional encoding layer.
 This is done by using a learned lookup table to add the same value to the inputs at both test and train time depending on their position in time in the input.
 Specifically, the positional encoding layer adds a matrix lookup table of embeddings $\boldsymbol{E}$ to the input, where $\boldsymbol{E}$ is of the same dimension as the input.
@@ -354,8 +354,35 @@ When training, the decoder input is set to the known expected value and the mode
 The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
 
-Same as transformer, except layers share weights, plus temporal encoding. One page probably.
 \section{Universal Transformer} \label{sec:universal_transformer}
+The universal transformer, shown in figure \ref{fig:universal_transformer}, is a variation on the transformer where the layers within the encoder and decoder (except for the timestep encoding) share parameters.
+This architecture was published in July 2018 \cite{Dehghani2018} and there are only two published publications which reference it.
+The universal transformer outperforms the original transformer in the following tasks \cite{Dehghani2018}:
+\begin{itemize}
+	\item Neural machine translation -- at which the universal transformer is the state of the art.
+	\item Algorithmic tasks: copying the input to the output, copying the reversed input to the output, and adding values from the input.
+	\item Natural language question-answering.
+	\item Natural language modelling.
+\end{itemize}
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.5\textwidth]{images/universal_transformer.pdf}}
+	\caption{Universal transformer architecture.}
+	\label{fig:universal_transformer}
+\end{figure}
+
+All layers within the encoder and decoder layers of universal transformer are identical to those described in section \ref{sec:transformer}.
+In the universal transformer, the encoder and decoder are stacked $L$ times just as they are in the transformer.
+However in the universal transformer, all of the weights within the encoder layers are shared, and all the weights within the decoder layers are shared.
+This results in the depiction shown in figure \ref{fig:universal_transformer}, where the output of each encoder/decoder layer is fed back into itself $L$ times.
+
+The exception to this weight sharing is the temporal encoding layer.
+This layer is identical to the positional encoding layer described in section \ref{sec:positional_encoding} and allows the model to keep track of which point in time (how many times it has recurred so far) it is currently at.
+
+\subsection{Implementation}
+The encoder was provided with historical load and weather, and forecast weather.
+The decoder output was projected to a dimension of 1 and taken as the load forecast.
+
 
 \section{Clio}
 
