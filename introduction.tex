@@ -74,7 +74,7 @@ Interestingly, this survey also found that the majority of load forecasting soft
 In a residential setting, such as a residential feeder, power is consumed as a result of customer actions - taking a shower causes the hot water system to consume power to reheat water, turning on a kettle or toaster causes power to be consumed, use of air conditioning results in power consumption, etc.
 It is intuitive to expect that there would be patterns underlying these actions or behaviours; customers probably take showers more often in the morning, and when it is cold customers are probably more likely to turn on their heaters.
 If the feeder in question happens to be in a popular holiday destination, then it might also be the case that overall more power is consumed during holiday periods as a result of more customers being in the area.
-Conversely, a feeder in a commercial area may experience a reduction in load over holiday periods.
+Conversely, a feeder in a commercial area may experience a reduction in load over holiday periods because the workers are away.
 Any load forecasting system must be able to intrinsically model these underlying patterns if it is to effectively predict load.
 
 Before looking at load forecasting techniques and systems, the typical patterns of load profiles will be discussed.
@@ -167,6 +167,8 @@ Forecasting this time series resulted in a MAPE of 8.59\%.
 Additionally, the method was used to forecast individual household loads, achieving a MAPE of 44.39\%.
 The paper does not state the forecast horizon or resolution.
 This method was found to out perform simpler multilayer perceptron models and clustering-only methods.
+These results are achieved without the need to perform any data manipulation other than scaling between zero and one and using one-hot encoded data for date and holiday information.
+Additionally, the system requires only a single neural network model for forecasting at any time.
 
 \citet{Ding2016} applied a multilayer perceptron neural network to forecasting residential feeder level load with hourly resolution and a 24-hour horizon.
 The load was split into daily average power and intra-day load fluctuations, and each was forecast separately.
@@ -190,10 +192,11 @@ The forecasting system was evaluated on six feeders from the same substation, wi
 \section{Problem formation and scope}
 \label{scope}
 The aim of this thesis is to build upon existing research and develop a load forecasting system which can predict future load based on weather, holiday periods, and other exogenous factors. 
-Bruny Island and the CONSORT project will be used as a case study. 
-The forecasting system is expected to be equally applicable to any power system network.
+Bruny Island and the CONSORT project will be used as the primary case study. 
+The forecasting system is expected to be equally applicable to any feeder or power system.
 Specifically, the system will have the following properties:
 \begin{itemize}
+	\item The forecasting system will be designed to be practical to implement in industry; specifically it should not require specialised skills to operate, and nor should it require significant modifications when forecasting different feeders.
 	\item The forecasting system will produce a forecast with a horizon of up to 24 hours in the future in 15- to 60-minute intervals.
 	\item The forecast will be able to begin from any point time.
 	\item The forecasting system will predict load in kVA at each interval.
