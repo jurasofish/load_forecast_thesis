@@ -248,7 +248,12 @@ The decoder output was projected to a dimension of 1 and taken as the load forec
 
 \section{Transformer}
 The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \citet{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
-This architecture follows a similar sequence-to-sequence/encoder-decoder architecture as the sequence to sequence architecture described in section \ref{section-S2S}: the encoder transforms an input sequence $\mX = [\vx_1 \, \ldots \, \vx_P]$ into a latent representation $\mZ = [\vz_1 \, \ldots \, \vz_M]$, and the decoder transforms $\mZ$ into an output sequence $\mY = [\vy_1 \, \ldots \, \vy_R]$.
+It has since been outperformed by a variant of itself \cite{Ahmed2017}.
+A transformer-based neural network has been applied to time series classification and regression in a medical context, achieving state of the art results \cite{Song2017}.
+The transformer has been extended to the image transformer model, which achieves state of the art results in image generation tasks \cite{Parmar2018}.
+To the best of the author's knowledge, there are no publications which apply the transformer -- or any similar architecture -- to electrical load forecasting.
+
+The transformer architecture follows a similar sequence-to-sequence/encoder-decoder architecture as the sequence to sequence RNN architecture described in section \ref{section-S2S}: the encoder transforms an input sequence $\mX = [\vx_1 \, \ldots \, \vx_P]$ into a latent representation $\mZ = [\vz_1 \, \ldots \, \vz_M]$, and the decoder transforms $\mZ$ into an output sequence $\mY = [\vy_1 \, \ldots \, \vy_R]$.
 This matches the requirements of a load forecasting system, where $P$ is the length of the time series input, $\vx_t$ is of dimension equal to the number of variables in the input time series, $R$ is the length of the time series output, and $\vy_t$ is of dimension equal to the number of variables in the output time series.
 The latent representation $\mZ$ is used solely by the model as an internal representation of the input data.
 
