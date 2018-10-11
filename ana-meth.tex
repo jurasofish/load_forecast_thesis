@@ -248,7 +248,7 @@ The decoder output was projected to a dimension of 1 and taken as the load forec
 
 \section{Transformer}
 The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \citet{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
-It has since been outperformed by a variant of itself \cite{Ahmed2017}.
+It has since been outperformed by a variant of itself, the universal transformer \cite{Dehghani2018}, which is discussed in section \ref{sec:universal_transformer}.
 A transformer-based neural network has been applied to time series classification and regression in a medical context, achieving state of the art results \cite{Song2017}.
 The transformer has been extended to the image transformer model, which achieves state of the art results in image generation tasks \cite{Parmar2018}.
 To the best of the author's knowledge, there are no publications which apply the transformer -- or any similar architecture -- to electrical load forecasting.
@@ -354,8 +354,8 @@ When training, the decoder input is set to the known expected value and the mode
 The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
 
-\section{Universal Transformer}
 Same as transformer, except layers share weights, plus temporal encoding. One page probably.
+\section{Universal Transformer} \label{sec:universal_transformer}
 
 \section{Clio}
 
