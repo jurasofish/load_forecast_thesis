@@ -228,6 +228,7 @@ The output gate layer produces $\vo_t$ and this is multiplied with the candidate
 The sigmoid layer that produces $\vo_t$ is referred to as the output gate, as it decides which elements of the candidate output are passed as the final output.
 
 \subsection{Sequence to sequence recurrent neural network}
+\label{section-S2S}
 An RNN can be extended to form a sequence to sequence (S2S) architecture by applying an encoder RNN to an input sequence, and then having a decoder RNN produce an output sequence.
 The decoder RNN's initial cell state is set to the final cell state of the encoder \cite{Cho2014a}.
 This shared cell state is a latent representation of the input, which is used by the decoder to produce an output.
@@ -246,10 +247,10 @@ The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
 
 \section{Transformer}
-The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \cite{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
-This architecture follows the standard sequence-to-sequence/encoder-decoder architecture: the encoder transforms an input sequence $X = (\boldsymbol{x}_1, ..., \boldsymbol{x}_P)$ into a latent representation $Z = (\boldsymbol{z}_1, ..., \boldsymbol{z}_M)$, and the decoder transforms $Z$ into an output sequence $Y = (\boldsymbol{y}_1, ..., \boldsymbol{y}_R)$, where $x_t$, $y_t$, and $z_t$ are of arbitrary dimension.
-This matches the requirements of a load forecasting system, where $P$ is the length of the time series input, $x_t$ is of dimension equal to the number of variables in the input time series, $R$ is the length of the time series output, and $y_t$ is of dimension equal to the number of variables in the output time series.
-The latent representation $Z$ is used solely by the model as an internal representation of the input data.
+The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \citet{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
+This architecture follows a similar sequence-to-sequence/encoder-decoder architecture as the sequence to sequence architecture described in section \ref{section-S2S}: the encoder transforms an input sequence $\mX = [\vx_1 \, \ldots \, \vx_P]$ into a latent representation $\mZ = [\vz_1 \, \ldots \, \vz_M]$, and the decoder transforms $\mZ$ into an output sequence $\mY = [\vy_1 \, \ldots \, \vy_R]$.
+This matches the requirements of a load forecasting system, where $P$ is the length of the time series input, $\vx_t$ is of dimension equal to the number of variables in the input time series, $R$ is the length of the time series output, and $\vy_t$ is of dimension equal to the number of variables in the output time series.
+The latent representation $\mZ$ is used solely by the model as an internal representation of the input data.
 
 \begin{figure}[htbp]
 	\centerline{\includegraphics[trim=0 0.8cm 0 0, width=.35\textwidth]{images/transformer.pdf}}
@@ -261,8 +262,8 @@ The encoder is constructed of a stack of $L$ identical layers, each containing t
 The first is multi-head self-attention and the second is a position-wise feed-foward network.
 Both sub-layers have a residual connection around them and are fed into a normalization layer.
 
-The decoder is similar to the encoder except for a third layer which implements multi-head attention on the outputs of the encoder.
-The input to the decoder is the previous output of the decoder, but shifted right by one.
+The decoder is similar to the encoder except for a third layer which implements multi-head attention on the output of the encoder.
+The input to the decoder is the output of the decoder, but shifted right by one.
 This requires an iterative approach to be used to predict all points in the time series.
 The self-attention in the decoder is masked so that when evaluating a query at time $t$ it does not assign large weights to keys/values occurring after $t$ in time, making the decoder autoregressive.
 
