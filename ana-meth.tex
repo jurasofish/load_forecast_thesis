@@ -334,11 +334,7 @@ By adjusting the dimension of $\boldsymbol{W}$ and $\boldsymbol{b}$ the network 
 \subsection{Residuals \& Normalization}
 Residual connections \cite{He2015} are applied around each sub-layer.
 That is, the output of each sub-layer is given by $\boldsymbol{X'} = \boldsymbol{X} + \text{subLayer}(\boldsymbol{X})$ where subLayer$(\boldsymbol{X})$ is the original output of the sub-layer.
-The outputs are then normalized by applying layer normalization \cite{Ba2016}, as per Equation \ref{layernorm} where $\mu_{\boldsymbol{x}}$ and $\sigma_{\boldsymbol{x}}$ are the mean and variance of $\boldsymbol{x}$ respectively.
-
-\begin{equation} \label{layernorm}
-\boldsymbol{Y}_{i,*} = \frac{\mu_{\boldsymbol{X}_{i,*}}}{\sigma_{\boldsymbol{X}_{i,*}}}
-\end{equation}
+The outputs are then normalized by applying layer normalization \cite{Ba2016}.
 
 \subsection{Dropout and Training}
 To help prevent overfitting to the training data, dropout \cite{srivastava14a} is applied during training at the output of both positional encoding layers, and immediately after the softmax operation in all multi-head attention layers.
