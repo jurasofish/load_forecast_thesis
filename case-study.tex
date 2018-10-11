@@ -21,22 +21,146 @@ Specifically, the system will have the following properties:
 \end{figure}
 
 \section{Bruny Island}
-Bruny Island is located in south-east Tasmania, shown in figure \ref{fig:bruny-basic}.
-The island has a population of around 620 people and is a popular destination in holiday periods, at which times the population swells considerably (\hl{reference the next section}).
+Bruny Island, shown in Figure \ref{fig:bruny_map}, is located approximately two kilometres off the coast of south-east Tasmania with a permanent resident population of approximately 800 people.
+The island is a popular holiday destination, with Easter periods typically experiencing an influx of up to 500 cars in a single day.
+The island is supplied by two feeders, depicted in Figure \ref{fig:bruny_network}, with  one feeder supplying a small portion of the island to the North and the other supplying the main portion of the island to the South.
+This case study deals only with the feeder supplying the main portion of the island to the South.
 
-Power is supplied to the island via two submarine cables.
-One cable supplies a small area in the North of the island, while the other supplies the remainder of the island to the South.
-The two areas are connected by a recloser which is left in an open state during normal operation.
-That is, the two areas on the island are not connected.
-Additionally, there is a diesel generator in the southern section of the island which can be switched on by power system operators to reduce the load flowing through the submarine cable.
-This is generally required during periods of peak demand, such as holidays.
-This case study will look exclusively at the southern section of the island.
-Figure (\hl{xx}) shows the layout of the power network on the island.
-(\hl{Reclosers R1, R2, and R3 are located at Kettering, before Alonnah, and before Adventure Bay, respectively.})
+During holiday period morning and afternoon peaks the submarine feeder reaches its capacity and a diesel generator located on the island is used to reduce the feeder load.
+The substantial increase in load over the Easter holiday period for multiple years can be seen in Figure \ref{fig:bruny_easter}.
 
-There are no roads to Bruny Island - only a single ferry route.
-It is also possible for people to arrive on the island by personal boat, but the number of people doing this is assumed to be negligible.
-This single entry/exit point makes it possible to monitor the movement of traffic arriving on and departing the island, which will be investigated.
+To avoid the use of the generator, the CONSORT project installed a set of residential batteries on the island for the purposes of peak-shifting.
+These batteries are coordinated by the network aware coordination algorithm (NAC).
+In order to peak-shift while making efficient use of the batteries, the NAC requires an accurate forecast of load with a 24-hour horizon and 30-minute resolution.
+The proposed forecasting system was implemented for this purpose.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.25\textwidth]{images/bruny_single_line.pdf}}
+	\caption{Single line schematic of distribution network on Bruny Island.}
+	\label{fig:bruny_network}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.40\textwidth]{images/easter_bruny.png}}
+	\caption{Easter load on Bruny Island 2008 through 2017.
+		Unusable missing/bad data can also be seen in this graph.}
+	\label{fig:bruny_easter}
+\end{figure}
+
+\subsection{Data and  Model Configuration}
+The following data was available from 2009-2018:
+\begin{itemize}
+	\item Apparent power at reclosers R1 through R4 (Figure \ref{fig:bruny_network}).
+	\item Temperature at Lenah Valley, Tasmania (50km from Bruny Island). 
+	\item Apparent power consumption at St Helens, Tasmania.
+\end{itemize}
+
+This data was averaged to 30 minute resolution and split into a training set containing data from October 2009 through September 2014, and a testing set containing data from October 2014 through April 2018.
+
+The network was supplied with data from the previous and future 24 hours, for a total input sequence length of 96 (representing 48 hours at 30 minute resolution).
+The output sequence length was 48 (24 hours).
+
+The following time series were supplied to the model input:
+\begin{itemize}
+	\item Apparent power from recloser R1 (Figure \ref{fig:bruny_network}), with future values set to zero.
+	\item Temperature.
+	\item Day of the week as an integer from 0 to 6 (local time).
+	\item Minutes since midnight (local time).
+	\item Boolean 1 or 0 indicating whether it is a holiday.
+	\item Holiday type.
+\end{itemize}
+
+When used for inference, temperature forecasts were obtained from the Bureau of Meteorology.
+
+Additionally, five similar periods were identified using data from R1 by the process described in section \ref{simperiod}.
+The data over the similar periods for each of the following time series was provided as input:
+\begin{itemize}
+	\item Reclosers R1, R2, R3, and R4 (Figure \ref{fig:bruny_network}) (as separate time series).
+	\item St Helens recloser.
+	\item Lenah Valley temperature.
+\end{itemize}
+
+In total, 36 time series were provided as input to the model.
+St Helens was included because it was observed to display similar patterns to Bruny Island around holiday periods.
+
+The forecasting system was configured with the parameters in table \ref{table:parameters}, with the upper section giving transformer model parameters and the lower section giving weights used for similar period selection.
+
+\begin{table}[htbp]
+	\caption{Case study model parameters.}
+	\begin{center}
+		\begin{tabular}{clc}
+			%			3.\hline
+			\textbf{Parameter}&\textbf{Description}&\textbf{Value} \\
+			\hline
+			$L$ & Number of encoder and decoder layers & 4 \\
+			$d$ & Hidden dimension & 32 \\
+			$h$ & Number of attention heads & 4 \\
+			$D$ & Dropout fraction & 0.2 \\
+			$c$ & Loss function modifier & 3 \\
+			-   & Training batch size & 16 \\
+			\hline
+			-   & Maximum future temperature weight & 10 \\
+			-   & Minimum future temperature weight & 20 \\
+			-   & Maximum past load weight & 30 \\
+			-   & Holiday type weight & 1e9 \\
+			-   & Day of week weight & 1e6 \\
+			-   & Day of month weight & 1e6 \\
+			-   & Month of year weight & 1e6 \\
+			
+		\end{tabular}
+		\label{table:parameters}
+	\end{center}
+\end{table}
+
+\subsection{Offline Evaluation}
+
+The forecaster was first evaluated on historical data around Easter 2018, shown in Figure \ref{fig:easter_forecasts}.
+Notably, the forecaster was able to accurately predict the first large peak while also transitioning smoothly between normal and holiday periods.
+This is in contrast to load forecasting models which sometimes tend toward trivially repeating the previous day's load.
+
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.40\textwidth]{images/easter_2018_all_forecast.png}}
+	\caption{Forecasts over the Easter 2018 period.
+		The black dashed line is the actual recorded load, and all previous forecasts are shown in grey.}
+	\label{fig:easter_forecasts}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.40\textwidth]{images/bruny_mape.png}}
+	\caption{Mean absolute percentage error of each point in the forecast when evaluated over a variety of holiday periods.}.
+	
+	\label{fig:bruny_mape}
+\end{figure}
+
+The performance of the forecaster was evaluated on every Easter, Queen's Birthday, and July school holiday period from 2015 through 2018 (2018 excludes July).
+The results are shown in Figure \ref{fig:bruny_mape}, showing the mean absolute percentage error (MAPE) as a function of forecast horizon.
+The mean MAPE is 7.4\%.
+Furthermore, the errors between predicted and actual load are fairly evenly distributed around -15 kVA, shown in Figure \ref{fig:bruny_hist}.
+This indicates that the model has some room for improvement when predicting large holiday peaks, but overall this is evidence that the model has been able to generalize from the training data, as the training data is mostly comprised of normal days.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.35\textwidth]{images/errors_histogram.png}}
+	\caption{Distribution of forecast error when evaluated over the same periods as Figure \ref{fig:bruny_mape}.}
+	\label{fig:bruny_hist}
+\end{figure}
+
+\subsection{Online Evaluation}
+When implemented live on the Bruny Island distribution network during the July 2018 school holiday period, as part of the CONSORT project, the forecaster was observed to reliably forecast large demand peaks.
+This enabled the fleet of distributed batteries to be used effectively in providing network support via net demand peak reduction. An accurate forecast, issued early enough in advance of the occurence of the demand peak, was observed to give the batteries adequate time to store energy in the lead up to, and discharge during the demand peak period. In at least one instance over the test period this was sufficient to avoid the island's diesel generator from being used at all, when it otherwise almost certainly would have been required.
+Data collected during this peak demand period can be seen in Figure \ref{fig:bruny_nac}.
+The upper section shows 24 hours of historical load in black, plus the most recent 24-hour horizon forecast in dashed black (recalculated every five minutes) and all old forecasts in grey.
+The lower section shows the battery charge rate, where a negative value of battery charge rate indicates the batteries are supporting the grid.
+
+Typically the generator is switched on when load exceeds 1050 kVA.
+During the first peak the graph shows the batteries supplying between 50 and 100 kW to the island.
+Without this support from the batteries, the generator would have been required to operate.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.35\textwidth]{images/bruny_nac.pdf}}
+	\caption{Results from the forecasting system's implementation in the CONSORT project.}
+	\label{fig:bruny_nac}
+\end{figure}
 
 
 
