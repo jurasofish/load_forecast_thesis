@@ -7,20 +7,24 @@ The choice of each model is justified, and the architecture of each model is des
 \section{Investigated models and methods}
 
 A time series forecasting model can generally be structured as a model that takes as input one or more matrices of historical and/or forecast data, and produces an output matrix of predictions.
-This structure is very generic, and there are many models in the literature that can fulfil this requirement.
+This structure is rather generic, and there are many models that can fulfil this requirement.
 However, for this thesis, only a handful of models have been selected for evaluation.
 Each model will be discussed briefly here, to provide the reader with a high-level overview, and then each model will be discussed in detail under its own heading in the following pages.
 
-\begin{itemize}
-	\item ARIMA
-	\item Sequence to sequence (S2S) recurrent neural network (RNN) \citep{Cho2014a} using long short term memory (LSTM) \citep{hochreiter1997long} cells
-	\item Transformer \citep{Vaswani2017}
-	\item Universal Transformer \cite{Dehghani2018}
-	\item Clio - a modified transformer with the ability to automatically select similar profile data
-\end{itemize}
+The seasonal autoregressive integrated moving average with exogenous factors (SARIMAX) model is an extension of the well known ARIMA \cite{Box1970} model which takes into account seasonal patterns and exogenous data.
+It has been around unchanged for decades and is used as a baseline for forecasting performance.
+
+Sequence to sequence recurrent neural networks with long short-term memory cells gained notoriety in the field of neural machine translation in 2014 for achieving state of the art results with minimal tuning of the model \cite{sutskever2014sequence}.
+The structure of this model is a natural fit for time series forecasting - neural machine translation maps one sequences of words (vectors) to another, just as a time series forecasting system maps a sequence of historical observations (vectors) to a sequence of forecasts.
+The simplicity and out-of-the-box performance of this model is extremely appealing.
+
+The transformer neural network model was published in 2017, and produced state of the art results in neural machine translation using a fully attention-based architecture.
+This model is attractive because it may overcome the tendency for recurrent neural networks to ``forget" data from early in the input sequence.
+
+The universal transformer model, published in July 2018, is a variant of the transformer, and claims to out-perform the transformer on algorithmic tasks.
+This model is included.
 
 Additionally, a similar profile selection method was developed to provide the models with relevant input data.
-These models and methods are described in the following sections.
 
 \section{Seasonal autoregressive integrated moving average with exogenous factors}
 
