@@ -379,6 +379,14 @@ This results in the depiction shown in figure \ref{fig:universal_transformer}, w
 The exception to this weight sharing is the temporal encoding layer.
 This layer is identical to the positional encoding layer described in section \ref{sec:positional_encoding} and allows the model to keep track of which point in time (how many times it has recurred so far) it is currently at.
 
+The original universal transformer publication specifies sinusoidal positional and timestep encoding \cite{Dehghani2018}.
+The use of sinusoidal encoding versus fixed learned encoding (as used in this thesis) is discussed in the paper that originally presents the transformer \cite{Vaswani2017}, with the conclusion that it produces nearly identical results to sinusoidal encoding.
+The authors note in \cite{Vaswani2017} that sinusoidal encoding is preferable in neural machine translation applications (where sequence lengths are variable and dictated by sentence lengths) because it allows the model to generalize to sequence lengths that it has not encountered during training.
+In the applications in this thesis, all sequence lengths are constant.
+For this reason, fixed learned encoding is used in the universal transformer in this thesis.
+One downside to using fixed learned encoding is that it introduces more parameters to the model, which may have negative effects on the performance and training of the model.
+
+
 \subsection{Implementation}
 The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
