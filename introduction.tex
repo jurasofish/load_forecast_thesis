@@ -41,11 +41,6 @@ An improved method for producing accurate feeder-level forecasts is not only hig
 In this thesis, a novel neural network-based day-ahead feeder level load forecasting system is developed, with its performance evaluated using ten years of historical demand data for training and testing. The forecaster is implemented live on Tasmania's Bruny Island distribution network, enabling the CONSORT project's residential battery systems to effectively support the network during periods of peak demand.
 
 \section{State of the art in load forecasting}
-What is clear throughout the literature is that there are a handful, perhaps a dozen or so, of clearly distinct techniques that are commonly applied to load forecasting.
-However, these methods are nearly always mixed, matched, and combined to form a complete forecasting system.
-As a result, there are a combinatorial number of approaches to forming a load forecasting system.
-This section will attempt to cover only the most prolific techniques, and the examples cited will generally also employ techniques which have not been discussed. 
-% The reader should not allow this to distract them from focussing on the technique being discussed.
 
 \subsection{Load forecasting - definition and general remarks}
 Before diving into state of the art load forecasting methods, it is important to first establish precisely what load forecasting is.
@@ -55,19 +50,26 @@ It is a specific case of time series forecasting.
 Load forecasting can be broadly categorised into short-term (STLF), medium-term (MTLF), and long-term load forecasting (LTLF).
 The exact horizon for each category differs between publications, but it is widely accepted that anything with a forecast horizon of up to 24 hours is short-term load forecasting.
 This thesis will deal exclusively with STLF.
-Generally load forecasting systems uses exogenous information as input, such as weather and date information, in order to produce a forecast.
+Generally load forecasting systems uses exogenous information as input, such as weather and date information, along with historical load data in order to produce a forecast.
+
+What is clear throughout the literature is that there are a handful, perhaps a dozen or so, of clearly distinct techniques that are commonly applied to load forecasting.
+However, these methods are nearly always mixed, matched, and combined to form a complete forecasting system.
+As a result, there are a combinatorial number of approaches to forming a load forecasting system.
+This section will attempt to cover only the most prolific techniques, and the examples cited will generally also employ techniques which have not been discussed.
 
 The literature presents no single load forecasting system that is superior under all conditions.
 A system that is well suited to forecasting load with a majority industrial customers may be poorly suited to forecasting load with a majority residential customers.
 This is because there is no single load forecasting problem - every household, feeder, and power system exhibits different patterns as a result of the different customers attached to it and thus presents a different problem.
-As a result, it is invalid to compare the performance of forecasting systems unless they are evaluated on the same datasets.
-
+As a result, it is invalid to compare the performance of forecasting systems unless they are evaluated on the same datasets, making it difficult to establish a state of the art approach even at a similar aggregate level of load.
 
 \subsection{Load forecasting in industry}
 In section \ref{background} it was stated that load forecasting methods commonly employed in industry neither intended to forecast with high accuracy over a 24 hour period nor at feeder level in the distribution network.
 This is supported by a survey conducted by CIGRE in 2016 \citep{CIGRE2016} showing that, of 29 utilities, 79\% use load forecasting for long term planning and 32\% for short term operational planning.
 Interestingly, this survey also found that the majority of load forecasting software is developed in-house, and the methodology used is usually revised at least every four years.
 
+The lack of attention to load forecasting at the feeder level is certainly echoed in the literature.
+The vast majority of published work considers forecasting at the city level and above, with a smaller portion looking at sub-GW load, and an even smaller portion looking at sub-MW load.
+Additionally, the publications looking at lower levels of aggregate load tend to be more recent, and are predominately published as conference papers rather than in peer-reviewed journals.
 
 \subsection{Patterns in load profiles}
 \label{patterns-profiles}
