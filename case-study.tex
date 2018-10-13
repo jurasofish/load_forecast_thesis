@@ -128,7 +128,8 @@ Likewise, many vehicles leave the island on Sunday afternoon, shifting the load 
 	\label{fig:average-load-profiles}
 \end{figure}
 
-\subsection{Data and  Model Configuration}
+\subsection{CONSORT}
+\subsubsection{Data and  Model Configuration}
 The following data was available from 2009-2018:
 \begin{itemize}
 	\item Apparent power at reclosers R1 through R4 (Figure \ref{fig:bruny_network}).
@@ -193,7 +194,7 @@ The forecasting system was configured with the parameters in table \ref{table:pa
 	\end{center}
 \end{table}
 
-\subsection{Offline Evaluation}
+\subsubsection{Offline Evaluation}
 
 The forecaster was first evaluated on historical data around Easter 2018, shown in Figure \ref{fig:easter_forecasts}.
 Notably, the forecaster was able to accurately predict the first large peak while also transitioning smoothly between normal and holiday periods.
@@ -226,7 +227,7 @@ This indicates that the model has some room for improvement when predicting larg
 	\label{fig:bruny_hist}
 \end{figure}
 
-\subsection{Online Evaluation}
+\subsubsection{Online Evaluation}
 When implemented live on the Bruny Island distribution network during the July 2018 school holiday period, as part of the CONSORT project, the forecaster was observed to reliably forecast large demand peaks.
 This enabled the fleet of distributed batteries to be used effectively in providing network support via net demand peak reduction. An accurate forecast, issued early enough in advance of the occurence of the demand peak, was observed to give the batteries adequate time to store energy in the lead up to, and discharge during the demand peak period. In at least one instance over the test period this was sufficient to avoid the island's diesel generator from being used at all, when it otherwise almost certainly would have been required.
 Data collected during this peak demand period can be seen in Figure \ref{fig:bruny_nac}.
