@@ -45,54 +45,42 @@ The proposed forecasting system was implemented for this purpose.
 
 \subsection{Data analysis}
 \label{bruny-data-analysis}
-\hl{This section really rambles - it will be cut down a lot.}
-\begin{itemize}
-	\item \hl{this dot point list is for planning}
-	\item discuss available data - load, weather, cars, other feeders and reclosers
-	\item general load profiles of winter week, summer week, and full year
-	\item look at annual growth of electricity. I need to investigate further my graph that is anomalous for 2013 and 2014 in growth.
-	\item talk about different days of the week, and relate to car movement
-	\item Look at special days - easter, june, christmas/ny
-	\item talk about relationship between load and weather - temperature mainly
-	\item Is load influenced by humidity like literature claims, or are temperature and humidity simply related?
-	\item look at coloured scatter plot of load, temperature, and cumulative cars - more people correlates with more load in general - but we don't know future number of people.
-	\item correlation matrix for power, cars, and weather
-	\item cross correlations. Especially discuss any lags
-	\item perhaps conclude with some important takeaways
-	
-\end{itemize}
 
-In section \ref{patterns-profiles} the general properties of load profiles and how they are influenced by exogenous factors was discussed. Now, these general properties will be investigated in depth for the particular feeder in the case study.
+%\begin{itemize}
+%	\item discuss available data - load, weather, cars, other feeders and reclosers
+%	\item general load profiles of winter week, summer week, and full year
+%	\item look at annual growth of electricity. I need to investigate further my graph that is anomalous for 2013 and 2014 in growth.
+%	\item talk about different days of the week, and relate to car movement
+%	\item Look at special days - easter, june, christmas/ny
+%	\item talk about relationship between load and weather - temperature mainly
+%	\item Is load influenced by humidity like literature claims, or are temperature and humidity simply related?
+%	\item look at coloured scatter plot of load, temperature, and cumulative cars - more people correlates with more load in general - but we don't know future number of people.
+%	\item correlation matrix for power, cars, and weather
+%	\item cross correlations. Especially discuss any lags
+%	\item perhaps conclude with some important takeaways
+%\end{itemize}
+
+In section \ref{patterns-profiles} the general properties of load profiles and how they are influenced by exogenous factors was discussed. Now, these general properties will be investigated in depth for the Bruny Island feeder.
 \subsubsection{Available data}
 The following data is available:
-\todo[inline]{replace with a table}
 \begin{itemize}
-	\item kVA supplied through recloser R1 in 60 minute resolution between January 1, 2007 and March 9, 2012
-	\item kVA supplied through recloser R1 in 5 minute resolution between March 9, 2012 and March 24, 2018
-	\item kVA supplied to the feeder that R1 is connected to in 60 minute resolution between May 28, 2012 and March 24, 2018
-	\item Ambient Temperature, solar irradiance, humidity, and wind speed at Lenah Valley between September 17, 2009 and March 24, 2018
+	\item kVA supplied through recloser R1 in 60 minute resolution between January 1, 2007 and March 9, 2012 and in 5 minute resolution between March 9, 2012 and June 25, 2018
+	\item Ambient Temperature, solar irradiance, humidity, and wind speed at Lenah Valley between September 17, 2009 and June 25, 2018
 	\item Vehicle movement data in 10 minute resolution between June 4, 2015 and March 24, 2018
 \end{itemize}	
 Vehicle movement data is provided as a set of observations every 10 minutes recording the number of vehicles arriving on the island, and the number of vehicles departing the island.
 By integrating this, a relative number of vehicles on the island can be established.
 
 There is a significant amount of bad or missing data throughout these datasets.
-This has been handled by limiting the use of data where there are too many missing or bad values, as discussed later in this chapter.	
-
+This has been handled by limiting the use of data where there are too many missing or bad values.
 
 \subsubsection{Analysis}
-Let's begin by having a simple look at some load profiles from the island.
 Figure \ref{fig:load-profiles} shows apparent power draw on Bruny Island over a winter week, a summer week, and over an entire year.
 These two weeks were selected to avoid special days such as holidays and are representative of typical weeks.
-Some observations are immediately obvious
-\begin{itemize}
-	\item The midday load is only marginally larger than the overnight load in summer, but in winter it is significantly larger.
-	\item Morning peaks are larger than afternoon peaks in summer, but in winter they are approximately equal.
-	\item Thursday midday of the summer week appears abnormally high - perhaps this is a special day.
-	\item There is some bad data on Tuesday of the summer week, as well as some missing data throughout the year.
-	\item Over the whole year there appears to be a trend of increased max daily load over winter, which coincides with colder weather. This can be seen in the two individual weeks also.
-	\item There are some periods of abnormally large load over the year: March 27, June 11, and December 28.
-\end{itemize}
+Several differences can be seen between the summer and winter weeks.
+In Summer, the midday load is about the same as the overnight load, whereas in Winter, it is quite different.
+Summer afternoon peaks are smaller than the morning peaks, whereas in winter they are similar.
+An intuitive reaction to this might be to use different forecasting models for summer and winter - but of course then a delineation must be decided on for when to switch.
 
 \begin{figure}[htbp]
 	\centering
@@ -138,17 +126,6 @@ Likewise, many vehicles leave the island on Sunday afternoon, shifting the load 
 		\label{fig:average-departing}}
 	\caption{Bruny Island average load profiles. (a) Average load profiles for each day of the week. Average number of cars arriving on (b) and leaving (c) the island each day.}
 	\label{fig:average-load-profiles}
-\end{figure}
-
-Naturally, the next step is to attempt to look for clusters in the load profiles.
-Looking at figure \ref{fig:all-monday-profiles}, there are no immediately obvious clusters.
-However, it should be noted how the load profiles overnight have much lower variance than during the day - this will be important when evaluating the performance of the forecasting system if different models are used to forecast different hours of the day.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.8\linewidth]{images/all-monday-profiles}
-	\caption{Load profiles of every Monday of 2017 overlaid. Notably, no clusters are immediately apparent in this plot.}
-	\label{fig:all-monday-profiles}
 \end{figure}
 
 \subsection{Data and  Model Configuration}
