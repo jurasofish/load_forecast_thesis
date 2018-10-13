@@ -98,36 +98,49 @@ An ANN is simply a function approximator; given a function $f^*(\vx)$, an ANN de
 Generally, ANNs are formed by combining many fundamental sub-functions in a graph-like manner. 
 A simple example is the multilayer perceptron.
 Consider a single perceptron, shown in figure \ref{fig:single-perceptron}.
-This single perceptron simply takes the weighted sum of all inputs and applies an activation function, usually differentiable and highly non-linear, to produce an output $a$.
-A multilayer perceptron is formed by structuring individual perceptrons in layers and cascading them so that the outputs of the perceptrons in one layer are the inputs to the perceptrons in the next layer, as shown in figure \ref{fig:mlayer-perceptron} where the squares and circles are individual perceptrons and the lines indicate connections from the output of one perception to the input of the next.
-The weights W are mapped to elements in the parameter vector $\vtheta$.
+This single perceptron simply takes the weighted sum of all inputs plus a bias and applies an activation function, usually differentiable and highly non-linear, to produce an output $y$.
+A multilayer perceptron is formed by structuring individual perceptrons in layers and cascading them so that the outputs of the perceptrons in one layer are the inputs to the perceptrons in the next layer, as shown in figure \ref{fig:mlayer-perceptron} where the lines indicate connections from the output of one perception to the input of the next.
+The weights $w$ are mapped to elements in the parameter vector $\vtheta$.
 
 The hidden layer can be repeated any number of times, allowing the neural network to be written in the form $f(\vx) = f^n(f^{\ldots}(f^1(\vx)))$.
 This is a feedforward neural network, and is the only type of neural network this thesis will consider.
-In the case of recurrent neural networks, where the outputs of sub-functions in the network form cycles, the network will be unrolled to form a feedforward network.
-\todo[inline]{todo reproduce figure \ref{fig:simple-ann} myself.}
+In the case of recurrent neural networks, where the outputs of sub-functions in the network form cycles, the network can be unrolled to form a feedforward network.
+
 \begin{figure}[htbp]
 	\centering
-	\subfigure[from \citet{Zainal-Mokhtar2013}.]{
-		\includegraphics[width=.35\textwidth]{images/A-schematic-diagram-of-a-Multi-Layer-Perceptron-MLP-neural-network.png}
-		\label{fig:mlayer-perceptron}}
+	\subfigure[A single perceptron.]{
+	\includegraphics[width=.45\textwidth]{images/perceptron.pdf}
+	\label{fig:single-perceptron}}
 	%\vfil
 	\quad\quad
-	\subfigure[from \citet{Deshpande2017}.]{
-		\includegraphics[width=.35\textwidth]{images/Single-Perceptron-825x459.png}
-		\label{fig:single-perceptron}}
-	\caption{(a) A multilayer perceptron comprised of layers of individual perceptrons. (b) An individual perceptron. TODO: reproduce myself}
+	\subfigure[A multi-layer perceptron, with each circle representing a single perceptron.]{
+	\includegraphics[width=.45\textwidth]{images/MLP.pdf}
+	\label{fig:mlayer-perceptron}}
+	\caption{A multilayer perceptron is comprised of multiple individual perceptrons.}
 	\label{fig:simple-ann}
 \end{figure}
 
-The set of parameters $\vtheta$ is usually learned, or trained, by stochastic gradient descent \citep{Bottou2011}.
+The set of parameters $\vtheta$ is usually learned, or trained, by stochastic gradient descent \citep{Bottou2011} or a variant thereof.
 Consider an ANN producing an approximated output $\hat{\vy} = f(\vx; \vtheta)$ and a cost function $J(\vy, \hat{\vy}) = J(\vy, \vx, \vtheta)$, with  $J$ being a differentiable function of its inputs, $\vy$ being the correct output of $f^*$, and $\vtheta$ being randomly initialized.
 The cost function produces a scalar describing the error between $\vy$ and $\hat{\vy}$.
 A common example of this is sum squared error, where $J(\vy, \hat{\vy}) = \sum_{n=o}^{i}(|\vy_n - \hat{\vy}_n|^2)$.
 The gradient of $J$ with respect to the parameters is given by $\nabla_{\vtheta}J(\vy, \vx, \vtheta)$ and indicates the direction in which to move $\vtheta$ in order to increase $J$.
-By iteratively applying $\vtheta = \vtheta - \epsilon \nabla_{\vtheta}J(\vy, \vx, \vtheta)$, where $\epsilon$ is a scalar constant referred to as the learning rate, the value of $\vtheta$ will be modified such that $J(\vy, \vx, \vtheta)$ is minimized - thus maximizing the approximation accuracy of $f$.
-$\vx$ and $\vy$ must be a randomly selected pair from the training set in order for this training process to represent the whole training dataset.
-Whether this minimization lands on a global or local minimum is dependant on the function $J$ and the specifics of the gradient descent implementation.
+By iteratively applying equation \ref{gradient_descent}, where $\epsilon$ is a scalar constant referred to as the learning rate, the value of $\vtheta$ will be modified such that $J(\vy, \vx, \vtheta)$ is minimized - thus maximizing the approximation accuracy of $f$ as measured by $J$.
+The action of applying equation \ref{gradient_descent} a single time is commonly referred to as taking a single training step, operation or iteration.
+
+\begin{equation} \label{gradient_descent}
+\vtheta = \vtheta - \epsilon \nabla_{\vtheta}J(\vy, \vx, \vtheta)
+\end{equation}
+
+In stochastic gradient descent, $\vx$ and $\vy$ are a randomly selected pair from the training set and so over many training iterations the entire training set will be approximately equally sampled.
+Typically, though, mini-batch gradient descent is used rather than stochastic gradient descent, whereby the training step is batched -- multiple pairs of $\vx$ and $\vy$ are used to average the loss in parallel before performing an update on the weight vector.
+The number of pairs of $\vx$ and $\vy$ per batch is commonly referred to as the batch size.
+Mini-batch gradient descent is generally able to leverage parallel computation features of modern microprocessors to make it vastly faster than calculating $J$ multiple times and taking the average.
+
+Whether the loss minimization process lands on a global or local minimum is dependant on the function $J$ and the specifics of the gradient descent implementation.
+Using a smaller batch size will introduce noise into the loss function, making it more likely for the optimization process to escape local minima, while using a larger learning rate might allow the training operation to ``jump" out of local minima.
+Of course, both of these have downsides too -- arguments for larger batch size and smaller learning rate can also be made. 
+Overall, the training process is complex and nuanced.
 The training processes used in this thesis are discussed in section \ref{train-reg}.
 
 
