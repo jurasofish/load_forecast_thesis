@@ -128,6 +128,144 @@ Likewise, many vehicles leave the island on Sunday afternoon, shifting the load 
 	\label{fig:average-load-profiles}
 \end{figure}
 
+\subsection{Data and  Model Configuration}
+The available data was split into a training set (October 1 2009 through February 15 2014) and a testing set (February 16 2014 through June 25 2018).
+For the default configuration, the network was supplied with data from the previous and future 24 hours:
+\begin{itemize}
+	\item The previous 24 hours of load, $\mL = [ L_1 \: L_2 \: ...  \: L_{24}]^\top$, with $L_{24}$ being the most recent load.
+	\item Temperature for the future 24 hours, $\mT = [T_1 \: T_2 \: ... \: T_{24}]^\top$.
+	\item Day of the week as an integer from 0 to 6 (local time) over the future 24 hours, $\mD = [D_1 \: D_2 \: ... \: D_{24}]^\top$.
+	\item Minutes since midnight (local time) for the future 24 hours, $\mM = [M_1 \: M_2 \: ... \: M_{24}]^\top$.
+	\item Boolean 1 or 0 indicating whether it is a holiday at each hour over the next 24 hours, $\mH = [H_1 \: H_2 \: ... \: H_{24}]^\top$.
+	\item Holiday type as an integer from 0 to $n$ at each hour over the future 24 hours, where there are $n$ different holidays in the year, $\mG = [G_1 \: G_2 \: ... \: G_{24}]^\top$
+	\item Month of the year from 0 to 11 (local time) over the future 24 hours, $\mN = [N_1 \: N_2 \: ... \: N_{24}]^\top$.
+\end{itemize}
+
+Additionally, similar profile data was constructed for $k$ similar days, as described in section \ref{simperiod}.
+The weights used are given in table \ref{table:offline-parameters}.
+The extremely large weights are used to ensure that similar profiles are always selected from the same month and day of month/day of week unless there are none available.
+The similar profile data is:
+
+\begin{itemize}
+	\item 24 hours of similar profile load $\mL_{sk} = [ L_{sk,1} \: L_{sk,2} \: ... \: L_{sk,24}]^\top$.
+	\item 24 hours of similar profile temperature, corresponding to the same points in time as $\mL_{sk}$, $\mT_{sk} = [ T_{sk,1} \: T_{sk,2} \: ...  \: T_{sk,24}]^\top$.
+\end{itemize}
+
+This data was concatenated to form the input matrix \\
+$\mX = [ \mL \: \mT \: \mD \: \mM \: \mH \: \mG \: \mN \: \mL_{s1} \: \mT_{s1} \: \ldots \: \mL_{sk} \: \mT_{sk}] \in \mathbb{R}^{24 \times (7 + 2k)}$.
+
+The forecasting models were configured with the parameters given in table \ref{table:offline-parameters}.
+
+\begin{table}[htbp]
+	\caption{Offline Evaluation model parameters.}
+	\begin{center}
+	\begin{tabular}{lclc}
+	\multicolumn{1}{c}{\textbf{Model/Method}} & \textbf{Parameter} & \textbf{Description}                 & \textbf{Value} \\ \cline{1-4} 
+	
+	\multirow{6}{*}{\shortstack[l]{SARIMAX}}       
+	& $p$                & AR model order     					& 2              \\
+	& $d$                & Number of differences   		        & 1             \\
+	& $q$                & MA model order           			& 1              \\
+	& $P$                & Seasonal AR model order              & 1            \\
+	& $D$                & Number of seasonal differences       & 1              \\
+	& $Q$                & Seasonal MA model order              & 1             \\
+	& $s$                & Period of seasonality		        & 24             \\ \cline{1-4} 
+	
+	\multirow{6}{*}{\shortstack[l]{Sequence to\\Sequence}}       
+	& $L$                & Number of encoder and decoder layers & 2              \\
+	& $d$                & Hidden dimension                     & 16             \\
+	& $D$                & Dropout fraction                     & 0            \\
+	& $c$                & Loss function modifier               & 0              \\
+	& $l$                & Learning rate 			            & 0.001             \\
+	& -                  & Training batch size                  & 16             \\ \cline{1-4} 
+	
+	\multirow{6}{*}{\shortstack[l]{Transformer}}       
+	& $L$                & Number of encoder and decoder layers & 2              \\
+	& $d$                & Hidden dimension                     & 16             \\
+	& $h$                & Number of attention heads            & 2              \\
+	& $D$                & Dropout fraction                     & 0.2            \\
+	& $c$                & Loss function modifier               & 0              \\
+	& $l$                & Learning rate 			            & 0.001              \\
+	& -                  & Training batch size                  & 16             \\ \cline{1-4} 
+	
+	\multirow{6}{*}{\shortstack[l]{Universal Transformer}}      
+	& $L$                & Number of encoder and decoder layers & 2              \\
+	& $d$                & Hidden dimension                     & 16             \\
+	& $h$                & Number of attention heads            & 2              \\
+	& $D$                & Dropout fraction                     & 0.2            \\
+	& $c$                & Loss function modifier               & 0              \\
+	& $l$                & Learning rate 			            & 0.001              \\
+	& -                  & Training batch size                  & 16             \\ \cline{1-4} 
+	
+	\multirow{6}{*}{\shortstack[l]{Similar\\Profile\\Selection}}
+	& -                  & Maximum future temperature weight    & 10             \\
+	& -                  & Minimum future temperature weight    & 20             \\
+	& -                  & Maximum past load weight             & 30             \\
+	& -                  & Holiday type weight                  & 1e9            \\
+	& -                  & Day of week weight                   & 1e6            \\
+	& -                  & Day of month weight                  & 1e6            \\
+	& -                  & Month of year weight                 & 1e6           
+\end{tabular}
+		\label{table:offline-parameters}
+	\end{center}
+\end{table}
+
+
+\subsection{Offline evaluation}
+The forecaster was trained on the training dataset (October 1 2009 through February 15 2014) and tested on the testing dataset (February 16 2014 through June 25 2018).
+The train and test datasets were then switched in order to cross-validate the results.
+
+\afterpage{%
+	\clearpage% Flush earlier floats (otherwise order might not be correct)
+	\thispagestyle{empty}% empty page style (?)
+	\begin{landscape}% Landscape page
+		\centering % Center table
+		\begin{table}[htbp]
+			\caption{Offline evaluation results.}
+			\begin{center}
+				\begin{tabular}{llcccccc}
+					\multicolumn{1}{c}{\textbf{Task}} &
+					\multicolumn{1}{c}{\textbf{Model}} & 
+					\multicolumn{1}{c}{\textbf{\shortstack[c]{MAPE\\(\%)}}} &
+					\multicolumn{1}{c}{\textbf{\shortstack[c]{MAE\\(kVA)}}} & 
+					\multicolumn{1}{c}{\textbf{\shortstack[c]{MAPE over\\1 MVA (\%)}}} &
+					\multicolumn{1}{c}{\textbf{\shortstack[c]{MAE over\\1 MVA (kVA)}}} &
+					\multicolumn{1}{c}{\textbf{\shortstack[c]{MAPE at first\\large peak (\%)}}} &
+					\multicolumn{1}{c}{\textbf{\shortstack[c]{MAE at first\\large peak (kVA)}}} \\ \cline{1-8}
+					
+					\multirow{4}{*}{\shortstack[l]{Hourly}}       
+					& SARIMAX           & 00.00 & 00.0 & 00.00 & 00.00 & 000.0 & 000.0        \\
+					& S2S      			&  7.85 & 42.8 &  9.87 & 110.6 & 11.42 & 112.6           \\
+					& Transformer       &  7.82 & 43.1 & 10.33 & 115.1 & 13.00 & 140.1            \\
+					& U. Transformer    &  8.20 & 46.0 & 11.72 & 131.6 & 14.52 & 155.2          \\ \cline{1-8} 
+					
+					\multirow{3}{*}{\shortstack[l]{Hourly\\with similar\\profiles}} 
+					& S2S      			&  7.68 & 41.6 &  9.77 & 109.6 & 11.05 & 118.7           \\
+					& Transformer       &  7.40 & 40.7 & 10.25 & 115.2 & 12.45 & 133.6            \\
+					& U. Transformer    &  8.15 & 44.8 & 11.10 & 123.5 & 12.67 & 135.5          \\ \cline{1-8} 
+					
+					\multirow{3}{*}{\shortstack[l]{Half-\\hourly}}       
+					& S2S      			&  7.80 & 42.7 &  &  &  &         \\
+					& Transformer       &  0    & 1    &  &  &  &          \\
+					& U. Transformer    &  0    & 1    &  &  &  &        \\ \cline{1-8}
+					
+					\multirow{3}{*}{\shortstack[l]{Half-hourly\\with similar\\profiles}}       
+					& S2S      			&  0    & 1    &  &  &  &         \\
+					& Transformer       &  0    & 1    &  &  &  &          \\
+					& U. Transformer    &  0    & 1    &  &  &  &        \\ \cline{1-8}
+					
+					\multirow{3}{*}{\shortstack[l]{Hourly\\long}}       
+					& S2S      			&  0    & 1    &  &  &  &         \\
+					& Transformer       &  0    & 1    &  &  &  &           \\
+					& U. Transformer    &  0    & 1    &  &  &   &       \\ \cline{1-8} 
+				\end{tabular}
+				\label{table:offline-results-bruny-lscape}
+			\end{center}
+		\end{table}
+	\end{landscape}
+	\clearpage% Flush page
+}
+
 \subsection{CONSORT}
 \subsubsection{Data and  Model Configuration}
 The following data was available from 2009-2018:
