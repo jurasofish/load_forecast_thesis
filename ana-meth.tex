@@ -271,6 +271,7 @@ Of course, an immediately obvious issue with this model is whether the shared la
 A S2S RNN with LSTM cells was implemented in tensorflow \cite{tensorflow2015-whitepaper}, building on an implementation by \citet{Chevalier2017}.
 The encoder was provided with historical load and weather, and forecast weather.
 The projected decoder output was used as the load forecast.
+Teacher forcing was not used, as discussed later in section \ref{transformer-dropout-training}.
 
 The input vectors, $\vx_i$, are from the input matrix $\mX \in \mathbb{R}^{T \times N}$, where $\vx_i = (\mX_{i,:})^\top$, $T$ is the sequence length of the time series input, and $N$ is the number of observations at each point in the time series.
 
@@ -372,9 +373,10 @@ That is, the output of each sub-layer is given by $\boldsymbol{X'} = \boldsymbol
 The outputs are then normalized by applying layer normalization \cite{Ba2016}.
 
 \subsection{Dropout and Training}
+\label{transformer-dropout-training}
 To help prevent overfitting to the training data, dropout \cite{srivastava14a} is applied during training at the output of both positional encoding layers, and immediately after the softmax operation in all multi-head attention layers.
 
-When testing or being used for inference, the decoder outputs are generated sequentially one at a time.
+When testing or being used for inference (that is, when not performing a training step), the decoder outputs are generated sequentially one at a time.
 After each output value is generated it is shifted right by one and populated in the decoder input and the model is executed again until all the outputs have been generated.
 Values that have not yet been generated are set to zero in the decoder input.
 These zero values do not affect the output of the decoder, as the decoder self-attention is masked so that it does not make use of them.
@@ -432,6 +434,15 @@ One downside to using fixed learned encoding is that it introduces more paramete
 \subsection{Implementation}
 The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
+
+The transformer was implemented in tensorflow \cite{tensorflow2015-whitepaper}, building on an implementation by \citet{Park2017}.
+The encoder was provided with historical load and weather, and forecast weather.
+The projected decoder output was used as the load forecast.
+Two models were considered -- one with teacher forcing and one without.
+
+The input matrix $\mX$ was provided directly to the model, as described above.
+
+The decoder output, $\mH \in \mathbb{R}^{U \times d}$, was projected to a dimension of 1 using equation \ref{dense_layer}, where $\boldsymbol{W} \in \mathbb{R}^{d \times 1}$ is a learned weight matrix and $\boldsymbol{b} \in \mathbb{R}^{1}$ is a learned bias vector, $U$ is the length of the time series forecast, and $d$ is the hidden dimension of the model.
 
 
 \section{Training and regularization of neural networks}
