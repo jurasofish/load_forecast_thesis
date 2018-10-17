@@ -201,17 +201,17 @@ The LSTM cell is described by the following equations
 
 where 
 \begin{itemize}
-	\item the input vector $\vx_t \in \mathbb{R}^{T}$;
+	\item $\circ$ denotes element-wise multiplication;
+	\item the input vector $\vx_t \in \mathbb{R}^{n}$;
 	\item the cell output vector $\vh_t \in \mathbb{R}^{d}$;
 	\item the cell state vector $\vc_t \in \mathbb{R}^{d}$;
 	\item  the forget gate vector $\vf_t \in \mathbb{R}^{d}$;
 	\item the input gate vector $\vi_t \in \mathbb{R}^{d}$;
 	\item the output gate vector $\vo_t \in \mathbb{R}^{d}$;
 	\item the cell candidate vector $\hat{\vc}_t \in \mathbb{R}^{d}$;
-	\item the learned cell state weight matrices $\mU \in \mathbb{R}^{d \times T}$;
+	\item the learned cell state weight matrices $\mU \in \mathbb{R}^{d \times n}$;
 	\item the learned input weight matrices $\mW \in \mathbb{R}^{d \times d}$;
-	\item the learned bias vectors $\vb \in \mathbb{R}^{d}$;
-	\item $\circ$ denotes element-wise multiplication; and
+	\item the learned bias vectors $\vb \in \mathbb{R}^{d}$; and
 	\item $\sigma(\vy) = \frac{1}{1 + e^{-\vy}}$ represents the sigmoid function.
 \end{itemize}
 
