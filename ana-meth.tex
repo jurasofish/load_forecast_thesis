@@ -395,8 +395,14 @@ In the transformer, on the other hand, the models still converged.
 However, the performance of the models with and without teacher forcing is different.
 
 \subsection{Implementation}
+The transformer was implemented in tensorflow \cite{tensorflow2015-whitepaper}, building on an implementation by \citet{Park2017}.
 The encoder was provided with historical load and weather, and forecast weather.
-The decoder output was projected to a dimension of 1 and taken as the load forecast.
+The projected decoder output was used as the load forecast.
+Two models were considered -- one with teacher forcing and one without.
+
+The input matrix $\mX$ was provided directly to the model, as described above.
+
+The decoder output, $\mH \in \mathbb{R}^{U \times d}$, was projected to a dimension of 1 using equation \ref{dense_layer}, where $\boldsymbol{W} \in \mathbb{R}^{d \times 1}$ is a learned weight matrix and $\boldsymbol{b} \in \mathbb{R}^{1}$ is a learned bias vector, $U$ is the length of the time series forecast, and $d$ is the hidden dimension of the model.
 
 \section{Universal Transformer} \label{sec:universal_transformer}
 The universal transformer, shown in figure \ref{fig:universal_transformer}, is a variation on the transformer where the layers within the encoder and decoder (except for the timestep encoding) share parameters.
@@ -434,15 +440,6 @@ One downside to using fixed learned encoding is that it introduces more paramete
 \subsection{Implementation}
 The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
-
-The transformer was implemented in tensorflow \cite{tensorflow2015-whitepaper}, building on an implementation by \citet{Park2017}.
-The encoder was provided with historical load and weather, and forecast weather.
-The projected decoder output was used as the load forecast.
-Two models were considered -- one with teacher forcing and one without.
-
-The input matrix $\mX$ was provided directly to the model, as described above.
-
-The decoder output, $\mH \in \mathbb{R}^{U \times d}$, was projected to a dimension of 1 using equation \ref{dense_layer}, where $\boldsymbol{W} \in \mathbb{R}^{d \times 1}$ is a learned weight matrix and $\boldsymbol{b} \in \mathbb{R}^{1}$ is a learned bias vector, $U$ is the length of the time series forecast, and $d$ is the hidden dimension of the model.
 
 
 \section{Training and regularization of neural networks}
