@@ -418,36 +418,6 @@ The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
 
 
-\section{Clio}
-
-\begin{figure}[htbp]
-	\centerline{\includegraphics[width=.35\textwidth]{images/clio.pdf}}
-	\caption{Clio architecture.}
-	\label{fig:clio}
-\end{figure}
-
-The Clio architecture is a variation on the Transformer, and is an innovation of this thesis.
-In this architecture, an additional multi-head attention layer is employed in the encoder to look over a long sequence of historical data $\mH$ as shown in figure \ref{fig:clio}.
-
-To produce $\mH$, the thirty days of historical data immediately before and after the date of the forecast from every past year is concatenated.
-The 30 days prior to the time being forecast is also included.
-For example, if a forecast was being performed at 1\textsuperscript{st} June 2018 then data would be concatenated from 1\textsuperscript{st} May 2018 through 1\textsuperscript{st} June 2018, 1\textsuperscript{st} May 2017 through 1\textsuperscript{st} July 2017, 1\textsuperscript{st} May 2016 through 1\textsuperscript{st} July 2016, etc.
-For testing and training data is also taken from future years, but never from the 30 days immediately after the date being forecast.
-As a result, $\mH \in \mathbb{R}^{T \times h}$ where $T$ is the number of observations and $h$ is the number of variables in each observation.
-
-$\mH$ is embedded by a single dense layer, given by Equation \ref{dense_layer}, with learned weights $\boldsymbol{W} \in \mathbb{R}^{h \times d}$ and a learned bias vector $\boldsymbol{b} \in \mathbb{R}^{d}$.
-This reshapes $\mH$ into $\boldsymbol{H'} \in \mathbb{R}^{T \times d}$ to match the hidden dimension of the remainder of the model.
-
-$\mH$ will be very large in practice.
-For example, with five years of 30-minute data the embedded $\mH$ will contain around 850e3 elements.
-On the other hand, the embedded $\mX$ typically contains around 6e3 elements.
-The Clio architecture is an order of magnitude more computationally expensive than the others discussed.
-
-\subsection{Implementation}
-The encoder was provided with historical load and weather, and forecast weather.
-The historical input was populated with data as described in ...
-The decoder output was projected to a dimension of 1 and taken as the load forecast.
-
 \section{Training and regularization of neural networks}
 \label{train-reg}
 Training and regularization is common to all described neural network models.
