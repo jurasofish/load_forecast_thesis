@@ -15,14 +15,14 @@ The seasonal autoregressive integrated moving average with exogenous factors (SA
 It has been around unchanged for decades and is used as a baseline for forecasting performance.
 
 Sequence to sequence recurrent neural networks with long short-term memory cells gained notoriety in the field of neural machine translation in 2014 for achieving state of the art results with minimal tuning of the model \cite{sutskever2014sequence}.
-The structure of this model is a natural fit for time series forecasting - neural machine translation maps one sequences of words (vectors) to another, just as a time series forecasting system maps a sequence of historical observations (vectors) to a sequence of forecasts.
+The structure of this model is a natural fit for time series forecasting - neural machine translation maps one sequences of words (vectors) to another, just as a time series forecasting system maps a sequence of historical observations (vectors) to a sequence of predicted observations (also vectors).
 The simplicity and out-of-the-box performance of this model is extremely appealing.
 
 The transformer neural network model was published in 2017, and produced state of the art results in neural machine translation using a fully attention-based architecture.
-This model is attractive because it may overcome the tendency for recurrent neural networks to ``forget" data from early in the input sequence.
+This model is attractive because it may overcome the tendency for recurrent neural networks to ``forget" data from early in the input sequence, while also having the ability to consider multiple information sub-spaces in the input.
 
 The universal transformer model, published in July 2018, is a variant of the transformer, and claims to out-perform the transformer on algorithmic tasks.
-This model is included.
+This model is included to assess its performance compared to the transformer.
 
 Additionally, a similar profile selection method was developed to provide the models with relevant input data.
 
@@ -78,7 +78,7 @@ Denoted ARIMA$(p,d,q)\times(P,D,Q)s$, a SARIMA model can be represented as the f
 where $(p,d,q)$ are the parameters of the non-seasonal ARIMA component, $(P,Q,D)s$ are the parameters of the seasonal component, $A_{P}(\textbf{B}^{s})$ and $\Theta_{Q}(\textbf{B}^{s})$ are defined similarly to $\alpha_{p}(\textbf{B})$ and $\theta_{q}(\textbf{B})$, and $s$ is the number of periods over which the seasonality occurs (e.g. $s=7$ for weekly seasonality if the data is daily).
 
 The SARIMA model can be further extended to a SARIMA with exogenous variables (SARIMAX) model.
-Given a vector of exogenous inputs $\vz \in \mathbb{R}^{n}$, the SARIMAX model gives the next element of the series by
+Given a vector of exogenous inputs $\vz \in \mathbb{R}^{n}$ corresponding to the exogenous inputs at time $t$, the SARIMAX model gives the next element of the series by
 \begin{gather}	
 \alpha_{p}(\textbf{B})A_{P}(\textbf{B}^{s})(\nabla_{1}^{d}\nabla_{s}^{D}u_{t}) = \theta_{q}(\textbf{B})\Theta_{Q}(\textbf{B}^{s})\epsilon_{t} \\	
 x_{t} = u_{t} + \sum_{i=1}^{n}\beta_{i}z_{i}
@@ -104,7 +104,7 @@ The weights $w$ are mapped to elements in the parameter vector $\vtheta$.
 
 The hidden layer can be repeated any number of times, allowing the neural network to be written in the form $f(\vx) = f^n(f^{\ldots}(f^1(\vx)))$.
 This is a feedforward neural network, and is the only type of neural network this thesis will consider.
-In the case of recurrent neural networks, where the outputs of sub-functions in the network form cycles, the network can be unrolled to form a feedforward network.
+In the case of recurrent neural networks discussed later in this thesis, where the outputs of sub-functions in the network form cycles, the network is unrolled to form a feedforward network.
 
 \begin{figure}[htbp]
 	\centering
@@ -132,7 +132,7 @@ The action of applying equation \ref{gradient_descent} a single time is commonly
 \vtheta = \vtheta - \epsilon \nabla_{\vtheta}J(\vy, \vx, \vtheta)
 \end{equation}
 
-In stochastic gradient descent, $\vx$ and $\vy$ are a randomly selected pair from the training set and so over many training iterations the entire training set will be approximately equally sampled.
+In stochastic gradient descent, $\vx$ and $\vy$ are a randomly selected pair from the training set and so over many training iterations the entire training set will be approximately uniformly sampled.
 Typically, though, mini-batch gradient descent is used rather than stochastic gradient descent, whereby the training step is batched -- multiple pairs of $\vx$ and $\vy$ are used to average the loss in parallel before performing an update on the weight vector.
 The number of pairs of $\vx$ and $\vy$ per batch is commonly referred to as the batch size.
 Mini-batch gradient descent is generally able to leverage parallel computation features of modern microprocessors to make it vastly faster than calculating $J$ multiple times and taking the average.
@@ -148,7 +148,7 @@ The training processes used in this thesis are discussed in section \ref{train-r
 The recurrent neural network (RNN) architecture was introduced by \citet{Rumelhart1986} in 1986.
 Over the past five years RNN-based neural network models have achieved state of the art performance -- though in many cases have since been outperformed by more obscure models -- in speech recognition \cite{Chiu2017}, neural machine translation \cite{luong2015effective}, image captioning \cite{yao2017boosting}, and time series classification \cite{Karim2018}.
 Over this same time span RNN-based neural networks have been used to forecast electrical load at the household-level \cite{Kong2017}\cite{Shi2018}, building level \cite{Zheng2017a}, feeder-level \cite{Bedi2018}, and city/state level \cite{Narayan2017}\cite{Din2017}.
-RNN-based models appear to offer the ability to forecast load with minimal transformation of the data and so may be a very attractive option for practical load forecasting systems.
+RNN-based models appear to offer the ability to forecast load with minimal preprocessing of the input data and so may be a very attractive option for practical load forecasting systems.
 
 \subsection{Generic recurrent neural network}
 RNNs operate on sequences of data by applying an identical function $f$ to every element of the sequence to produce a sequence of state vectors $\mH = [\vh_1 \, \ldots \, \vh_P]$.
@@ -164,7 +164,7 @@ RNNs can be extended to multiple layers, with a two-layer RNN illustrated in fig
 Each layer implements its own function, with layer $n$ implementing function $f^n$ and producing output $\vh^n$.
 For layers after the first layer, instead of taking an $\vx$ vector as input they take the state vector from the previous layer.
 There can be an arbitrary number of layers.
-
+A multi-layer RNN can in fact be thought of as a generalization of a single-layer, where the function $f$ is simply comprised of multiple sub-functions.
 
 \begin{figure}[htbp]
 	\centering
@@ -182,9 +182,9 @@ There can be an arbitrary number of layers.
 
 
 \subsection{Long short-term memory}
-RNNs are prone to issues with vanishing and exploding gradients \cite{Goodfellow-et-al-2016}, which is addressed through the use of a long short-term memory (LSTM) \cite{hochreiter1997long} cell as the function in the RNN.
+RNNs are prone to issues with vanishing and exploding gradients \cite{Goodfellow-et-al-2016}, which can be addressed through the use of a long short-term memory (LSTM) \cite{hochreiter1997long} cell as the function in the RNN.
 An LSTM cell is able to selectively add and remove elements from the state vector as it passes through the cell.
-LSTM-based RNNs have been demonstrated to outperform simpler functions in a variety of tasks when employed as the RNN function \cite{Chung2014}\cite{jozefowicz2015empirical}\cite{le2015simple}.
+LSTM cells have been demonstrated to outperform simpler functions in a variety of tasks when employed as the RNN function \cite{Chung2014}\cite{jozefowicz2015empirical}\cite{le2015simple}.
 The LSTM cell extends the standard RNN model by separating the cell output $\vc_t$ from the cell state $\vh_t$, shown in figure \ref{fig:LSTM_cell}, and its multi-layer configuration shown in figure \ref{fig:LSTM_multilayer}.
 The LSTM cell is described by the following equations
 \begin{align}
