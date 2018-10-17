@@ -56,10 +56,13 @@ ARIMA applies differencing to the time series to produce $\hat{\vx}$, and then a
 This differencing is applied such that $\hat{x}_{t} = x_{t} - x_{t-1}$ and is repeated $d$ times.
 Differencing can sometimes be sufficient to make a series stationary, such that it is appropriate for forecasting with an ARMA model.
 
-In order to concisely articulate the ARIMA model, the following notation will be used. 
-The backward shift operator, defined by $\textbf{B}^{m}x_{t} = x_{t-m}$. 
-The difference operator, defined by $\nabla_{s} X_{t} = x_{t} - x_{t-s} = (1 - \textbf{B}^{s})x_{t}$. 
-The parameter functions $\alpha_{p}(\textbf{B}) = 1 - \alpha_{1}\textbf{B} - \ldots - \alpha_{p}\textbf{B}^p$ and $\theta_{q}(\textbf{B}) = 1 + \theta_{1}\textbf{B} + \ldots + \theta_{q}\textbf{B}^q$.
+In order to concisely articulate the ARIMA model, the following notation will be used.
+Note that this notation overrides that defined in the \nameref{section:Nomenclature} section.
+\begin{itemize}
+	\item The backward shift operator, defined by $\textbf{B}^{m}x_{t} = x_{t-m}$. 
+	\item The difference operator, defined by $\nabla_{s} X_{t} = x_{t} - x_{t-s} = (1 - \textbf{B}^{s})x_{t}$. 
+	\item The parameter functions $\alpha_{p}(\textbf{B}) = 1 - \alpha_{1}\textbf{B} - \ldots - \alpha_{p}\textbf{B}^p$ and $\theta_{q}(\textbf{B}) = 1 + \theta_{1}\textbf{B} + \ldots + \theta_{q}\textbf{B}^q$.
+\end{itemize}
 Note that the difference operator can be raised to a power to allow repeated differencing, such that $\nabla_{s}^{u} X_{t} = [(1 - \textbf{B}^{s})^{u}]x_{t}$.
 Using this notation, the ARIMA model can be represented by the following expression
 \begin{equation}
