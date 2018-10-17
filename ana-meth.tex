@@ -202,14 +202,14 @@ The LSTM cell is described by the following equations
 where 
 \begin{itemize}
 	\item $\circ$ denotes element-wise multiplication;
-	\item the input vector $\vx_t \in \mathbb{R}^{n}$;
-	\item the cell output vector $\vh_t \in \mathbb{R}^{d}$;
+	\item the input vector $\vx_t \in \mathbb{R}^{N}$;
+	\item the cell output vector $\vh_t \in \mathbb{R}^{d}$ ($d$ is the hidden dimension of the model);
 	\item the cell state vector $\vc_t \in \mathbb{R}^{d}$;
 	\item  the forget gate vector $\vf_t \in \mathbb{R}^{d}$;
 	\item the input gate vector $\vi_t \in \mathbb{R}^{d}$;
 	\item the output gate vector $\vo_t \in \mathbb{R}^{d}$;
 	\item the cell candidate vector $\hat{\vc}_t \in \mathbb{R}^{d}$;
-	\item the learned cell state weight matrices $\mU \in \mathbb{R}^{d \times n}$;
+	\item the learned cell state weight matrices $\mU \in \mathbb{R}^{d \times N}$;
 	\item the learned input weight matrices $\mW \in \mathbb{R}^{d \times d}$;
 	\item the learned bias vectors $\vb \in \mathbb{R}^{d}$; and
 	\item $\sigma(\vy) = \frac{1}{1 + e^{-\vy}}$ represents the sigmoid function.
@@ -257,7 +257,7 @@ An RNN can be extended to form a sequence to sequence (S2S) architecture by appl
 The decoder RNN's initial cell state is set to the final cell state of the encoder \cite{Cho2014a}.
 This shared cell state is a latent representation of the input, which is used by the decoder to produce an output.
 The encoder and decoder can be of different lengths, depicted in figure \ref{fig:S2S} as $R$ and $P$, allowing this architecture to naturally model tasks such as load forecasting where the input may be 48 hours of data while the output is only 24.
-The output matrix $\mH \in \mathbb{R}^{T \times d}$ is then projected to the desired dimension.
+The output matrix $\mH \in \mathbb{R}^{R \times d}$ is then projected to the desired dimension.
 
 Of course, an immediately obvious issue with this model is whether the shared latent cell state vector is capable of representing the input information in its entirety.
 
@@ -268,9 +268,13 @@ Of course, an immediately obvious issue with this model is whether the shared la
 \end{figure}
 
 \subsection{Implementation}
-A S2S RNN with LSTM cells was implemented in tensorflow.
+A S2S RNN with LSTM cells was implemented in tensorflow \cite{tensorflow2015-whitepaper}, building on an implementation by \citet{Chevalier2017}.
 The encoder was provided with historical load and weather, and forecast weather.
-The decoder output was projected to a dimension of 1 and taken as the load forecast.
+The projected decoder output was used as the load forecast.
+
+The input vectors, $\vx_i$, are from the input matrix $\mX \in \mathbb{R}^{T \times N}$, where $\vx_i = (\mX_{i,:})^\top$, $T$ is the sequence length of the time series input, and $N$ is the number of observations at each point in the time series.
+
+The decoder output, $\mH \in \mathbb{R}^{U \times d}$, was projected to a dimension of 1 using equation \ref{dense_layer}, where $\boldsymbol{W} \in \mathbb{R}^{d \times 1}$ is a learned weight matrix and $\boldsymbol{b} \in \mathbb{R}^{1}$ is a learned bias vector, $U$ is the length of the time series forecast, and $d$ is the hidden dimension of the model.
 
 \section{Transformer} \label{sec:transformer}
 The transformer neural network architecture, shown in figure \ref{fig:transformer}, was introduced by \citet{Vaswani2017} in 2017 and at the time was the state of the art in neural machine translation.
