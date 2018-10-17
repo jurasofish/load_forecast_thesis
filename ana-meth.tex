@@ -380,6 +380,18 @@ Values that have not yet been generated are set to zero in the decoder input.
 These zero values do not affect the output of the decoder, as the decoder self-attention is masked so that it does not make use of them.
 When training, the decoder input is set to the known expected value and the model is executed --- and the learnable parameters updated --- a single time.
 
+This process of supplying the known good values - or the previously generated values when in inference mode - to the decoder input is known as teacher forcing or professor forcing \cite{lamb2016professor}.
+This is common practice in neural machine translation (NMT), but does not necessarily make sense in time series forecasting tasks.
+In NMT, words are usually represented as vectors with hundreds or thousands of elements.
+Adjacent words in the sentences are nearly always very different.
+However, in time series forecasting, the input vectors adjacent to each other are very similar.
+That is, the time series data generally has a high autocorrelation - for example the time series at 12pm and 1pm are likely to be very similar.
+This results in the model tending to simply reproduce the input at the output, as this results in a time series forecast that is perfect except shifted forward in time by one period.
+
+This effect was overwhelming in the sequence to sequence models and caused the models to fail to converge, and so teacher forcing was never used.
+In the transformer, on the other hand, the models still converged.
+However, the performance of the models with and without teacher forcing is different.
+
 \subsection{Implementation}
 The encoder was provided with historical load and weather, and forecast weather.
 The decoder output was projected to a dimension of 1 and taken as the load forecast.
