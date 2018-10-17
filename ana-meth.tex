@@ -425,9 +425,9 @@ The encoder inputs, decoder inputs, and expected outputs were summed with random
 This has been demonstrated to improve the generalization ability of a neural network \cite{Wang1999} \cite{Brown2003} and can be considered an extension of dropout \cite{srivastava14a}.
 
 All models were trained using the Adam optimizer \cite{Kingma2014} and a modified sum of errors squared loss function.
-Given a vector $\boldsymbol{y}$ of predictions from the model and a vector $\boldsymbol{y'}$ of expected predictions the loss function $l$ is given by 
+Given a vector $\boldsymbol{\hat{y}}$ of predictions from the model and a vector $\boldsymbol{y}$ of expected predictions the loss function $l$ is given by 
 \begin{equation}
-l = \sum_{t=0}^{R}((\boldsymbol{y}_t - \boldsymbol{y'}_t)^2 \times |\boldsymbol{y'}_t|^c)
+l = \sum_{t=0}^{R}((\boldsymbol{y}_t - \boldsymbol{\hat{y}}_t)^2 \times |\boldsymbol{y}_t|^c)
 \end{equation}
 where $c$ is a model hyperparameter.
 For $c>0$ this function accentuates loss when the actual value is large --- making the model more accurate at forecasting peaks.
