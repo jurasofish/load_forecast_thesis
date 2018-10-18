@@ -30,7 +30,7 @@ These batteries are coordinated by the network aware coordination algorithm (NAC
 In order to peak-shift while making efficient use of the batteries, the NAC requires an accurate forecast of load with a 24-hour horizon and 30-minute resolution.
 
 The proposed forecasting models were evaluated on historical data, with the details of the implementations and the results presented in the following sections.
-A transformer-based model was implemented as part of the NAC, with details given in section \hl{....}.
+A transformer-based model was implemented as part of the NAC, with details given in section \ref{consort-eval}.
 
 \begin{figure}[htbp]
 	\centerline{\includegraphics[width=.45\textwidth]{images/bruny_single_line.pdf}}
@@ -321,7 +321,19 @@ The train and test datasets were then switched in order to cross-validate the re
 	\clearpage% Flush page
 }
 
-\subsection{CONSORT}
+
+\subsection{Training data requirements}
+Neural networks generally require large amounts of training data in order to fit the model parameters.
+
+
+\subsection{Online CONSORT implementation}
+\label{consort-eval}
+In July 2018 the load forecasting system was implemented as part of the CONSORT project.
+The forecasting system was used to assist with dispatch of residential batteries.
+The model implemented was a transformer (with teacher forcing enabled), and is somewhat different to the models discussed in the offline evaluation.
+Although the implemented model achieved sufficient accuracy, it has since been determined to be a sub-optimal configuration.
+
+
 \subsubsection{Data and  Model Configuration}
 The following data was available from 2009-2018:
 \begin{itemize}
