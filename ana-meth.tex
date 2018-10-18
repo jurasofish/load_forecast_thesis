@@ -288,7 +288,7 @@ A transformer-based neural network has been applied to time series classificatio
 The transformer has been extended to the image transformer model, which achieves state of the art results in image generation tasks \cite{Parmar2018}.
 To the best of the author's knowledge, there are no publications which apply the transformer -- or any similar architecture -- to electrical load forecasting.
 
-The transformer suffers from no issues with 1``rgetting" elements from early in the input sequence, such as is possible in an LSTM RNN, as the transformer uses a multi-head attention mechanism to look over all elements of the input sequence simultaneously.
+The transformer suffers from no issues with ``forgetting" elements from early in the input sequence, such as is possible in an LSTM RNN, as the transformer uses a multi-head attention mechanism to look over all elements of the input sequence simultaneously.
 However, you never get ought for naught, and in this case the transformer computation and memory requirements are O($n^2$) with the input and output sequence lengths due to the multi-head self-attention.
 This contrasts with the O($n$) requirements of an LSTM RNN.
 
