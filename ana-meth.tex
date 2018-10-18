@@ -90,6 +90,10 @@ where $\beta_{1} \ldots \beta_{n}$ are a set of model parameters.
 
 \subsection{Implementation}
 A SARIMAX model was implemented using the python statsmodels package \cite{statsmodels}.
+The model is provided with historical load as the $\vx$ input.
+For exogenous inputs, it is provided with future forecast temperature, holiday boolean, and holiday type.
+Holiday boolean and holiday type are discussed in section \ref{simperiod}.
+Note that these inputs are different to the inputs provided to the neural network models.
 
 
 \section{Neural networks - a primer}
