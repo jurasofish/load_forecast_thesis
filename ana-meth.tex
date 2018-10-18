@@ -288,6 +288,10 @@ A transformer-based neural network has been applied to time series classificatio
 The transformer has been extended to the image transformer model, which achieves state of the art results in image generation tasks \cite{Parmar2018}.
 To the best of the author's knowledge, there are no publications which apply the transformer -- or any similar architecture -- to electrical load forecasting.
 
+The transformer suffers from no issues with 1``rgetting" elements from early in the input sequence, such as is possible in an LSTM RNN, as the transformer uses a multi-head attention mechanism to look over all elements of the input sequence simultaneously.
+However, you never get ought for naught, and in this case the transformer computation and memory requirements are O($n^2$) with the input and output sequence lengths due to the multi-head self-attention.
+This contrasts with the O($n$) requirements of an LSTM RNN.
+
 The transformer architecture follows a similar sequence-to-sequence/encoder-decoder architecture as the sequence to sequence RNN architecture described in section \ref{section-S2S}: the encoder transforms an input sequence $\mX = [\vx_1 \, \ldots \, \vx_P]$ into a latent representation $\mZ = [\vz_1 \, \ldots \, \vz_M]$, and the decoder transforms $\mZ$ into an output sequence $\mY = [\vy_1 \, \ldots \, \vy_R]$.
 This aligns with the requirements of a load forecasting system, where $P$ is the length of the time series input, $\vx_t$ is of dimension equal to the number of variables in the input time series, $R$ is the length of the time series output, and $\vy_t$ is of dimension equal to the number of variables in the output time series.
 The latent representation $\mZ$ is used solely by the model as an internal representation of the input data.
