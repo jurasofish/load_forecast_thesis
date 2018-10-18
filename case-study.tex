@@ -234,30 +234,54 @@ The train and test datasets were then switched in order to cross-validate the re
 					\multicolumn{1}{c}{\textbf{\shortstack[c]{MAE at first\\large peak (kVA)}}} \\ \cline{1-8}
 					
 					\multirow{4}{*}{\shortstack[l]{Hourly}}       
-					& SARIMAX           & 00.00 & 00.0 & 00.00 & 00.00 & 000.0 & 000.0        \\
-					& S2S      			&  7.85 & 42.8 &  9.87 & 110.6 & 11.42 & 112.6           \\
-					& Transformer       &  7.82 & 43.1 & 10.33 & 115.1 & 13.00 & 140.1            \\
-					& U. Transformer    &  8.20 & 46.0 & 11.72 & 131.6 & 14.52 & 155.2          \\ \cline{1-8} 
+					& SARIMAX           &         14.34  &         82.1  &         12.31  &         137.7  &         18.86  &         200.9 	\\ % (2,1,1)(1,1,1,24)/_cv
+					& S2S      			&          7.85  &         42.8  &  \textbf{9.87} & \textbf{110.6} & \textbf{11.42} & \textbf{112.6}	\\ % 
+					& Transformer       &          7.82  &         43.1  &         10.33  &         115.1  &         13.00  &         140.1 	\\ % 
+					& Transformer no TF &  \textbf{7.77} & \textbf{42.6} &         11.45  &         128.9  &         13.24  &         142.0 	\\ % 130 131
+					& U. Transformer    &          8.20	 &         46.0  &         11.72  &         131.6  &         14.52  &         155.2 	\\ % 
+					\cline{1-8}					
 					
 					\multirow{3}{*}{\shortstack[l]{Hourly\\with similar\\profiles}} 
-					& S2S      			&  7.68 & 41.6 &  9.77 & 109.6 & 11.05 & 118.7           \\
-					& Transformer       &  7.40 & 40.7 & 10.25 & 115.2 & 12.45 & 133.6            \\
-					& U. Transformer    &  8.15 & 44.8 & 11.10 & 123.5 & 12.67 & 135.5          \\ \cline{1-8} 
+					& S2S      			&          7.68  &         41.6  &  \textbf{9.77} & \textbf{109.6} & \textbf{11.05} & \textbf{118.7}	\\ % 
+					& Transformer       &          7.40  &         40.7  &         10.25  &         115.2  &         12.45  &         133.6 	\\ % 
+					& Transformer no TF &  \textbf{7.24} & \textbf{39.6} &         10.32  &         115.8  &         12.47  &         133.7    	\\ % 122 123
+					& U. Transformer    &          8.15  &         44.8  &         11.10  &         123.5  &         12.67  &         135.5 	\\ % 
+					\cline{1-8}					
 					
 					\multirow{3}{*}{\shortstack[l]{Half-\\hourly}}       
-					& S2S      			&  7.80 & 42.7 &  &  &  &         \\
-					& Transformer       &  0    & 1    &  &  &  &          \\
-					& U. Transformer    &  0    & 1    &  &  &  &        \\ \cline{1-8}
+					& S2S      			&  \textbf{7.80} & \textbf{42.7} &          9.88  &         111.3  &         12.30  &         131.5 	\\ % 
+					& Transformer       &          9.14  &         50.9  &         13.03  &         148.0  &         15.80  &         170.0 	\\ % 
+					& Transformer no TF &          8.24  &         44.0  &  \textbf{9.03} & \textbf{101.5} & \textbf{10.22} & \textbf{110.4}  	\\ % 126 127
+					& U. Transformer    &          8.60  &         48.0  &         13.60  &         154.6  &         14.33  &         154.5 	\\ % 
+					\cline{1-8}					
 					
 					\multirow{3}{*}{\shortstack[l]{Half-hourly\\with similar\\profiles}}       
-					& S2S      			&  0    & 1    &  &  &  &         \\
-					& Transformer       &  0    & 1    &  &  &  &          \\
-					& U. Transformer    &  0    & 1    &  &  &  &        \\ \cline{1-8}
+					& S2S      			&          8.44  &         45.0  &         10.23  &         116.2  &         11.10  &         119.1 	\\ % 
+					& Transformer       &          7.82  &         42.5  &         10.78  &         121.6  & \textbf{10.98} & \textbf{118.5}	\\ % 
+					& Transformer no TF &  \textbf{7.41} & \textbf{41.0} & \textbf{10.16} & \textbf{114.1} &         12.54  &         134.8  	\\ % 128 129
+					& U. Transformer    &          9.05  &         48.1  &         10.22  &         114.6  &         11.90  &         136.0 	\\ % 
+					\cline{1-8}					
 					
-					\multirow{3}{*}{\shortstack[l]{Hourly\\long}}       
-					& S2S      			&  0    & 1    &  &  &  &         \\
-					& Transformer       &  0    & 1    &  &  &  &           \\
-					& U. Transformer    &  0    & 1    &  &  &   &       \\ \cline{1-8} 
+					\multirow{3}{*}{\shortstack[l]{Hourly long\\with similar\\profiles}}       
+					& S2S      			&          7.49  &         40.9  &  \textbf{9.43} & \textbf{106.2} &         10.10  &         109.5 	\\ % 
+					& Transformer       &          6.97  &         38.0  &         10.82  &         122.5  &         11.30  &         121.8 	\\ % 
+					& Transformer no TF &  \textbf{6.68} & \textbf{36.8} &          9.85  &         111.8  &  \textbf{9.54} & \textbf{103.1} 	\\ % 132 133
+					& U. Transformer    &          6.74  &         38.5  &         10.35  &         116.1  &         12.82  &         138.2 	\\ % 
+					\cline{1-8}					
+					
+					\multirow{3}{*}{\shortstack[l]{Hourly; $c=3$}}       
+					& S2S      			&          8.96  &         46.8  &  \textbf{8.61} &  \textbf{95.9} &  \textbf{9.61} & \textbf{103.0}	\\ % 
+					& Transformer       &  \textbf{8.14} & \textbf{44.5} &         10.46  &         117.5  &         12.25  &         130.9 	\\ % 
+					& Transformer no TF &          8.65  &         45.4  &          9.36 &          105.0  &         10.76  &         115.1  	\\ % 134 135
+					& U. Transformer    &          9.29  &         48.5  &         11.05  &         124.5  &         12.97  &         138.9 	\\ % 
+					\cline{1-8}					
+					
+					\multirow{3}{*}{\shortstack[l]{Hourly\\with similar\\profiles; $c=3$}}       
+					& S2S      			&  \textbf{8.32} & \textbf{43.8} &          9.20  &         103.1  &         10.68  &         114.8 	\\ % 
+					& Transformer       &          8.58  &         45.5  &  \textbf{8.90} &  \textbf{99.5} &  \textbf{9.29} &  \textbf{99.9}	\\ % 
+					& Transformer no TF &          8.86  &         45.4  &          8.99  &         101.1  &         10.21  &         109.7  	\\ % 136 137
+					& U. Transformer    &          9.00  &         48.3  &         10.07  &         112.5  &          9.34  &         100.5 	\\ % 
+					\cline{1-8} 
 				\end{tabular}
 				\label{table:offline-results-bruny-lscape}
 			% \end{center}
