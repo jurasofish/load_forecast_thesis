@@ -60,11 +60,11 @@ The proposed forecasting system was implemented for this purpose.
 %	\item perhaps conclude with some important takeaways
 %\end{itemize}
 
-In section \ref{patterns-profiles} the general properties of load profiles and how they are influenced by exogenous factors was discussed. Now, these general properties will be investigated in depth for the Bruny Island feeder.
+In section \ref{patterns-profiles} the general properties of load profiles and how they are influenced by exogenous factors was discussed. Now, these general properties will be briefly investigated for the Bruny Island feeder.
 \subsubsection{Available data}
 The following data is available:
 \begin{itemize}
-	\item Apparent power measured at recloser R1 (figure \ref{fig:bruny_network}) January 1, 2007 and June 25, 2018
+	\item Apparent power measured at recloser R1 (figure \ref{fig:bruny_network}) between January 1, 2007 and June 25, 2018
 	\item Ambient Temperature, solar irradiance, humidity, and wind speed at Lenah Valley between October 1, 2009 and June 25, 2018
 	\item Vehicle movement data in 10 minute resolution between June 4, 2015 and March 24, 2018
 \end{itemize}	
@@ -80,7 +80,10 @@ These two weeks were selected to avoid special days such as holidays and are rep
 Several differences can be seen between the summer and winter weeks.
 In Summer, the midday load is about the same as the overnight load, whereas in Winter, it is quite different.
 Summer afternoon peaks are smaller than the morning peaks, whereas in winter they are similar.
-An intuitive reaction to this might be to use different forecasting models for summer and winter - but of course then a delineation must be decided on for when to switch.
+At a high level, it is clear that the load is generally larger in winter -- likely as a result of increased residential heating.
+An intuitive reaction to this might be to use different forecasting models for summer and winter - but of course then a delineation must be decided on for when to switch between the two models.
+As one of the aims of the forecasting system is to be practical to implement, it is desirable to have a single system that is be able to forecast both summer and winter.
+By supplying temperature as an exogenous input this should be possible.
 
 \begin{figure}[htbp]
 	\centering
@@ -109,7 +112,7 @@ Figures \ref{fig:average-arriving} and \ref{fig:average-departing} further suppo
 It can be seen that many vehicles tend to arrive on the island on Friday afternoon, leading to the change in load profile between Friday and Saturday.
 Likewise, many vehicles leave the island on Sunday afternoon, shifting the load profile from Sunday to a weekday.
 
-%This observation, that the load profiles on weekends and weekdays are only partially different, could indicate that information may be lost by considering only a single day.
+This brief investigation serves to highlight some of the challenges that the load forecasting system must handle.
 
 \begin{figure}[htbp]
 	\centering
