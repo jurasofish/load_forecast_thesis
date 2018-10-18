@@ -447,5 +447,40 @@ Without this support from the batteries, the generator would have likely been re
 \end{figure}
 
 
+\section{ISO New England}
+ISO New England is a regional transmission organization operating in the New England area of the United States.
+Data from ISO New England has been used by several papers for evaluating the performance of their load forecasting systems \cite{Ceperic2013}\cite{Chen2010}.
+The aim of this section is to compare the proposed forecasting models to the models and methods used by \citet{Ceperic2013}, whose method is discussed in section \ref{SVR}, and \citet{Chen2010}, whose method is discussed in section \ref{litrev-ann}.
 
+\citet{Ceperic2013} trained their model on data from March 2003 until January 2006 and tested on January 1 2006 to December 31 2006.
+Historical electrical load data was obtained from the public ISO New England website \cite{isone}.
+Historical temperature was obtained from the National Centers for Environment Information \cite{NOAA} at Concord, New Hampshire, United States (latitude 43.204900°, longitude \mbox{-71.502740°}).
+This is different temperature data to that used by \citet{Ceperic2013} as that data could not be accessed.
 
+The forecasting was performed identically to the ``hourly long" task described in section \ref{forecasting-tasks}, except with no similar days ($k=0$).
+The input matrix $\mX$ was constructed by equation \ref{hourly-long-x}.
+\citet{Ceperic2013} turned heuristics about heating and cooling load based on temperature into features for the neural network.
+This is generally considered good practice \cite{Zinkevich2018}.
+However, as one of the primary aims of this thesis is to develop a practical load forecasting system that does not require significant modifications when forecasting for different feeders, this data was not provided as an input.
+
+The model configurations are the same as that described in table \ref{table:offline-parameters}, and the models were trained for $10^5$ iterations.
+
+\begin{table}[htbp]
+	\caption{ISO New England results.}
+	\begin{center}
+		\begin{tabular}{l|cc}
+			%			3.\hline
+			\textbf{Model}&\textbf{MAPE (\%)} \\
+			\hline
+			Transformer no TF            & 2.14 \\ % 151
+			S2S                          & 2.15 \\ % 165
+			SSA-SVR \cite{Ceperic2013}   & 1.31 \\
+			SIWNN \cite{Chen2010}        & 1.71 \\
+			ANN \cite{Chen2010}          & 2.03 \\
+			Transformer                  & 3.09 \\ % 166
+			U. Transformer               & 3.65 \\ % 167
+			
+		\end{tabular}
+		\label{table:iso-results}
+	\end{center}
+\end{table}
