@@ -388,38 +388,38 @@ The model was trained for $10^5$ iterations.
 	\end{center}
 \end{table}
 
-\subsubsection{Offline Evaluation}
-
-The forecaster was first evaluated on historical data around Easter 2018, shown in Figure \ref{fig:easter_forecasts}.
-Notably, the forecaster was able to accurately predict the first large peak while also transitioning smoothly between normal and holiday periods.
-This is in contrast to load forecasting models which sometimes tend toward trivially repeating the previous day's load.
-
-
-\begin{figure}[htbp]
-	\centerline{\includegraphics[width=.65\textwidth]{images/easter_2018_all_forecast.png}}
-	\caption{Forecasts over the Easter 2018 period.
-		The black dashed line is the actual recorded load, and all previous forecasts are shown in grey.}
-	\label{fig:easter_forecasts}
-\end{figure}
-
-\begin{figure}[htbp]
-	\centerline{\includegraphics[width=.65\textwidth]{images/bruny_mape.png}}
-	\caption{Mean absolute percentage error of each point in the forecast when evaluated over a variety of holiday periods.}.
-	
-	\label{fig:bruny_mape}
-\end{figure}
-
-The performance of the forecaster was evaluated on every Easter, Queen's Birthday, and July school holiday period from 2015 through 2018 (2018 excludes July).
-The results are shown in Figure \ref{fig:bruny_mape}, showing the mean absolute percentage error (MAPE) as a function of forecast horizon.
-The mean MAPE is 7.4\%.
-Furthermore, the errors between predicted and actual load are fairly evenly distributed around -15 kVA, shown in Figure \ref{fig:bruny_hist}.
-This indicates that the model has some room for improvement when predicting large holiday peaks, but overall this is evidence that the model has been able to generalize from the training data, as the training data is mostly comprised of normal days.
-
-\begin{figure}[htbp]
-	\centerline{\includegraphics[width=.65\textwidth]{images/errors_histogram.png}}
-	\caption{Distribution of forecast error when evaluated over the same periods as Figure \ref{fig:bruny_mape}.}
-	\label{fig:bruny_hist}
-\end{figure}
+%\subsubsection{Offline Evaluation}
+%
+%The forecaster was first evaluated on historical data around Easter 2018, shown in Figure \ref{fig:easter_forecasts}.
+%Notably, the forecaster was able to accurately predict the first large peak while also transitioning smoothly between normal and holiday periods.
+%This is in contrast to load forecasting models which sometimes tend toward trivially repeating the previous day's load.
+%
+%
+%\begin{figure}[htbp]
+%	\centerline{\includegraphics[width=.65\textwidth]{images/easter_2018_all_forecast.png}}
+%	\caption{Forecasts over the Easter 2018 period.
+%		The black dashed line is the actual recorded load, and all previous forecasts are shown in grey.}
+%	\label{fig:easter_forecasts}
+%\end{figure}
+%
+%\begin{figure}[htbp]
+%	\centerline{\includegraphics[width=.65\textwidth]{images/bruny_mape.png}}
+%	\caption{Mean absolute percentage error of each point in the forecast when evaluated over a variety of holiday periods.}.
+%	
+%	\label{fig:bruny_mape}
+%\end{figure}
+%
+%The performance of the forecaster was evaluated on every Easter, Queen's Birthday, and July school holiday period from 2015 through 2018 (2018 excludes July).
+%The results are shown in Figure \ref{fig:bruny_mape}, showing the mean absolute percentage error (MAPE) as a function of forecast horizon.
+%The mean MAPE is 7.4\%.
+%Furthermore, the errors between predicted and actual load are fairly evenly distributed around -15 kVA, shown in Figure \ref{fig:bruny_hist}.
+%This indicates that the model has some room for improvement when predicting large holiday peaks, but overall this is evidence that the model has been able to generalize from the training data, as the training data is mostly comprised of normal days.
+%
+%\begin{figure}[htbp]
+%	\centerline{\includegraphics[width=.65\textwidth]{images/errors_histogram.png}}
+%	\caption{Distribution of forecast error when evaluated over the same periods as Figure \ref{fig:bruny_mape}.}
+%	\label{fig:bruny_hist}
+%\end{figure}
 
 \subsubsection{Online Evaluation}
 When implemented live on the Bruny Island distribution network during the July 2018 school holiday period, as part of the CONSORT project, the forecaster was observed to reliably forecast large demand peaks.
