@@ -131,33 +131,59 @@ This brief investigation serves to highlight some of the challenges that the loa
 	\label{fig:average-load-profiles}
 \end{figure}
 
-\subsection{Data and  Model Configuration}
+\subsection{Forecasting tasks}
+The forecasters were evaluated on several tasks, shown in table \ref{table:offline-results-bruny-lscape}.
+The hourly task has the forecaster predict the future 24 hours of load in one-hour resolution given the previous 24 hours of load and the future 24 hours of date/time, holiday, and temperature data.
+The half-hourly task is the same as hourly, except using half-hour resolution data.
+The hourly long task has the forecaster predict the future 24 hours of load in one-hour resolution given the previous 168 hours (one week) of load and the future 24 hours of date/time, holiday, and temperature data.
+The hourly ($c$=3) task is the same as the hourly task but with the loss function modified as described in section \ref{train-reg}.
+
+The tasks listed as being ''with similar profiles" include five similar profiles ($k=5$, as described in the following section \nameref{data-model-config}).
+The tasks that do not list similar profiles have no similar profiles, $k=0$.
+
+\subsection{Data and  model configuration}
+\label{data-model-config}
 The available data was split into a training set (October 1 2009 through February 15 2014) and a testing set (February 16 2014 through June 25 2018).
-For the default configuration, the network was supplied with data from the previous and future 24 hours:
+For the hourly task, the network was supplied with data in hourly resolution from the previous and future 24 hours:
 \begin{itemize}
-	\item The previous 24 hours of load, $\mL = [ L_1 \: L_2 \: ...  \: L_{24}]^\top$, with $L_{24}$ being the most recent load.
-	\item Temperature for the future 24 hours, $\mT = [T_1 \: T_2 \: ... \: T_{24}]^\top$.
-	\item Day of the week as an integer from 0 to 6 (local time) over the future 24 hours, $\mD = [D_1 \: D_2 \: ... \: D_{24}]^\top$.
-	\item Minutes since midnight (local time) for the future 24 hours, $\mM = [M_1 \: M_2 \: ... \: M_{24}]^\top$.
-	\item Boolean 1 or 0 indicating whether it is a holiday at each hour over the next 24 hours, $\mH = [H_1 \: H_2 \: ... \: H_{24}]^\top$.
-	\item Holiday type as an integer from 0 to $n$ at each hour over the future 24 hours, where there are $n$ different holidays in the year, $\mG = [G_1 \: G_2 \: ... \: G_{24}]^\top$
-	\item Month of the year from 0 to 11 (local time) over the future 24 hours, $\mN = [N_1 \: N_2 \: ... \: N_{24}]^\top$.
+	\item The previous 24 hours of load, $\vl = [ l_1 \: l_2 \: ...  \: l_{24}]^\top$, with $l_{24}$ being the most recent load.
+	\item Temperature for the future 24 hours, $\vt = [t_1 \: t_2 \: ... \: t_{24}]^\top$, with $t_1$ being the soonest point in the future.
+	\item Day of the week as an integer from 0 to 6 (local time) over the future 24 hours, $\vd = [d_1 \: d_2 \: ... \: d_{24}]^\top$, with $d_1$ being the soonest point in the future.
+	\item Minutes since midnight (local time) for the future 24 hours, $\vm = [m_1 \: m_2 \: ... \: m_{24}]^\top$, with $m_1$ being the soonest point in the future.
+	\item Boolean 1 or 0 indicating whether it is a holiday at each hour over the next 24 hours, $\vh = [h_1 \: h_2 \: ... \: h_{24}]^\top$, with $h_1$ being the soonest point in the future.
+	\item Holiday type as an integer from 0 to $n$ at each hour over the future 24 hours, where there are $n$ different holidays in the year, $\vg = [g_1 \: g_2 \: ... \: g_{24}]^\top$, with $g_1$ being the soonest point in the future.
+	\item Month of the year from 0 to 11 (local time) over the future 24 hours, $\vn = [n_1 \: n_2 \: ... \: n_{24}]^\top$, with $n_1$ being the soonest point in the future.
 \end{itemize}
 
 Additionally, similar profile data was constructed for $k$ similar days, as described in section \ref{simperiod}.
 The weights used are given in table \ref{table:offline-parameters}.
 The extremely large weights are used to ensure that similar profiles are always selected from the same month and day of month/day of week unless there are none available.
+The similar day data is aligned with the same points in time as the $\vt$ vector (and others).
 The similar profile data is:
 
 \begin{itemize}
-	\item 24 hours of similar profile load $\mL_{sk} = [ L_{sk,1} \: L_{sk,2} \: ... \: L_{sk,24}]^\top$.
-	\item 24 hours of similar profile temperature, corresponding to the same points in time as $\mL_{sk}$, $\mT_{sk} = [ T_{sk,1} \: T_{sk,2} \: ...  \: T_{sk,24}]^\top$.
+	\item 24 hours of similar profile load $\vl_{sk} = [ l_{sk1} \: l_{sk2} \: ... \: l_{sk24}]^\top$.
+	\item 24 hours of similar profile temperature, corresponding to the same points in time as $\vl_{sk}$, $\vt_{sk} = [ t_{sk1} \: t_{sk2} \: ...  \: t_{sk24}]^\top$.
 \end{itemize}
 
-This data was concatenated to form the input matrix \\
-$\mX = [ \mL \: \mT \: \mD \: \mM \: \mH \: \mG \: \mN \: \mL_{s1} \: \mT_{s1} \: \ldots \: \mL_{sk} \: \mT_{sk}] \in \mathbb{R}^{24 \times (7 + 2k)}$.
+This data was concatenated to form the input matrix given in equation \ref{eq:input-matrix}.
+
+\begin{equation} \label{eq:input-matrix}
+\mX = [ \vl \: \vt \: \vd \: \vm \: \vh \: \vg \: \vn \: \vl_{s1} \: \vt_{s1} \: \ldots \: \vl_{sk} \: \vt_{sk}] \in \mathbb{R}^{24 \times (7 + 2k)}
+\end{equation}
+
+The half-hourly configuration is the same as the hourly configuration, except all vectors contain 48 elements (representing 24 hours of data) and so $\mX \in \mathbb{R}^{48 \times (7 + 2k)}$.
+
+The hourly long configuration modifies only the $\vl$ vector, such that $\vl = [ l_1 \: l_2 \: ...  \: l_{168}]^\top$ representing one week of hour-resolution data, with $l_{168}$ being the most recent observation.
+The other vectors were zero padded to match this length.
+With $\vz \in \mathbb{R}^{144}$ being a zero vector, and $\hat{\vv} = [\vz^\top \vv^\top]^\top$ for any vector $\vv$, the input $\mX$ is given by
+\begin{equation}
+\mX = [ \hat{\vl} \: \hat{\vt} \: \hat{\vd} \: \hat{\vm} \: \hat{\vh} \: \hat{\vg} \: \hat{\vn} \: \hat{\vl_{s1}} \: \hat{\vt_{s1}} \: \ldots \: \hat{\vl_{sk}} \: \hat{\vt_{sk}}] \in \mathbb{R}^{168 \times (7 + 2k)}
+\end{equation}
 
 The forecasting models were configured with the parameters given in table \ref{table:offline-parameters}.
+All the models presented in section \ref{ana-meth} are evaluated.
+The ``Transformer" model is the transformer with teacher forcing enabled, and the ``Transformer no TF" model is the transformer with teacher forcing disabled.
 
 \begin{table}[htbp]
 	\caption{Offline Evaluation model parameters.}
