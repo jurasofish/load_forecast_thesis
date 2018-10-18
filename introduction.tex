@@ -141,6 +141,7 @@ This compares to a MAPE of about 3\% for a standard ARIMA model.
 This system has the downside of relying entirely upon a specialist expert to provide regular input information.
 
 \subsection{Support vector regression}
+\label{SVR}
 Support vector regression (SVR) was introduced by \citet{Drucker1996} and has been applied widely to short-term load forecasting.
 SVR maps an input feature vector into a higher dimensional space and applies linear regression.
 
@@ -154,6 +155,7 @@ This approach achieved a MAPE of 3.62\% when forecasting hourly load with a hori
 
 
 \subsection{Artificial Neural Network}
+\label{litrev-ann}
 An artificial neural network (ANN) is a method for computation based loosely on biological brains \citep{negnevitsky2005artificial}.
 ANNs can take on widely differing structures, and have have achieved state of the art performance in a wide range of fields including handwriting recognition \citep{2017arXiv171009829S}, machine translation \citep{Vaswani2017}, speech recognition \citep{Chiu2017}, and speech synthesis \citep{DBLP:journals/corr/OordDZSVGKSK16}.
 ANNs have been demonstrated to out-perform ARIMA models for electricity time series price forecasting \citep{Mandal2010}.
@@ -193,7 +195,7 @@ The forecasting system was evaluated on six feeders from the same substation, wi
 
 \section{Problem formation and scope}
 \label{scope}
-The aim of this thesis is to build upon existing research and develop a load forecasting system which can predict future load based on weather, holiday periods, and other exogenous factors. 
+The aim of this thesis is to build upon existing research and develop a load forecasting system that is able to predict future load based on weather, holiday periods, and other exogenous factors. 
 Bruny Island and the CONSORT project will be used as the primary case study. 
 The forecasting system is expected to be equally applicable to any feeder or power system.
 Specifically, the system will have the following properties:

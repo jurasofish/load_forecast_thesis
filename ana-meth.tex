@@ -159,12 +159,12 @@ RNN-based models appear to offer the ability to forecast load with minimal prepr
 
 \subsection{Generic recurrent neural network}
 RNNs operate on sequences of data by applying an identical function $f$ to every element of the sequence to produce a sequence of state vectors $\mH = [\vh_1 \, \ldots \, \vh_P]$.
-$f$ takes as input both the output of the function at the previous point in the sequence, and the current element of the input sequence $\mX = [\vx_1 \, \ldots \, \vx_P]$.
+The function $f$ takes as input both the output of the function at the previous point in the sequence, and the current element of the input sequence $\mX = [\vx_1 \, \ldots \, \vx_P]$.
 An RNN can be unfolded to represent it as a traditional feedforward neural network with no recurrence.
 A generic RNN is shown in figure \ref{fig:basic_rnn}.
 
 At each point $t$ in the sequence $\vh_t$ is taken as the output.
-$\vh_t$ can be projected to the required output dimension - for example by equation \ref{dense_layer}, but any method can be used.
+$\vh_t$ can be projected to the required output dimension -- for example by equation \ref{dense_layer}, but any method can be used.
 An output dimension of 1 is typical for univariate load forecasting.
 
 RNNs can be extended to multiple layers, with a two-layer RNN illustrated in figure \ref{fig:multilayer_rnn}.
@@ -172,6 +172,8 @@ Each layer implements its own function, with layer $n$ implementing function $f^
 For layers after the first layer, instead of taking an $\vx$ vector as input they take the state vector from the previous layer.
 There can be an arbitrary number of layers.
 A multi-layer RNN can in fact be thought of as a generalization of a single-layer, where the function $f$ is simply comprised of multiple sub-functions.
+
+As an RNN simply applies the same function to each element of the input sequence its computation and memory requirements are O($n$) with the input sequence length.
 
 \begin{figure}[htbp]
 	\centering
@@ -252,15 +254,15 @@ Finally, a candidate output vector is produced by applying tanh element-wise to 
 The output gate layer produces $\vo_t$ and this is multiplied with the candidate output vector to selectively remove elements, producing the final cell output $\vh_t$.
 The sigmoid layer that produces $\vo_t$ is referred to as the output gate, as it decides which elements of the candidate output are passed as the final output.
 
-Together, these gating mechanisms allow the LSTM cell to selectively add and remove elements from the state as it passes through the cell, and allow the cell to selectively produce an output based on the cell state.
-This allows the LSTM cell to retain data from many timesteps in the past, making it an appropriate choice when working with long sequences of data.
+Together, these gating mechanisms allow the LSTM cell to selectively add and remove elements from the state as it passes through the cell, and allow the cell to selectively produce an output based on the current cell state.
+This generally allows the LSTM cell to retain data from many timesteps in the past, making it an appropriate choice when working with long sequences of data, though in some cases the LSTM cell can discard or ``forget" data from early in the sequence.
 
 \subsection{Sequence to sequence recurrent neural network}
 \label{section-S2S}
 An RNN can be extended to form a sequence to sequence (S2S) architecture by applying an encoder RNN to an input sequence, and then having a decoder RNN produce an output sequence.
 The decoder RNN's initial cell state is set to the final cell state of the encoder \cite{Cho2014a}.
 This shared cell state is a latent representation of the input, which is used by the decoder to produce an output.
-The encoder and decoder can be of different lengths, depicted in figure \ref{fig:S2S} as $R$ and $P$, allowing this architecture to naturally model tasks such as load forecasting where the input may be 48 hours of data while the output is only 24.
+The encoder and decoder can be of different lengths, depicted in figure \ref{fig:S2S} as $R$ and $P$, allowing this architecture to naturally model tasks such as load forecasting where the input may consist of 48 hours of data while the output is only 24.
 The output matrix $\mH \in \mathbb{R}^{R \times d}$ is then projected to the desired dimension.
 
 Of course, an immediately obvious issue with this model is whether the shared latent cell state vector is capable of representing the input information in its entirety.
@@ -313,7 +315,7 @@ The self-attention in the decoder is masked so that when evaluating a query at t
 
 The individual components of the transformer are discussed in the following sections.
 
-\subsection{Input Embedding}
+\subsection{Input embedding}
 The input $\boldsymbol{X} \in \mathbb{R}^{T \times N}$, where the rows represent $T$ points in time and the columns represent $N$ time series, is embedded by applying a dense layer to produce an embedded $\boldsymbol{X'} \in \mathbb{R}^{T \times d}$, where $d$ is the hidden dimension of the model and $d$ is the same for both the encoder and the decoder.
 This is intended to allow the neural network to learn the relationships and dependencies between the different input time series.
 The embedded representation is given by Equation \ref{dense_layer}, with learned weights $\boldsymbol{W} \in \mathbb{R}^{N \times d}$ and a learned bias vector $\boldsymbol{b} \in \mathbb{R}^{d}$.
@@ -322,12 +324,12 @@ The embedded representation is given by Equation \ref{dense_layer}, with learned
 \text{dense}(\boldsymbol{X}) = \text{max}(0, \boldsymbol{XW} + \boldsymbol{b})
 \end{equation}
 
-\subsection{Positional Encoding} \label{sec:positional_encoding}
+\subsection{Positional encoding} \label{sec:positional_encoding}
 The model has no way of telling the position or order of each element in the input, so this information is injected in the positional encoding layer.
 This is done by using a learned lookup table to add the same value to the inputs at both test and train time depending on their position in time in the input.
 Specifically, the positional encoding layer adds a matrix lookup table of embeddings $\boldsymbol{E}$ to the input, where $\boldsymbol{E}$ is of the same dimension as the input.
 
-\subsection{Multi-Head Attention} \label{multihead_attention}
+\subsection{Multi-head attention} \label{multihead_attention}
 The primary innovation of the Transformer architecture is multi-head attention.
 Generic attention and dot-product attention will now be described as these are prerequisite to describing multi-head attention.
 
@@ -335,7 +337,7 @@ Given a single query vector and a set of key and value pairs (with each key and 
 These key weights are then used to create an output vector comprised of the weighted sum of the values, where each value's weight is the weight assigned to its corresponding key. 
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.35\textwidth]{images/multihead_attn.pdf}}
+	\centerline{\includegraphics[width=.45\textwidth]{images/multihead_attn.pdf}}
 	\caption{Multiheaded attention (b) splits the key, query, and value matrices and applies scaled dot product attention (a) on each in parallel before concatenating the result to return the data to its original dimension.}
 	\label{fig:multihead}
 \end{figure}
@@ -369,18 +371,18 @@ Given an input $\boldsymbol{X} \in \mathbb{R}^{T \times d}$, the output $\boldsy
 \text{feedforward}(\boldsymbol{X}) = \text{max}(0, \boldsymbol{X}  \boldsymbol{W}_1 + \boldsymbol{b}_1)  \boldsymbol{W}_2 + \boldsymbol{b}_2
 \end{equation}
 
-\subsection{Decoder Dense Output}
+\subsection{Decoder dense output}
 The output of the decoder is passed through a dense layer to project the hidden dimension to the desired dimension of 1.
 The layer is implemented per Equation \ref{dense_layer} where $\boldsymbol{W} \in \mathbb{R}^{d \times 1}$ is a learned weight matrix and $\boldsymbol{b} \in \mathbb{R}^{1}$ is a learned bias vector.
 By adjusting the dimension of $\boldsymbol{W}$ and $\boldsymbol{b}$ the network could be modified to perform multiple forecasts simultaneously.
 
 
-\subsection{Residuals \& Normalization}
+\subsection{Residuals \& normalization}
 Residual connections \cite{He2015} are applied around each sub-layer.
 That is, the output of each sub-layer is given by $\boldsymbol{X'} = \boldsymbol{X} + \text{subLayer}(\boldsymbol{X})$ where subLayer$(\boldsymbol{X})$ is the original output of the sub-layer.
 The outputs are then normalized by applying layer normalization \cite{Ba2016}.
 
-\subsection{Dropout and Training}
+\subsection{Dropout and training}
 \label{transformer-dropout-training}
 To help prevent overfitting to the training data, dropout \cite{srivastava14a} is applied during training at the output of both positional encoding layers, and immediately after the softmax operation in all multi-head attention layers.
 
@@ -414,7 +416,7 @@ The input matrix $\mX \in \mathbb{R}^{T \times N}$, where $T$ is the sequence le
 
 The decoder output, $\mY \in \mathbb{R}^{U \times d}$, was projected to a dimension of 1 using equation \ref{dense_layer}, where $\boldsymbol{W} \in \mathbb{R}^{d \times 1}$ is a learned weight matrix and $\boldsymbol{b} \in \mathbb{R}^{1}$ is a learned bias vector, $U$ is the length of the time series forecast, and $d$ is the hidden dimension of the model.
 
-\section{Universal Transformer} \label{sec:universal_transformer}
+\section{Universal transformer} \label{sec:universal_transformer}
 The universal transformer, shown in figure \ref{fig:universal_transformer}, is a variation on the transformer where the layers within the encoder and decoder (except for the timestep encoding) share parameters.
 This architecture was published in July 2018 \cite{Dehghani2018} and there are only two published publications which reference it.
 The universal transformer outperforms the original transformer in the following tasks \cite{Dehghani2018}:

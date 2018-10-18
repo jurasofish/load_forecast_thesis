@@ -1,5 +1,5 @@
 \chapter{Results}
-This chapter presents studies of Bruny Island and ISO New England using the proposed forecasting models.
+This chapter presents case studies of Bruny Island and ISO New England using the proposed forecasting models.
 
 \section{Bruny Island}
 Bruny Island, shown in Figure \ref{fig:bruny_map}, is located approximately two kilometres off the coast of south-east Tasmania with a permanent resident population of approximately 800 people.
@@ -15,7 +15,7 @@ These batteries are coordinated by the network aware coordination algorithm (NAC
 In order to peak-shift while making efficient use of the batteries, the NAC requires an accurate forecast of load with a 24-hour horizon and 30-minute resolution.
 
 The proposed forecasting models were evaluated on historical data, with the details of the implementations and the results presented in the following sections.
-A transformer-based model was implemented as part of the NAC, with details given in section \ref{consort-eval}.
+A transformer-based model was implemented for online forecasting as part of the NAC, with details given in section \ref{consort-eval}.
 
 \begin{figure}[htbp]
 	\centerline{\includegraphics[width=.45\textwidth]{images/bruny_single_line.pdf}}
@@ -43,9 +43,7 @@ The following data is available:
 \end{itemize}	
 Vehicle movement data is provided as a set of observations every 10 minutes recording the number of vehicles arriving on the island, and the number of vehicles departing the island.
 By integrating this, a relative number of vehicles on the island can be established.
-
-There is a significant amount of bad or missing data throughout these datasets.
-This has been handled by limiting the use of data where there are too many missing or bad values.
+There is a significant amount of bad or missing data throughout these datasets which has been handled by limiting the use of data where there are too many missing or bad values.
 
 \subsubsection{Analysis}
 Figure \ref{fig:load-profiles} shows apparent power draw on Bruny Island over a winter week, a summer week, and over an entire year.
@@ -105,13 +103,14 @@ This brief investigation serves to highlight some of the challenges that the loa
 \end{figure}
 
 \subsection{Forecasting tasks}
+\label{forecasting-tasks}
 The forecasters were evaluated on several tasks, shown in table \ref{table:offline-results-bruny-lscape}.
 The hourly task has the forecaster predict the future 24 hours of load in one-hour resolution given the previous 24 hours of load and the future 24 hours of date/time, holiday, and temperature data.
 The half-hourly task is the same as hourly, except using half-hour resolution data.
 The hourly long task has the forecaster predict the future 24 hours of load in one-hour resolution given the previous 168 hours (one week) of load and the future 24 hours of date/time, holiday, and temperature data.
-The hourly ($c$=3) task is the same as the hourly task but with the loss function modified as described in section \ref{train-reg}.
+The hourly ($c$=3) task is the same as the hourly task but with the loss function modified, as described in section \ref{train-reg}, with $c=3$.
 
-The tasks listed as being ''with similar profiles" include five similar profiles ($k=5$, as described in the following section \nameref{data-model-config}).
+The tasks listed as being ``with similar profiles" include five similar profiles ($k=5$, as described in the following section \nameref{data-model-config}).
 The tasks that do not list similar profiles have no similar profiles, $k=0$.
 
 \subsection{Data and  model configuration}
@@ -131,12 +130,12 @@ For the hourly task, the network was supplied with data in hourly resolution fro
 Additionally, similar profile data was constructed for $k$ similar days, as described in section \ref{simperiod}.
 The weights used are given in table \ref{table:offline-parameters}.
 The extremely large weights are used to ensure that similar profiles are always selected from the same month and day of month/day of week unless there are none available.
-The similar day data is aligned with the same points in time as the $\vt$ vector (and others).
+The similar day data is aligned with the same points in time as the $\vt$ vector.
 The similar profile data is:
 
 \begin{itemize}
 	\item 24 hours of similar profile load $\vl_{sk} = [ l_{sk1} \: l_{sk2} \: ... \: l_{sk24}]^\top$.
-	\item 24 hours of similar profile temperature, corresponding to the same points in time as $\vl_{sk}$, $\vt_{sk} = [ t_{sk1} \: t_{sk2} \: ...  \: t_{sk24}]^\top$.
+	\item 24 hours of similar profile temperature (corresponding to the same points in time as $\vl_{sk}$), $\vt_{sk} = [ t_{sk1} \: t_{sk2} \: ...  \: t_{sk24}]^\top$.
 \end{itemize}
 
 This data was concatenated to form the input matrix given in equation \ref{eq:input-matrix}.
@@ -149,8 +148,9 @@ The half-hourly configuration is the same as the hourly configuration, except al
 
 The hourly long configuration modifies only the $\vl$ vector, such that $\vl = [ l_1 \: l_2 \: ...  \: l_{168}]^\top$ representing one week of hour-resolution data, with $l_{168}$ being the most recent observation.
 The other vectors were zero padded to match this length.
-With $\vz \in \mathbb{R}^{144}$ being a zero vector, and $\hat{\vv} = [\vz^\top \vv^\top]^\top$ for any vector $\vv$, the input $\mX$ is given by
+With $\vz \in \mathbb{R}^{144}$ being a zero vector, and $\hat{\vv} = [\vz^\top \vv^\top]^\top$ for any vector $\vv$, the input $\mX$ is given by equation \ref{hourly-long-x}.
 \begin{equation}
+\label{hourly-long-x}
 \mX = [ \hat{\vl} \: \hat{\vt} \: \hat{\vd} \: \hat{\vm} \: \hat{\vh} \: \hat{\vg} \: \hat{\vn} \: \hat{\vl_{s1}} \: \hat{\vt_{s1}} \: \ldots \: \hat{\vl_{sk}} \: \hat{\vt_{sk}}] \in \mathbb{R}^{168 \times (7 + 2k)}
 \end{equation}
 
@@ -227,11 +227,10 @@ These two metrics allow the performance of the system on anomalous holiday perio
 
 The SARIMAX model proved to produce results that are relatively poor compared to the other models, and so was not considered beyond the hourly without similar days task.
 The universal transformer is consistently a poor performer, never producing the best results for any task or metric.
-The transformer model is generally outperformed by, or very similar to, the transformer without teacher forcing.
+The transformer model is generally outperformed by, or at least very similar to, the transformer without teacher forcing.
+Looking at the results table, it is clear that there is no model which is overall superior between the S2S and transformer without teacher forcing models.
 
-Looking at the results table, it is clear that there is no model which is overall superior between the sequence to sequence and transformer without teacher forcing models.
-
-The sequence to sequence model appears to excel at the hourly task achieving the best MAPE scores above 1 MVA and at first large peak, while also being close to the transformer without teacher forcing on the overall MAPE score.
+The S2S model appears to excel at the hourly task, achieving the best MAPE scores above 1 MVA and at first large peak, while also being close to the transformer without teacher forcing on the overall MAPE score.
 
 The transformer without teacher forcing is generally good at minimizing the overall MAPE score.
 It also performs exceedingly well in the hourly long task, achieving the lowest overall MAPE while the other two metrics are close to the hourly with similar and $c=3$ task.
@@ -324,11 +323,10 @@ Neural networks generally require large amounts of training data in order to fit
 
 \subsection{Online CONSORT implementation}
 \label{consort-eval}
-In July 2018 the load forecasting system was implemented as part of the CONSORT project.
-The forecasting system was used to assist with dispatch of residential batteries.
+In July 2018 the load forecasting system was implemented as part of the CONSORT project and was used to assist with dispatch of residential batteries.
 The model implemented was a transformer (with teacher forcing enabled), and is somewhat different to the models discussed in the offline evaluation.
 Although the implemented model achieved sufficient accuracy while in use, it has since been determined to be a sub-optimal configuration.
-The data and model configuration is somewhat different than described for the offline evaluation, and so this section is largely repeated here.
+The data and model configuration is somewhat different than described for the offline evaluation in section \ref{data-model-config}, and so this section is largely repeated here.
 
 \subsubsection{Data and  Model Configuration}
 The following data was available from 2009-2018:
@@ -344,7 +342,7 @@ The network was supplied with data from the previous and future 24 hours, for a 
 The output sequence length was 48 (24 hours).
 The data was configured differently than described in section \ref{data-model-config}.
 The $\mX$ input matrix was constructed with all vectors containing 96 elements, representing the previous 24 and the future 24 hours.
-The past load vector $\vl = [ l_1 \: l_2 \: ...  \: l_{48} \: 0 ... 0]^\top \in \mathbb{R}^{96}$ was populated with the past 48 load observations (representing 24 hours) and zero padded to match the shape of the rest of the data.
+The past load vector $\vl = [ l_1 \: l_2 \: ...  \: l_{48} \: 0 \: ... \: 0]^\top \in \mathbb{R}^{96}$ was populated with the past 48 load observations (representing 24 hours) and zero padded to match the shape of the rest of the data.
 
 The following time series were supplied to the model input:
 \begin{itemize}
@@ -440,10 +438,10 @@ The lower section shows the battery charge rate, where a negative value of batte
 
 Typically the generator is switched on when load exceeds 1050 kVA.
 During the first peak the graph shows the batteries supplying between 50 and 100 kW to the island.
-Without this support from the batteries, the generator would have been required to operate.
+Without this support from the batteries, the generator would have likely been required to operate.
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.65\textwidth]{images/bruny_nac.pdf}}
+	\centerline{\includegraphics[width=.75\textwidth]{images/bruny_nac.pdf}}
 	\caption{Results from the forecasting system's implementation in the CONSORT project.}
 	\label{fig:bruny_nac}
 \end{figure}
