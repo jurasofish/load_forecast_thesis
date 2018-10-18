@@ -235,10 +235,12 @@ The sequence to sequence model appears to excel at the hourly task achieving the
 
 The transformer without teacher forcing is generally good at minimizing the overall MAPE score.
 It also performs exceedingly well in the hourly long task, achieving the lowest overall MAPE while the other two metrics are close to the hourly with similar and $c=3$ task.
-This model is also arguably the best at the half-hourly tasks, achieving the best results on the majority of metrics across both tasks. 
+This model is also arguably the best at the half-hourly tasks, achieving the best results on the majority of metrics across both tasks.
+The dominance of the transformer-based models on the half-hourly and hourly long tasks is likely a result of the transformer's ability to handle long sequence lengths,
+as discussed in section \ref{sec:transformer}.
 
 The hourly with $c=3$ tasks show no consensus on which model is generally superior.
-
+Interestingly, the hourly long task achieves similar results to the hourly with $c=3$ with similar profiles task.
 
 \afterpage{%
 	\clearpage% Flush earlier floats (otherwise order might not be correct)
