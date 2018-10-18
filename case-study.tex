@@ -327,8 +327,8 @@ Neural networks generally require large amounts of training data in order to fit
 In July 2018 the load forecasting system was implemented as part of the CONSORT project.
 The forecasting system was used to assist with dispatch of residential batteries.
 The model implemented was a transformer (with teacher forcing enabled), and is somewhat different to the models discussed in the offline evaluation.
-Although the implemented model achieved sufficient accuracy, it has since been determined to be a sub-optimal configuration.
-
+Although the implemented model achieved sufficient accuracy while in use, it has since been determined to be a sub-optimal configuration.
+The data and model configuration is somewhat different than described for the offline evaluation, and so this section is largely repeated here.
 
 \subsubsection{Data and  Model Configuration}
 The following data was available from 2009-2018:
@@ -342,6 +342,9 @@ This data was averaged to 30 minute resolution and split into a training set con
 
 The network was supplied with data from the previous and future 24 hours, for a total input sequence length of 96 (representing 48 hours at 30 minute resolution).
 The output sequence length was 48 (24 hours).
+The data was configured differently than described in section \ref{data-model-config}.
+The $\mX$ input matrix was constructed with all vectors containing 96 elements, representing the previous 24 and the future 24 hours.
+The past load vector $\vl = [ l_1 \: l_2 \: ...  \: l_{48} \: 0 ... 0]^\top \in \mathbb{R}^{96}$ was populated with the past 48 load observations (representing 24 hours) and zero padded to match the shape of the rest of the data.
 
 The following time series were supplied to the model input:
 \begin{itemize}
@@ -354,7 +357,6 @@ The following time series were supplied to the model input:
 \end{itemize}
 
 When used for inference, temperature forecasts were obtained from the Bureau of Meteorology.
-
 Additionally, five similar periods were identified using data from R1 by the process described in section \ref{simperiod}.
 The data over the similar periods for each of the following time series was provided as input:
 \begin{itemize}
