@@ -1,3 +1,25 @@
 \chapter{Conclusion}
 Yeah works okay.
 
+\section{Future work}
+There are many possibilities for expansion of this work.
+
+\subsubsection{Transfer learning}
+Train a single model on all feeders, and then finish off training on individual feeders.
+OpenAI has had success with this using the transformer for NLP tasks.
+
+\subsubsection{Monthly models}
+similar to \citet{Ceperic2013}, train a different model for each month.
+Also pre-train on all data before training on individual months.
+
+\subsubsection{Multi-task learning}
+Forecast all feeders simultaneously
+
+\subsubsection{Generic forecaster}
+Train the model to forecast any feeder based on large amounts of historical load.
+Use local multi-head attention on the long input sequence instead of full multi-head attention.
+
+\subsubsection{Sequence to sequence with attention}
+Sequence to sequence models are typically augmented with an attention mechanism.
+This may overcome the tendency of LSTM RNN networks to ``forget" data from early in the input sequence.
+Perhaps multi-head attention could be combined with the sequence to sequence model.
