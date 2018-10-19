@@ -337,22 +337,30 @@ Given a single query vector and a set of key and value pairs (with each key and 
 These key weights are then used to create an output vector comprised of the weighted sum of the values, where each value's weight is the weight assigned to its corresponding key. 
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[width=.45\textwidth]{images/multihead_attn.pdf}}
-	\caption{Multiheaded attention (b) splits the key, query, and value matrices and applies scaled dot product attention (a) on each in parallel before concatenating the result to return the data to its original dimension.}
+	\centering
+	\subfigure[Scaled dot product attention.]{
+		\includegraphics[width=.26\textwidth]{images/dot_product_attn.pdf}
+		\label{fig:dot_prduct_attn}}
+	%\vfil
+	\quad\quad
+	\subfigure[Multi-head attention.]{
+		\includegraphics[width=.35\textwidth]{images/multihead_attn.pdf}
+		\label{fig:multihead_attn}}
+	\caption{Attention mechanisms used in the transformer architecture.}
 	\label{fig:multihead}
 \end{figure}
 
-Scaled dot-product attention, shown in Figure \ref{fig:multihead} (a), is a specific implementation of an attention function. 
+Scaled dot-product attention, shown in Figure \ref{fig:dot_prduct_attn}, is a specific implementation of an attention function. 
 It uses the dot product of the query and each key to generate the weights, which are then passed through a softmax function such that the sum of all weights is equal to 1.
 In practice, the query row vectors are combined into a single matrix, $\boldsymbol{Q}$, allowing cheap matrix calculations to be used to evaluate the attention outputs in parallel.
 The keys and values are represented by row vectors in $\boldsymbol{K}$ and $\boldsymbol{V}$, respectively.
 
 The dot product of the keys and queries is scaled (hence the name) by multiplying it by $1 / \sqrt{d_k}$, with $d_k$ being the key and query dimension, to prevent the dot product from becoming large when $d_k$ is large as this may cause the softmax gradient to become very small and affect the gradient descent training.
 
-The causal mask shown in Figure \ref{fig:multihead} is used exclusively in the decoder self-attention to prevent the attention function from matching any query to a key that occurs after itself in time.
+The causal mask shown in Figure \ref{fig:dot_prduct_attn} is used exclusively in the decoder self-attention to prevent the attention function from matching any query to a key that occurs after itself in time.
 This is achieved by leaving the lower triangular portion of the matrix untouched and setting the other values to be large negative numbers, indicating a very poor match.
 
-Multi-head attention, shown in Figure \ref{fig:multihead} (b), applies a separate dense layer to each of the values, queries, and keys. 
+Multi-head attention, shown in Figure \ref{fig:multihead_attn} (b), applies a separate dense layer to each of the values, queries, and keys. 
 The dense layer is applied per Equation \ref{dense_layer} with learned weights $\boldsymbol{W} \in \mathbb{R}^{d \times d}$ and a learned bias vector $\boldsymbol{b} \in \mathbb{R}^{d}$.
 The outputs of the dense layers are then split along the last axis into $h$ sets, or heads.
 As a result the key, query, and value dimension is reduced by a factor of $h$ to $\frac{d}{h}$.
