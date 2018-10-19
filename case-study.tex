@@ -228,9 +228,10 @@ These two metrics allow the performance of the system on anomalous holiday perio
 The SARIMAX model proved to produce results that are relatively poor compared to the other models, and so was not considered beyond the hourly without similar days task.
 The universal transformer is consistently a poor performer, never producing the best results for any task or metric.
 The transformer model is generally outperformed by, or at least very similar to, the transformer without teacher forcing.
-Looking at the results table, it is clear that there is no model which is overall superior between the S2S and transformer without teacher forcing models.
+Excluding these models, it is clear that there is no model which is overall superior between the S2S and transformer without teacher forcing models.
 
 The S2S model appears to excel at the hourly task, achieving the best MAPE scores above 1 MVA and at first large peak, while also being close to the transformer without teacher forcing on the overall MAPE score.
+The S2S model generally produces good results across the board.
 
 The transformer without teacher forcing is generally good at minimizing the overall MAPE score.
 It also performs exceedingly well in the hourly long task, achieving the lowest overall MAPE while the other two metrics are close to the hourly with similar and $c=3$ task.
@@ -319,6 +320,11 @@ Interestingly, the hourly long task achieves similar results to the hourly with 
 
 \subsection{Training data requirements}
 Neural networks generally require large amounts of training data in order to fit the model parameters.
+
+\subsection{Autoregression requirements}
+All models presented have been supplied with at least the past 24 hour of load.
+If this data is not supplied, the models are still able to forecast load.
+
 
 
 \subsection{Online CONSORT implementation}
