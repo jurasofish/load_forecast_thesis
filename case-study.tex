@@ -455,7 +455,7 @@ Without this support from the batteries, the generator would have likely been re
 \section{ISO New England}
 ISO New England is a regional transmission organization operating in the New England area of the United States.
 Data from ISO New England has been used by several papers for evaluating the performance of their load forecasting systems \cite{Ceperic2013}\cite{Chen2010}.
-The aim of this section is to compare the proposed forecasting models to the models and methods used by \citet{Ceperic2013}, whose method is discussed in section \ref{SVR}, and \citet{Chen2010}, whose method is discussed in section \ref{litrev-ann}.
+The aim of this section is to compare the proposed forecasting models to the models and methods used by \citet{Ceperic2013}, whose method is discussed in section \ref{SVR}, and \citet{Chen2010}, whose method is discussed in section \ref{litrev-ann} and to validate that the models used for Bruny Island can also be applied to other feeders with no modification.
 A week of load from the ISO New England dataset is shown in figure \ref{fig:week-isone}.
 
 \begin{figure}[htbp]
@@ -485,11 +485,14 @@ The following holidays were used, and the same heuristics described in section \
 
 The forecasting was performed identically to the ``hourly long" task described in section \ref{forecasting-tasks}, except with no similar days ($k=0$).
 The input matrix $\mX$ was constructed by equation \ref{hourly-long-x}.
-\citet{Ceperic2013} turned heuristics about heating and cooling load based on temperature into features for the neural network.
+\citet{Ceperic2013}  and \citet{Chen2010} turned heuristics about heating and cooling load based on temperature into features for the neural network.
 This is generally considered good practice \cite{Zinkevich2018}.
 However, as one of the primary aims of this thesis is to develop a practical load forecasting system that does not require significant modifications when forecasting for different feeders, this data was not provided as an input.
 
 The model configurations are the same as that described in table \ref{table:offline-parameters}, and the models were trained for $10^5$ iterations.
+The results are shown in table \ref{table:iso-results}.
+The results show a MAPE worse than other papers, but considering the differences in inputs (heuristic weather inputs), that \cite{Chen2010} only performs forecasts once per day, and that the models here are identical to the models used for Bruny Island, these results are encouraging.
+These results demonstrate that the same models that forecast load at a low level in the distribution network can also be applied to forecasting at a high level in the transmission network with absolutely no modification.
 
 \begin{table}[htbp]
 	\caption{ISO New England results.}
