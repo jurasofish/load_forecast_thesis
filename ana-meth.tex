@@ -506,3 +506,21 @@ The candidate similar periods with the lowest Euclidean distance were selected a
 
 When training and testing the model the similar periods were selected from both the past and the future, as the train and test datasets were only five years each.
 It was assumed that, for testing, there were no changes in the patterns underlying the load profile over the duration of the testing set.
+
+The following holidays were used:
+ \begin{itemize}
+ 	\item Australia Day;
+ 	\item Regatta;
+ 	\item Eight Hours Day;
+ 	\item Easter;
+ 	\item Anzac Day;
+ 	\item Royal Hobart Show Day; and
+ 	\item Christmas/New Year (Dec 21 through Jan 6).
+ \end{itemize}
+The following heuristics were used to expand holidays when they occurred near weekends, to attempt to account for the tendency for people to take extra time off work around holidays.
+\begin{itemize}
+	\item If a holiday occurs on a Monday, mark the previous two days as the same holiday.
+	\item If a holiday occurs on a Tuesday, mark the previous three days as the same holiday.
+	\item If a holiday occurs on a Friday, mark the following two days as the same holiday.
+	\item If a holiday occurs on a Thursday, mark the following three days as the same holiday.
+\end{itemize}

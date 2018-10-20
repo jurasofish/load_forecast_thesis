@@ -450,6 +450,20 @@ Historical electrical load data was obtained from the public ISO New England web
 Historical temperature was obtained from the National Centers for Environment Information \cite{NOAA} at Concord, New Hampshire, United States (latitude 43.204900 degrees, longitude \mbox{-71.502740 degrees}).
 This is different temperature data to that used by \citet{Ceperic2013} as that data could not be accessed.
 
+The following holidays were used, and the same heuristics described in section \ref{simperiod} were applied.
+\begin{itemize}
+	\item Birthday of Martin Luther King, Jr.;
+	\item Washington's Birthday;
+	\item Memorial Day;
+	\item Independence Day;
+	\item Labor Day;
+	\item Colombus Day;
+	\item Veteran's Day;
+	\item Thanksgiving;
+	\item Easter; and
+	\item Christmas/New Year (Dec 21 through Jan 6).
+\end{itemize}
+
 The forecasting was performed identically to the ``hourly long" task described in section \ref{forecasting-tasks}, except with no similar days ($k=0$).
 The input matrix $\mX$ was constructed by equation \ref{hourly-long-x}.
 \citet{Ceperic2013} turned heuristics about heating and cooling load based on temperature into features for the neural network.
