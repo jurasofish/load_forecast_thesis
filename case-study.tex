@@ -244,6 +244,17 @@ as discussed in section \ref{sec:transformer}.
 The hourly with $c=3$ tasks show no consensus on which model is generally superior.
 Interestingly, the hourly long task achieves similar results to the hourly with $c=3$ with similar profiles task.
 
+In some cases the MAPE decreases after introducing similar profiles.
+It could be that in these cases the similar profile data is providing poor quality data as input, or perhaps the model is not able to effectively handle the high dimensionality of the input.
+It is difficult to say for sure why this happens.
+
+The MAPE versus horizon plot is shown in figure \ref{fig:bruny_mape} for the hourly task.
+Only the sequence to sequence (S2S) and transformer without teacher forcing models are shown.
+The cross-validation results, denoted with ``CV" in the legend, are the results when the model is trained on data from 2014-2018 and evaluated on data from 2009-2014.
+The cross-validated results  agree within 0.8\%.
+The corresponding distribution of forecast error  (though not for the cross validated results) can be seen in figure \ref{fig:bruny_hist}.
+The two distributions show an encouraging resemblance to a normal distribution.
+
 \afterpage{%
 	\clearpage% Flush earlier floats (otherwise order might not be correct)
 	\thispagestyle{empty}% empty page style (?)
