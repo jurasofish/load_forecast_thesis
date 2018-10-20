@@ -255,7 +255,7 @@ The output gate layer produces $\vo_t$ and this is multiplied with the candidate
 The sigmoid layer that produces $\vo_t$ is referred to as the output gate, as it decides which elements of the candidate output are passed as the final output.
 
 Together, these gating mechanisms allow the LSTM cell to selectively add and remove elements from the state as it passes through the cell, and allow the cell to selectively produce an output based on the current cell state.
-This generally allows the LSTM cell to retain data from many timesteps in the past, making it an appropriate choice when working with long sequences of data, though in some cases the LSTM cell can discard or ``forget" data from early in the sequence.
+This generally allows the LSTM cell to retain data from many timesteps in the past, making it a superior choice to simpler functions when working with long sequences of data, though in some cases the LSTM cell can discard or ``forget" data from early in the sequence.
 
 \subsection{Sequence to sequence recurrent neural network}
 \label{section-S2S}
