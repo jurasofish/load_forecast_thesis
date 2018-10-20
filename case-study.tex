@@ -131,6 +131,7 @@ Additionally, similar profile data was constructed for $k$ similar days, as desc
 The weights used are given in table \ref{table:offline-parameters}.
 The extremely large weights are used to ensure that similar profiles are always selected from the same month and day of month/day of week unless there are none available.
 The similar day data is aligned with the same points in time as the $\vt$ vector.
+The order in which the similar days were added to the $\mX$ input matrix was randomized during both training and testing/inference.
 The similar profile data is:
 
 \begin{itemize}
