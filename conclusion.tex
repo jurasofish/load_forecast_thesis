@@ -1,7 +1,25 @@
 \chapter{Conclusion}
-Yeah works okay.
+Four neural-network based models were evaluated for short-term load forecasting: sequence to sequence recurrent neural network, transformer with and without teacher forcing, and universal transformer.
+The models were applied to the Bruny Island submarine feeder and to the standard ISO New England dataset.
+Metrics assessing the MAPE above 1 MVA and MAPE at first large peak were used to assess the performance of the forecasters on anomalous holiday periods.
+The transformer with teacher forcing and universal transformer models did not produce results competitive with the sequence to sequence and transformer without teacher forcing models.
 
-\section{Future work}
+The sequence to sequence model was found to achieve overall good results on the Bruny Island feeder when evaluated on overall MAPE and MAPE above 1 MVA.
+The transformer without teacher forcing model was found to achieve the best results on overall MAPE on the Bruny Island feeder, but was somewhat more volatile on the metrics above 1 MVA when compared to the sequence to sequence model. 
+The transformer without teacher forcing model also appeared to handle forecasting tasks involving long sequence lengths better than the sequence to sequence model. 
+Overall, though, which model is superior on this feeder is not clear and will depend on whether the forecasting is hourly or half-hourly, and whether accuracy overall or accuracy over holiday periods is most important.
+
+A transformer-based model was implemented as part of the Bruny Island CONSORT battery trial and was able to reliably and accurately predict large peaks over anomalous holiday periods.
+This was in one instance able to assist the CONSORT project in coordinating the batteries on Bruny Island to avoid using the diesel generator.
+
+The models were additionally evaluated on a standard ISO New England dataset.
+When using identical models to those applied on Bruny Island the sequence to sequence and transformer without teacher forcing models were able to achieve a MAPE of 2.15\% compared to other papers of 1.71\% and 1.31\%.
+
+The presented models -- sequence to sequence and transformer without teacher forcing -- are versatile and reliable when used to forecast load with a 24-hour horizon and 30- or 60-minute resolution.
+The models are practical to implement and can be applied to feeders ranging from the 1 MVA through 20 GW level with no modifications.
+The models can reliably predict anomalous holiday periods given simple inputs describing the holidays and optionally given similar load profiles from the past.
+
+\section{Future research}
 There are many possibilities for expansion of this work.
 
 \subsubsection{Transfer learning}
