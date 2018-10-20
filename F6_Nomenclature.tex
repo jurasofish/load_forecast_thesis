@@ -9,6 +9,7 @@ The notation below is largely reproduced from \citet{Goodfellow-et-al-2016}.
 \vspace{\notationgap}
 % The \arraystretch definition here increases the space between rows in the table,
 % so that \displaystyle math has more vertical space.
+\bgroup
 \def\arraystretch{1.5}
 \begin{tabular}{cp{3.25in}}
 	$\displaystyle a$ & A scalar (integer or real)\\
@@ -28,6 +29,7 @@ The notation below is largely reproduced from \citet{Goodfellow-et-al-2016}.
 	$\displaystyle f(\vx ; \vtheta) $ & A function of $\vx$ parametrized by $\vtheta$. \\
 	$\displaystyle \sigma(x)$ & Logistic sigmoid, $\displaystyle \frac{1} {1 + \exp(-x)}$ \\
 \end{tabular}
+\egroup
 
 Sometimes we use a function $f$ whose argument is a scalar but apply
 it to a vector or matrix: $f(\vx)$, $f(\mX)$, or $f(\tX)$.
