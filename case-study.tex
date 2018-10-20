@@ -437,6 +437,13 @@ Without this support from the batteries, the generator would have likely been re
 ISO New England is a regional transmission organization operating in the New England area of the United States.
 Data from ISO New England has been used by several papers for evaluating the performance of their load forecasting systems \cite{Ceperic2013}\cite{Chen2010}.
 The aim of this section is to compare the proposed forecasting models to the models and methods used by \citet{Ceperic2013}, whose method is discussed in section \ref{SVR}, and \citet{Chen2010}, whose method is discussed in section \ref{litrev-ann}.
+A week of load from the ISO New England dataset is shown in figure \ref{fig:week-isone}.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=.9\textwidth]{images/week-isone.pdf}}
+	\caption{A week of load for ISO New England.}
+	\label{fig:week-isone}
+\end{figure}
 
 \citet{Ceperic2013} trained their model on data from March 2003 until January 2006 and tested on January 1 2006 to December 31 2006.
 Historical electrical load data was obtained from the public ISO New England website \cite{isone}.
