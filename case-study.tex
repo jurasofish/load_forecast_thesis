@@ -152,7 +152,7 @@ The other vectors were zero padded to match this length.
 With $\vz \in \mathbb{R}^{144}$ being a zero vector, and $\hat{\vv} = [\vz^\top \vv^\top]^\top$ for any vector $\vv$, the input $\mX$ is given by equation \ref{hourly-long-x}.
 \begin{equation}
 \label{hourly-long-x}
-\mX = [ \hat{\vl} \: \hat{\vt} \: \hat{\vd} \: \hat{\vm} \: \hat{\vh} \: \hat{\vg} \: \hat{\vn} \: \hat{\vl_{s1}} \: \hat{\vt_{s1}} \: \ldots \: \hat{\vl_{sk}} \: \hat{\vt_{sk}}] \in \mathbb{R}^{168 \times (7 + 2k)}
+\mX = [ \vl \: \hat{\vt} \: \hat{\vd} \: \hat{\vm} \: \hat{\vh} \: \hat{\vg} \: \hat{\vn} \: \hat{\vl_{s1}} \: \hat{\vt_{s1}} \: \ldots \: \hat{\vl_{sk}} \: \hat{\vt_{sk}}] \in \mathbb{R}^{168 \times (7 + 2k)}
 \end{equation}
 
 The forecasting models were configured with the parameters given in table \ref{table:offline-parameters} and trained for $10^5$ iterations.
