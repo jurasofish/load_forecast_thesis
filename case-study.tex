@@ -570,5 +570,38 @@ These results demonstrate that the same models that forecast load at a low level
 	\label{fig:iso_hist}
 \end{figure}
 
-\section{Implementation Requirements}
-The models can be implemented using consumer hardware.
+\section{Implementation requirements}
+The training time of the models without similar days is presented in table \ref{table:train_infer_times}.
+The models were restricted to two cores/four threads on an AMD Ryzen 1700 at 3.5 GHz.
+The performance is generally not improved by using a GPU or more CPU cores because of the small batch size, except for the transformer on the hourly long task where the speed can be doubled with a GPU or more cores.
+It is likely that by tuning the batch size and learning rate it could be more feasible to train on a GPU in a far smaller number of iterations, reducing the overall training time.
+Each model requires less than 2 GB of memory.
+
+\begin{table}[htbp]
+	\caption{Training and evaluation times.}
+	\begin{center}
+		\begin{tabular}{llrc}
+			\multicolumn{1}{c}{\textbf{Task}} &
+			\multicolumn{1}{c}{\textbf{Model}} & 
+			\multicolumn{1}{c}{\textbf{\shortstack[c]{Training time}}} &
+			\multicolumn{1}{c}{\textbf{\shortstack[c]{Evaluation time (ms)}}} \\ \cline{1-4}
+			
+			\multirow{2}{*}{\shortstack[l]{Hourly}}
+			& S2S      			& 28m  & 17  \\ % 
+			& Transformer no TF & 52m  & 31 \\ % 130 131
+			\cline{1-4}					
+			
+			\multirow{2}{*}{\shortstack[l]{Half-hourly}}       
+			& S2S      			& 43m  & 26 \\ % 
+			& Transformer no TF & 1h 32m  & 55  \\ % 126 127
+			\cline{1-4}									
+			
+			\multirow{2}{*}{\shortstack[l]{Hourly long}}       
+			& S2S      			& 52m  & 31  \\ % 
+			& Transformer no TF & 3h 5m  & 110 \\ % 132 133
+			\cline{1-4}					
+
+		\end{tabular}
+		\label{table:train_infer_times}
+	\end{center}
+\end{table}
