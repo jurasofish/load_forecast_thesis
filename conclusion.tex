@@ -26,6 +26,11 @@ OpenAI has had success using transfer learning for natural language processing t
 Transfer learning could be applied to load forecasting, whereby a single neural network model is first trained to forecast many different feeders, and then this pre-trained model is finally trained to forecast a single feeder.
 This could potentially expand the generalization ability of the model, while also likely reducing the amount of training time required when starting from a pre-trained model.
 
+\subsubsection{Time-weighted loss function}
+Section \ref{train-req} indicated that the most recent training data may be the most important.
+It is possible to modify the loss function such that it weights samples from more recently higher.
+Whether this would be superior to simply restricting the training set to recent data is unknown.
+
 \subsubsection{Monthly and hourly models}
 Similar to \citet{Ceperic2013}, different models could be train for every month and every hour.
 This introduces 288 models, making the training time potentially quite large, so pre-training or transfer learning could be used to make this more approachable.
