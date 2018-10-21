@@ -354,7 +354,44 @@ Increasing the $c$ parameter causes the model to increase accuracy when forecast
 
 
 \subsection{Training data requirements}
-Neural networks generally require large amounts of training data in order to fit the model parameters.
+So far the models have been trained with 4.5 years of data.
+Table \ref{train-reg} shows how the MAPE changes on the hourly task when the amount of training data is decreased.
+The training data was always the data closest to the train set.
+These results indicate that either there are diminishing improvements to MAPE as the amount of training data increases, or the data from further in the past does not help with forecasting data in the future.
+
+\begin{table}[htbp]
+	\caption{Training data requirements.}
+	\begin{center}
+		\begin{tabular}{clc}
+			\multicolumn{1}{c}{\textbf{Years of Training Data}} &
+			\multicolumn{1}{c}{\textbf{Model}} & 
+			\multicolumn{1}{c}{\textbf{\shortstack[c]{MAPE (\%)}}} \\ \cline{1-3}
+			
+			\multirow{2}{*}{\shortstack[l]{4.5}}       
+			& S2S      			&  7.85 \\ %  54  55
+			& Transformer no TF &  7.77 \\ % 130 131
+			\cline{1-3}
+			
+			\multirow{2}{*}{\shortstack[l]{3.5}} 
+			& S2S      			&  7.95 \\ % 153 168
+			& Transformer no TF &  7.66 \\ % 159 171
+			\cline{1-3}
+			
+			\multirow{2}{*}{\shortstack[l]{2.5}} 
+			& S2S      			&  7.96 \\ % 154 169
+			& Transformer no TF &  7.96 \\ % 160 172
+			\cline{1-3}
+			
+			\multirow{2}{*}{\shortstack[l]{1.5}} 
+			& S2S      			&  8.31 \\ % 155 170
+			& Transformer no TF &  8.25 \\ % 161 173
+			\cline{1-3} 
+			
+		\end{tabular}
+		\label{table:training-req}
+	\end{center}
+\end{table}
+
 
 \subsection{Autoregression requirements}
 All models presented have been supplied with at least the past 24 hour of load.
