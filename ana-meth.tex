@@ -265,8 +265,6 @@ This shared cell state is a latent representation of the input, which is used by
 The encoder and decoder can be of different lengths, depicted in figure \ref{fig:S2S} as $R$ and $P$, allowing this architecture to naturally model tasks such as load forecasting where the input may consist of 48 hours of data while the output is only 24.
 The output matrix $\mH \in \mathbb{R}^{R \times d}$ is then projected to the desired dimension.
 
-Of course, an immediately obvious issue with this model is whether the shared latent cell state vector is capable of representing the input information in its entirety.
-
 \begin{figure}[htbp]
 	\centerline{\includegraphics[trim=0 0cm 0 0, width=.75\textwidth]{images/S2S.pdf}}
 	\caption{A sequence to sequence recurrent neural network architecture.}
