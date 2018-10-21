@@ -20,24 +20,39 @@ The models are practical to implement and can be applied to feeders ranging from
 The models can reliably predict anomalous holiday periods given simple inputs describing the holidays and optionally given similar load profiles from the past.
 
 \section{Future research}
-There are many possibilities for expansion of this work.
 
 \subsubsection{Transfer learning}
-Train a single model on all feeders, and then finish off training on individual feeders.
-OpenAI has had success with this using the transformer for NLP tasks.
+OpenAI has had success using transfer learning for natural language processing tasks with the transformer model \cite{radford2018improving}.
+Transfer learning could be applied to load forecasting, whereby a single neural network model is first trained to forecast many different feeders, and then this pre-trained model is finally trained to forecast a single feeder.
+This could potentially expand the generalization ability of the model, while also likely reducing the amount of training time required when starting from a pre-trained model.
 
-\subsubsection{Monthly models}
-similar to \citet{Ceperic2013}, train a different model for each month.
-Also pre-train on all data before training on individual months.
+\subsubsection{Monthly and hourly models}
+Similar to \citet{Ceperic2013}, different models could be train for every month and every hour.
+This introduces 288 models, making the training time potentially quite large, so pre-training or transfer learning could be used to make this more approachable.
+This may not work well when considering holiday periods that change yearly, such as Easter which may be in either March or April.
 
 \subsubsection{Multi-task learning}
-Forecast all feeders simultaneously
+Multi task learning is the process of using a neural network model to perform multiple tasks simultaneously, and has been shown to improve performance in some tasks \cite{Evgeniou2004}.
+This could applied to load forecasting by forecasting multiple feeders simultaneously.
+It's intuitive that this might be beneficial, as there are many feeders which exhibit similar patterns -- Bruny Island and St Helens in Tasmania, for example, both experience similar peaks around holiday periods.
+This could also allow the forecasting system to be more resilient against poor quality data, as data from one feeder would be used to help forecast others.
 
 \subsubsection{Generic forecaster}
-Train the model to forecast any feeder based on large amounts of historical load.
-Use local multi-head attention on the long input sequence instead of full multi-head attention.
+The transformer, and its multi-head self attention, is able to process sequences of long length with no regard for position or order.
+This could be used to create a generic forecaster, where the model is supplied with all past data up to the current time when performing forecasts.
+A model like this might be able to look over the past data and produce a single forecast that matches the past patterns.
+Using multi-head self attention for this would be prohibitively computationally expensive, so localised multi-head attention \cite{Vaswani2017} could be applied, as used by \citet{Song2017}.
+If a single model could be made to forecast all feeders this may ultimately be computationally cheaper than using a single model for every feeder.
 
 \subsubsection{Sequence to sequence with attention}
-Sequence to sequence models are typically augmented with an attention mechanism.
+Sequence to sequence models can be augmented with an attention mechanism \cite{luong2015effective} to allow the model to consider all elements of the input simultaneously while producing the output sequence.
 This may overcome the tendency of LSTM RNN networks to ``forget" data from early in the input sequence.
-Perhaps multi-head attention could be combined with the sequence to sequence model.
+Very recently LSTM RNN models have been combined with transformer models \cite{chen2018best}, producing promising results.
+Applying combinations of LSTM and attention to load forecasting may produce superior results to either on their own.
+
+\subsubsection{Signal decomposition}
+\citet{Chen2010} used wavelet decomposition to decompose input data into low and high frequency components before forecasting the next day's low and high frequency load separately.
+\citet{Bedi2018} used empirical mode decomposition to decompose input data into different intrinsic mode functions before applying different LSTM RNNs to each and recombining the results to form a final forecast.
+By applying methods such as these it would likely be possible to improve the accuracy of the load forecasting.
+However, it may jeopardize the ability for the forecasting models to be applied to different feeders with no modification.
+
