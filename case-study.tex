@@ -266,9 +266,11 @@ Increasing the $c$ parameter causes the model to increase accuracy when forecast
 	\thispagestyle{empty}% empty page style (?)
 	\begin{landscape}% Landscape page
 		\centering % Center table
+		\bgroup
+		\def\arraystretch{0.95} % Just squeeze it onto the page
 		\begin{table}[htbp]
 			\caption{Offline evaluation results.}
-			% \begin{center}
+			\begin{center}
 				\begin{tabular}{llcccccc}
 					\multicolumn{1}{c}{\textbf{Task}} &
 					\multicolumn{1}{c}{\textbf{Model}} & 
@@ -330,8 +332,9 @@ Increasing the $c$ parameter causes the model to increase accuracy when forecast
 					\cline{1-8} 
 				\end{tabular}
 				\label{table:offline-results-bruny-lscape}
-			% \end{center}
+			\end{center}
 		\end{table}
+		\egroup
 	\end{landscape}
 	\clearpage% Flush page
 }
