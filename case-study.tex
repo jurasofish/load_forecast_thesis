@@ -359,6 +359,8 @@ Neural networks generally require large amounts of training data in order to fit
 \subsection{Autoregression requirements}
 All models presented have been supplied with at least the past 24 hour of load.
 If this data is not supplied, the models are still able to forecast load.
+Evaluated on the hourly task with the $\vl$ past load vector removed, the sequence to sequence model achives a MAPE of 10.68\% and the transformer without teacher forcing model achieves a MAPE of 10.53\%.
+With a careful training regime it may be possible to train these models to robustly handle missing input data.
 
 
 
